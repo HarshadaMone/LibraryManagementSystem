@@ -30,19 +30,19 @@
 <div class="container">
 	<div class="row">
 	<div class="col-md-4 text-center"> 
-		<a href="/signUpAsLibrarian"><button type="button" class="btn btn-success">SignUp As Librarian</button></a>
+		<a href="${pageContext.request.contextPath}/signUpAsLibrarian"><button type="button" class="btn btn-success">SignUp As Librarian</button></a>
 	</div></div><br>
 	<div class="row">
 	<div class="col-md-4 text-center">
-		<a href="/signUpAsPatron"><button type="button" class="btn btn-success">SignUp as Patron</button></a><br>
+		<a href="${pageContext.request.contextPath}/signUpAsPatron"><button type="button" class="btn btn-success">SignUp as Patron</button></a><br>
 	</div></div><br>
 	<div class="row">	
 	<div class="col-md-4 text-center">
-		<a href="/loginLibrarian"><button type="button"  class="btn btn-success">Login As Librarian</button></a><br>
+		<a href="${pageContext.request.contextPath}/loginLibrarian"><button type="button"  class="btn btn-success">Login As Librarian</button></a><br>
 	</div></div><br>
 	<div class="row">
 	<div class="col-md-4 text-center">
-		<a href="/loginPatron"><button type="button" class="btn btn-success">Login As Patron</button></a><br>
+		<a href="${pageContext.request.contextPath}/loginPatron"><button type="button" class="btn btn-success">Login As Patron</button></a><br>
 	</div></div>
 </div>
 <hr>
