@@ -62,6 +62,39 @@ public class PatronController {
 		return "user";
 		
 	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/login/{email}",produces={"text/html"})
+	public String loginPatron(@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			Model model,HttpServletResponse res) throws SQLException{
+		System.out.println("email :"+email);
+		User user = userService.getUser(email);
+		if(user==null){
+			System.out.println("no user");
+			res.setStatus(404);
+			model.addAttribute("id",email);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		else{
+			if((user.getPassword()).equals(password))
+			{
+				System.out.println("true");
+				model.addAttribute("user", user);
+				return "patron";
+			}
+			else
+			{
+				System.out.println("wrong pass");
+				res.setStatus(404);
+				model.addAttribute("id","worng password");
+				model.addAttribute("res",res.getStatus());
+				return "error";
+			}
+		}
+	
+		
+	}
 
 
 }
