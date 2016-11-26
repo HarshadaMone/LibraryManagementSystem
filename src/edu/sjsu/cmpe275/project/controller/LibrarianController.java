@@ -4,6 +4,9 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.UserService;
 
@@ -48,8 +52,22 @@ public class LibrarianController {
 		res.addHeader( "Access-Control-Allow-Origin", "*" );   
 		String isUserDeleted = userService.deleteUser(sjsuId);
 		if(isUserDeleted=="true")
-			return "signUpLibrarian";
+			return "signUpAsLibrarian";
 		return "user"+sjsuId;	
 	}
+	@RequestMapping(method=RequestMethod.GET,value="/getUser/{sjsuId}",produces={"text/html"})
+	public String getBook(@PathVariable int sjsuId,Model model,HttpServletResponse res){
+		User user = userService.getUser(sjsuId);
+		if(user==null){
+			res.setStatus(404);
+			model.addAttribute("id",sjsuId);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		model.addAttribute("user",user);
+		return "user";
+		
+	}
+
 
 }
