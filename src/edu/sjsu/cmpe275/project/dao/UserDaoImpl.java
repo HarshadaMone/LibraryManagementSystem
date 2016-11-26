@@ -2,12 +2,14 @@ package edu.sjsu.cmpe275.project.dao;
 
 
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import edu.sjsu.cmpe275.project.model.User;
+import java.util.*;
 
 
 /**
@@ -52,6 +54,33 @@ public class UserDaoImpl implements UserDao{
 		}finally{
 			session.close();
 		}
+		return user;
+	}
+	
+	public User getUser(String email) {
+		System.out.println(email);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+
+		User user = null;
+		try{
+			String sql="SELECT * FROM USER WHERE EMAIL = :email";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.addEntity(User.class);
+			query.setParameter("email", email);
+			//user = (User) session.get(User.class, email);
+			List users = query.list();
+			 for (Iterator iterator = 
+					 users.iterator(); iterator.hasNext();){
+     user= (User) iterator.next(); 
+			 }
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		System.out.println(email+"asdasd"+user);
 		return user;
 	}
 

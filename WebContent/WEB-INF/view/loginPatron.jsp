@@ -18,6 +18,7 @@
 <script type="text/javascript">
 	function changeAction() {
 			document.createForm.action = "${pageContext.request.contextPath}/patron/login/"+document.getElementById("email").value;
+			console.log(document.getElementById("email").value);
 			document.forms["createForm"].submit();	
 	}
 </script>

@@ -6,6 +6,7 @@ import edu.sjsu.cmpe275.project.model.User;
 public interface UserDao {
 	public void createUser(User user);
 	public User getUser(int id);
+	public User getUser(String email);
 	public void deleteUser(User user);
 }
 

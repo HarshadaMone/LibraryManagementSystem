@@ -26,6 +26,9 @@ public class UserServiceImpl implements UserService {
 		return userDao.getUser(sjsuId);
 	}
 
+	public User getUser(String email) {
+		return userDao.getUser(email);
+	}
 	public String deleteUser(int sjsuId) {
 		
 		User user = userDao.getUser(sjsuId);
