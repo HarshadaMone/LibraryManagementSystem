@@ -20,8 +20,8 @@ import edu.sjsu.cmpe275.project.service.UserService;
 
 
 @Controller
-@RequestMapping("/librarian")
-public class LibrarianController {
+@RequestMapping("/patron")
+public class PatronController {
 	@Autowired
 	private UserService userService;
 	
@@ -32,7 +32,7 @@ public class LibrarianController {
 			@RequestParam("email") String email,
 			@RequestParam("password") String password,
 			Model model) throws SQLException{
-		String role="librarian";
+		String role="patron";
 		User user= new User(sjsuId,firstName,lastName,email,password,role);
 		userService.createUser(user);
 		model.addAttribute("user",user);		
@@ -46,7 +46,7 @@ public class LibrarianController {
 		res.addHeader( "Access-Control-Allow-Origin", "*" );   
 		String isUserDeleted = userService.deleteUser(sjsuId);
 		if(isUserDeleted=="true")
-			return "signUpAsLibrarian";
+			return "signUpAsPatron";
 		return "user"+sjsuId;	
 	}
 	@RequestMapping(method=RequestMethod.GET,value="/getUser/{sjsuId}",produces={"text/html"})
