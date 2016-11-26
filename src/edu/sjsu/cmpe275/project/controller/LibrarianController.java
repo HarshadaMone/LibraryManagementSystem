@@ -46,7 +46,7 @@ public class LibrarianController {
 	}
 	@RequestMapping(method=RequestMethod.DELETE,value="/deleteUser/{sjsuId}",produces={"text/html"})
 	@ResponseBody
-	public String deleteBook(@PathVariable int sjsuId, Model model,HttpServletResponse res){
+	public String deleteLibrarian(@PathVariable int sjsuId, Model model,HttpServletResponse res){
 		
 		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
 		res.addHeader( "Access-Control-Allow-Origin", "*" );   
@@ -56,7 +56,7 @@ public class LibrarianController {
 		return "user"+sjsuId;	
 	}
 	@RequestMapping(method=RequestMethod.GET,value="/getUser/{sjsuId}",produces={"text/html"})
-	public String getBook(@PathVariable int sjsuId,Model model,HttpServletResponse res){
+	public String getLibrarian(@PathVariable int sjsuId,Model model,HttpServletResponse res){
 		User user = userService.getUser(sjsuId);
 		if(user==null){
 			res.setStatus(404);
