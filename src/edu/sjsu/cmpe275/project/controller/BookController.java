@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.sjsu.cmpe275.project.model.Book;
+import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
+import edu.sjsu.cmpe275.project.service.UserService;
 
 
 @Controller
@@ -32,14 +34,18 @@ import edu.sjsu.cmpe275.project.service.BookService;
 public class BookController {
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private UserService userService;
 	
-	@RequestMapping(method=RequestMethod.GET,value="",produces={"text/html"})
-	public String getCreateBookView(){
+	@RequestMapping(method=RequestMethod.GET,value="/createBookView/{sjsuId}",produces={"text/html"})
+	public String getCreateBookView(@PathVariable int sjsuId,
+			Model model){
+		model.addAttribute("sjsuId",sjsuId);
 		return "createBook";
 	}	//Request Mapping for create book
 	
-	@RequestMapping(method=RequestMethod.POST,value="/createBook",produces={"text/html"})
-	public String createBook(
+	@RequestMapping(method=RequestMethod.POST,value="/createBook/{sjsuId}",produces={"text/html"})
+	public String createBook(@PathVariable int sjsuId,
 			@RequestParam("author") String author,
 			@RequestParam("title") String title,
 			@RequestParam("callNumber") int callNumber,
@@ -52,6 +58,7 @@ public class BookController {
 			@RequestParam("image") MultipartFile file,
 			Model model) throws SQLException{
 		Blob image=null;
+		User user=userService.getUser(sjsuId);
 		try {
 			image = Hibernate.createBlob(file.getInputStream());
 		} catch (IOException e) {
@@ -61,6 +68,7 @@ public class BookController {
 		int blobLength = (int) image.length();  
 		String imageName=file.getOriginalFilename();
 		Book book= new Book(author,title,callNumber,publisher,yearOfPublication,location,copies,status,keyword,image,imageName);
+		book.setUser(user);
 		bookService.createBook(book);
         FileOutputStream fos=null;
 		try {

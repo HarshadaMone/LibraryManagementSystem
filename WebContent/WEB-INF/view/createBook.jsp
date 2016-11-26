@@ -17,7 +17,7 @@
 <title>Add New Book</title>
 <script type="text/javascript">
 	function changeAction() {
-			document.createForm.action = "${pageContext.request.contextPath}/book/createBook/";
+			document.createForm.action = "${pageContext.request.contextPath}/book/createBook/${sjsuId}";
 			document.forms["createForm"].submit();	
 	}
 </script>
@@ -33,6 +33,12 @@
 <div class="container">
 	<h1 align="center">Add Book</h1><br>
 	<form class="form-horizontal" name="createForm" enctype="multipart/form-data" method="post" style="max-width:450px;">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">SJSU ID</label>
+			<div class="col-sm-8">
+				<input type="text" name="sjsuId" id="sjsuId" value="${sjsuId}" readonly class="form-control">
+			</div>
+		</div>
 		<div class="form-group">
 			<label class="col-sm-4 control-label">Author</label>
 			<div class="col-sm-8">

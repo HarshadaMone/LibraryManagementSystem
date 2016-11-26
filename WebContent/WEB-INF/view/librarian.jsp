@@ -21,6 +21,9 @@
 			document.searchForm.action = "${pageContext.request.contextPath}/search/"+document.getElementById("search").value;
 			document.forms["searchForm"].submit();	
 	}
+	function newBook(sjsuId) {
+				location.pathname = "${pageContext.request.contextPath}/book/createBookView/${user.sjsuId}";
+	}
 </script>
 
 </head>
@@ -32,6 +35,9 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li> 
+    </ul>
+    <ul class="nav navbar-nav">
+      <li class="active"><a onclick="newBook('${user.sjsuId}')">Add New Book</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">

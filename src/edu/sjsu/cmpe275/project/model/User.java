@@ -1,8 +1,11 @@
 package edu.sjsu.cmpe275.project.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -23,6 +26,9 @@ public class User {
     private String password;
 	@Column(name="ROLE")
     private String role;
+	@OneToMany(mappedBy="user")
+	private Set<Book> books;
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -71,6 +77,12 @@ public class User {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public Set<Book> getBook() {
+		return books;
+	}
+	public void setBook(Set<Book> books) {
+		this.books = books;
 	}
 
 
