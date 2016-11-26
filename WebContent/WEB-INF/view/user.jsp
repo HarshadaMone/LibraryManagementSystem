@@ -71,7 +71,12 @@
 			</div>
 		</div>
 	<label class="col-sm-2 control-label"></label>
-		<button type="button" value="Update" onclick="changeMethod('update')" class="col-sm-2 btn btn-success ">Update</button>		
+		<button type="button" value="Update" onclick="changeMethod('update')" class="col-sm-2 btn btn-success ">Update</button>	
+	<c:if test="${user.role == 'librarian'}">
+	<label class="col-sm-2 control-label"></label>
+	<a href="${pageContext.request.contextPath}/book">
+		<button type="button" value="Delete" onclick="changeMethod('add')" class="col-sm-2 btn btn-success ">Add New Book</button>	</a>		
+</c:if>
 		<label class="col-sm-2 control-label"></label>
 		<button type="button" value="Delete" onclick="changeMethod('delete')" class="col-sm-2 btn btn-success ">Delete</button>
 </form>
