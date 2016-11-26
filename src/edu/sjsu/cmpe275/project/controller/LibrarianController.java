@@ -26,7 +26,7 @@ public class LibrarianController {
 	private UserService userService;
 	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
-	public String createBook(@PathVariable int sjsuId,
+	public String createLibrarian(@PathVariable int sjsuId,
 			@RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName,
 			@RequestParam("email") String email,
@@ -38,6 +38,15 @@ public class LibrarianController {
 		model.addAttribute("user",user);		
 		return "user";
 	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/login/{email}",produces={"text/html"})
+	public String loginLibrarian(@PathVariable String email,
+			Model model) throws SQLException{
+		String role="librarian";
+	
+		return "user";
+	}
+	
 	@RequestMapping(method=RequestMethod.DELETE,value="/deleteUser/{sjsuId}",produces={"text/html"})
 	@ResponseBody
 	public String deleteLibrarian(@PathVariable int sjsuId, Model model,HttpServletResponse res){
