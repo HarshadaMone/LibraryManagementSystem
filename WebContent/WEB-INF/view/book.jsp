@@ -23,12 +23,11 @@
 				method : 'DELETE',
 				dataType:'html',
 				success : function(data) {
-					location.pathname = "${pageContext.request.contextPath}/"+data;
-					
+					location.pathname = "${pageContext.request.contextPath}/librarian/login/${book.user.email}/";
 				}
 			});
 			
-		}
+		}		
 	}
 </script>
 </head>
@@ -45,6 +44,13 @@
 				<img src="<c:url value="/resources/${book.imageName}" />" alt="" width="200" height="200" />
 			</div>
 		</div>	
+		<div class="form-group">
+			<label class="col-sm-4 control-label">SJSU Id</label>
+			<div class="col-sm-8">
+				<input type="text" name="sjsuId" id="sjsuId" value="${book.user.sjsuId}" readonly class="form-control">
+			</div>
+		</div>
+		
 		<div class="form-group">
 			<label class="col-sm-4 control-label">Book Id</label>
 			<div class="col-sm-8">

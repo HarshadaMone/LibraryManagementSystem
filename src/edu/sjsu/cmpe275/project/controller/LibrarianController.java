@@ -78,6 +78,28 @@ public class LibrarianController {
 	
 		
 	}
+	@RequestMapping(method=RequestMethod.GET,value="/login/{email}/",produces={"text/html"})
+	public String getLibrarianHome(@PathVariable String email,
+			Model model,HttpServletResponse res) throws SQLException{
+		System.out.println("email :"+email);
+		User user = userService.getUser(email);
+		if(user==null){
+			System.out.println("no user");
+			res.setStatus(404);
+			model.addAttribute("id",email);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		else{
+				System.out.println("true");
+				List<Book> books=userService.getBooks(user.getSjsuId());
+				model.addAttribute("user", user);
+				model.addAttribute("books", books);
+				return "librarian";
+		}
+	
+		
+	}
 	
 	@RequestMapping(method=RequestMethod.DELETE,value="/deleteUser/{sjsuId}",produces={"text/html"})
 	@ResponseBody

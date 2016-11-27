@@ -25,6 +25,9 @@
 	function newBook(sjsuId) {
 				location.pathname = "${pageContext.request.contextPath}/book/createBookView/${user.sjsuId}";
 	}
+	function changeAction(bookId) {
+		location.pathname = "${pageContext.request.contextPath}/book/getBook/"+bookId;
+}
 </script>
 
 </head>
@@ -57,6 +60,7 @@
 			<div class="col-sm-4">
 				<img src="<c:url value="/resources/${current.imageName}" />" alt="" width="200" height="200" />
 				<br>${current.author}
+				<br><a onclick="changeAction('${current.bookId}')">${current.bookId}</a>
 			</div>
 		</c:forEach>
 
