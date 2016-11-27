@@ -1,15 +1,19 @@
 package edu.sjsu.cmpe275.project.dao;
 
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import edu.sjsu.cmpe275.project.model.Book;
-
 
 /**
  * 
@@ -90,5 +94,45 @@ public int getMaxId() {
 		}
 		return id;
 	}
+
+public void indexBooks()
+{
+   try
+   {
+      Session session = sessionFactory.getCurrentSession();
+   
+      FullTextSession fullTextSession = Search.getFullTextSession(session);
+      fullTextSession.createIndexer().startAndWait();
+   }
+   catch(Exception e)
+   {
+   }
+}
+
+public List<Book> searchForBook(String searchText)
+{
+   try
+   {
+      Session session = sessionFactory.openSession();
+      
+      FullTextSession fullTextSession = Search.getFullTextSession(session);
+      QueryBuilder qb = fullTextSession.getSearchFactory()
+        .buildQueryBuilder().forEntity(Book.class).get();
+      org.apache.lucene.search.Query query = qb
+        .keyword().onFields("author", "title", "publisher")
+        .matching(searchText)
+        .createQuery();
+
+      org.hibernate.Query hibQuery = 
+         fullTextSession.createFullTextQuery(query, Book.class);
+
+      List<Book> results = hibQuery.list();
+      return results;
+   }
+   catch(Exception e)
+   {
+      throw e;
+   }
+}
 
 }

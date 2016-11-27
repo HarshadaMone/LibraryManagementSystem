@@ -41,7 +41,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label"></label>
 			<div class="col-sm-8">
-				<img src="<c:url value="/resources/${book.imageName}" />" alt="" width="200" height="200" />
+				<img src="data:image/jpeg;base64,${image}" alt="" width="200" height="200" />
 			</div>
 		</div>	
 		<div class="form-group">

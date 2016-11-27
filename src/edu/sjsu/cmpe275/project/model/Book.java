@@ -12,6 +12,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
+
+
+
 
 
 @Entity
@@ -22,12 +29,15 @@ public class Book {
 	@Column(name="BOOK_ID")
     private int bookId;
 	@Column(name="AUTHOR")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String author;
 	@Column(name="TITLE")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String title;
 	@Column(name="CALL_NUMBER")
     private int callNumber;
 	@Column(name="PUBLISHER")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String publisher;
 	@Column(name="YEAR_OF_PUBLICATION")
     private int yearOfPublication;
@@ -40,8 +50,7 @@ public class Book {
 	@Column(name="KEYWORD")
     private String keyword;
 	@Column(name="IMAGE")
-	@Lob
-    private Blob image;
+    private String image;
 	@Column(name="IMAGE_NAME")
 	private String imageName;
 	@ManyToOne
@@ -50,10 +59,9 @@ public class Book {
 	
 	public Book() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Book(String author, String title, int callNumber, String publisher, int yearOfPublication, String location,
-			int copies, String status, String keyword, Blob image, String imageName) {
+			int copies, String status, String keyword, String image, String imageName) {
 		super();
 		this.author = author;
 		this.title = title;
@@ -128,12 +136,6 @@ public class Book {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	public Blob getImage() {
-		return image;
-	}
-	public void setImage(Blob image) {
-		this.image = image;
-	}
 	public String getImageName() {
 		return imageName;
 	}
@@ -146,6 +148,11 @@ public class Book {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 }

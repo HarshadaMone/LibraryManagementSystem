@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +44,11 @@ public class BookServiceImpl implements BookService {
 	}
 	public int getMaxId() {		 
 		return bookDao.getMaxId();
+	}
+	public List<Book> searchForBook(String searchText){
+		return bookDao.searchForBook(searchText);
+	}
+	public void indexBooks(){
+		bookDao.indexBooks();
 	}
 }
