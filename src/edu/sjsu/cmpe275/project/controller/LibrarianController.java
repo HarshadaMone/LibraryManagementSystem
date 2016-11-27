@@ -4,6 +4,11 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.UserService;
 
@@ -54,7 +61,9 @@ public class LibrarianController {
 			if((user.getPassword()).equals(password))
 			{
 				System.out.println("true");
+				List<Book> books=userService.getBooks(user.getSjsuId());
 				model.addAttribute("user", user);
+				model.addAttribute("books", books);
 				return "librarian";
 			}
 			else
