@@ -3,14 +3,16 @@ package edu.sjsu.cmpe275.project.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import edu.sjsu.cmpe275.project.model.Book;
@@ -95,44 +97,33 @@ public int getMaxId() {
 		return id;
 	}
 
-public void indexBooks()
-{
-   try
-   {
-      Session session = sessionFactory.getCurrentSession();
-   
-      FullTextSession fullTextSession = Search.getFullTextSession(session);
-      fullTextSession.createIndexer().startAndWait();
-   }
-   catch(Exception e)
-   {
-   }
-}
 
 public List<Book> searchForBook(String searchText)
 {
+	Session session = sessionFactory.openSession();
+	Transaction tx = session.beginTransaction();
+	List<Book> results=null;
    try
    {
-      Session session = sessionFactory.openSession();
+	   Criteria crit = session.createCriteria(Book.class);
+	   Criterion authorLike = Restrictions.like("author",searchText+"%",MatchMode.ANYWHERE);
+	   Criterion titleLike = Restrictions.like("title",searchText+"%",MatchMode.ANYWHERE);
+	   Criterion publisherLike = Restrictions.like("publisher",searchText+"%",MatchMode.ANYWHERE);
+	   LogicalExpression orExp = Restrictions.or(authorLike,titleLike);
+	   LogicalExpression orExp1 =Restrictions.or(orExp,publisherLike);
+	   crit.add(orExp1);
+	   results = crit.list();
+      tx.commit();
       
-      FullTextSession fullTextSession = Search.getFullTextSession(session);
-      QueryBuilder qb = fullTextSession.getSearchFactory()
-        .buildQueryBuilder().forEntity(Book.class).get();
-      org.apache.lucene.search.Query query = qb
-        .keyword().onFields("author", "title", "publisher")
-        .matching(searchText)
-        .createQuery();
-
-      org.hibernate.Query hibQuery = 
-         fullTextSession.createFullTextQuery(query, Book.class);
-
-      List<Book> results = hibQuery.list();
-      return results;
    }
    catch(Exception e)
    {
+	  tx.rollback();
       throw e;
-   }
+   }finally{
+		session.close();
+	}
+   return results;
 }
 
 }

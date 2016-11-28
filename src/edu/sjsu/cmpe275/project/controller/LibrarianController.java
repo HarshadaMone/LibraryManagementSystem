@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.service.BookService;
 import edu.sjsu.cmpe275.project.service.UserService;
 
 
@@ -26,6 +27,7 @@ import edu.sjsu.cmpe275.project.service.UserService;
 public class LibrarianController {
 	@Autowired
 	private UserService userService;
+	
 	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createLibrarian(@PathVariable int sjsuId,
@@ -56,7 +58,7 @@ public class LibrarianController {
 		}
 		else{
 			if((user.getPassword()).equals(password))
-			{
+			{	
 				System.out.println("true");
 				List<Book> books=userService.getBooks(user.getSjsuId());
 				model.addAttribute("user", user);

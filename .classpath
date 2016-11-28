@@ -25,6 +25,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Fileupload"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commonio"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commonCodec"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/HibernateSearch"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

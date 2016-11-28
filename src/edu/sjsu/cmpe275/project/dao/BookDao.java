@@ -11,6 +11,5 @@ public interface BookDao {
 	public void deleteBook(Book book);
 	public int getMaxId();
 	public List<Book> searchForBook(String searchText);
-	public void indexBooks();
-}
+	}
 

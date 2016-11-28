@@ -48,7 +48,4 @@ public class BookServiceImpl implements BookService {
 	public List<Book> searchForBook(String searchText){
 		return bookDao.searchForBook(searchText);
 	}
-	public void indexBooks(){
-		bookDao.indexBooks();
-	}
 }

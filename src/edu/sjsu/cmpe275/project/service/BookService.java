@@ -11,5 +11,4 @@ public interface BookService {
 	public String deleteBook(int id);
 	public int getMaxId();
 	public List<Book> searchForBook(String searchText);
-	public void indexBooks();
 }

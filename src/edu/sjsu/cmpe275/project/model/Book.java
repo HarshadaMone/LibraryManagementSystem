@@ -10,11 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Store;
-
 
 
 
@@ -27,15 +22,12 @@ public class Book {
 	@Column(name="BOOK_ID")
     private int bookId;
 	@Column(name="AUTHOR")
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String author;
 	@Column(name="TITLE")
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String title;
 	@Column(name="CALL_NUMBER")
     private int callNumber;
 	@Column(name="PUBLISHER")
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String publisher;
 	@Column(name="YEAR_OF_PUBLICATION")
     private int yearOfPublication;

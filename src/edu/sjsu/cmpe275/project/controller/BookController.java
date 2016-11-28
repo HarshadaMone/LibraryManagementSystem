@@ -101,22 +101,12 @@ public class BookController {
 	   public String search(
 	      @RequestParam("search")
 	      String search,
-	   Model model) throws Exception
+	   Model model) 
 	   {
-	      List<Book> allFound = bookService.searchForBook(search);
-	      List<Book> books = new ArrayList<Book>();
+	      List<Book> books = bookService.searchForBook(search);
 	      
-	      for (Book b : allFound)
-	      {
-	         Book bm = new Book();
-	         bm.setAuthor(b.getAuthor());
-	         bm.setTitle(b.getTitle());
-	         bm.setPublisher(b.getPublisher());
-	         
-	         books.add(bm);
-	      }
-	      model.addAttribute("foundBooks", books);
-	      return "librarian";
+	      model.addAttribute("books", books);
+	      return "librarianSearch";
 	   }
 
 }
