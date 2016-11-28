@@ -49,7 +49,7 @@ function getBook(bookId) {
     </ul>
   </div>
 </nav>
-<h1> Available Books</h1><br>
+<h1> Search Results</h1><br>
 
 	<c:forEach items="${books}" var="current">	
 			<div class="col-sm-4">

@@ -96,6 +96,22 @@ public int getMaxId() {
 		}
 		return id;
 	}
+public List<Book> getBooks() {
+	Session session = sessionFactory.openSession();
+	Transaction tx = session.beginTransaction();
+
+	List<Book> results=null;
+	try{
+		Query query = session.createQuery("SELECT book FROM Book book");
+		results=query.list();
+		tx.commit();
+	}catch(HibernateException e){
+		tx.rollback();
+	}finally{
+		session.close();
+	}
+	return results;
+}
 
 
 public List<Book> searchForBook(String searchText)

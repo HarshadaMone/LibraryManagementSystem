@@ -108,5 +108,16 @@ public class BookController {
 	      model.addAttribute("books", books);
 	      return "librarianSearch";
 	   }
+	 @RequestMapping(value = "patron/doSearch", method = RequestMethod.POST)
+	   public String searchPatron(
+	      @RequestParam("search")
+	      String search,
+	   Model model) 
+	   {
+	      List<Book> books = bookService.searchForBook(search);
+	      
+	      model.addAttribute("books", books);
+	      return "patronSearch";
+	   }
 
 }
