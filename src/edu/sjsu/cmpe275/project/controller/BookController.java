@@ -6,7 +6,6 @@ package edu.sjsu.cmpe275.project.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
@@ -82,6 +81,37 @@ public class BookController {
 		if(isBookDeleted=="true")
 			return "book";
 		return "book"+bookId;	
+	}
+	//Request Mapping for delete book
+	@RequestMapping(method=RequestMethod.POST,value="/updateBook/{bookId}",produces={"text/html"})
+	@ResponseBody
+	public String updateBook(@PathVariable int bookId, 
+			@RequestParam("sjsuId") int sjsuId,
+			@RequestParam("author") String author,
+			@RequestParam("title") String title,
+			@RequestParam("callNumber") int callNumber,
+			@RequestParam("publisher") String publisher,
+			@RequestParam("yearOfPublication") int yearOfPublication,
+			@RequestParam("location") String location,	
+			@RequestParam("copies") int copies,
+			@RequestParam("status") String status,
+			@RequestParam("keyword") String keyword,
+			Model model,HttpServletResponse res){
+		Book book=bookService.getBook(bookId);
+		book.setAuthor(author);
+		book.setTitle(title);
+		book.setCallNumber(callNumber);
+		book.setPublisher(publisher);
+		book.setYearOfPublication(yearOfPublication);
+		book.setLocation(location);
+		book.setCopies(copies);
+		book.setStatus(status);
+		book.setKeyword(keyword);
+		bookService.createBook(book);
+	    model.addAttribute("image",book.getImage());	
+		model.addAttribute("book",book);		
+		return "book";
+	
 	}
 	@RequestMapping(method=RequestMethod.GET,value="/getBook/{bookId}",produces={"text/html"})
 	public String getBook(@PathVariable int bookId,Model model,HttpServletResponse res){
