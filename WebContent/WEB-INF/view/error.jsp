@@ -10,5 +10,6 @@
 <body>
 <p>Sorry, the requested ID ${id} does not exist.</p>
 <h1>Error thrown by http response is ${res}</h1>
+<h1> ${message} </h1>
 </body>
 </html>
