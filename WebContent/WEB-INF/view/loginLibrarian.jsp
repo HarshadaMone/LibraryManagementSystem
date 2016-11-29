@@ -17,7 +17,7 @@
 <title>Login Librarian</title>
 <script type="text/javascript">
 	function changeAction() {
-			document.createForm.action = "${pageContext.request.contextPath}/librarian/login/"+document.getElementById("email").value;
+			document.createForm.action = "${pageContext.request.contextPath}/librarian/login";
 			document.forms["createForm"].submit();	
 	}
 </script>

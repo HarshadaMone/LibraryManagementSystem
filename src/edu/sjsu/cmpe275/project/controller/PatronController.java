@@ -88,7 +88,7 @@ public class PatronController {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/login/{email}",produces={"text/html"})
+	@RequestMapping(method=RequestMethod.POST,value="/login",produces={"text/html"})
 	public String loginPatron(@RequestParam("email") String email,
 			@RequestParam("password") String password,
 			Model model,HttpServletResponse res) throws SQLException{
