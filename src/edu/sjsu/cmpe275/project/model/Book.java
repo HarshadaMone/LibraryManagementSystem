@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -42,6 +44,10 @@ public class Book {
     private Blob image;
 	@Column(name="IMAGE_NAME")
 	private String imageName;
+	@ManyToOne
+	@JoinColumn(name="SJSU_ID")
+	private User user;
+	
 	public Book() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -133,6 +139,12 @@ public class Book {
 	}
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 

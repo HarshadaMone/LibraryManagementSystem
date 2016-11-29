@@ -8,7 +8,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
+
 import java.util.*;
 
 
@@ -99,5 +102,23 @@ public class UserDaoImpl implements UserDao{
 			session.close();
 		}
 	}
+	public List<Book> getBooks(int sjsuId) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<Book> books = new ArrayList<Book>();
+		User user = null;
+		try{
+			user = (User) session.get(User.class, sjsuId);		
+			books.addAll(user.getBooks());
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return books;
+	}
+
 
 }

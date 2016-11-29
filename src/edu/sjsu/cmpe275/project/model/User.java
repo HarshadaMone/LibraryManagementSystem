@@ -1,8 +1,13 @@
 package edu.sjsu.cmpe275.project.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -23,6 +28,9 @@ public class User {
     private String password;
 	@Column(name="ROLE")
     private String role;
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
+	private List<Book> books;
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -72,6 +80,11 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-
+	public List<Book> getBooks() {
+		return books;
+	}
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 
 }

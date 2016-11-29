@@ -4,9 +4,12 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.UserService;
 
@@ -40,11 +45,60 @@ public class LibrarianController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/login/{email}",produces={"text/html"})
-	public String loginLibrarian(@PathVariable String email,
-			Model model) throws SQLException{
-		String role="librarian";
+	public String loginLibrarian(@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			Model model,HttpServletResponse res) throws SQLException{
+		System.out.println("email :"+email);
+		User user = userService.getUser(email);
+		if(user==null){
+			System.out.println("no user");
+			res.setStatus(404);
+			model.addAttribute("id",email);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		else{
+			if((user.getPassword()).equals(password))
+			{
+				System.out.println("true");
+				List<Book> books=userService.getBooks(user.getSjsuId());
+				model.addAttribute("user", user);
+				model.addAttribute("books", books);
+				return "librarian";
+			}
+			else
+			{
+				System.out.println("wrong pass");
+				res.setStatus(404);
+				model.addAttribute("id","worng password");
+				model.addAttribute("res",res.getStatus());
+				return "error";
+			}
+		}
 	
-		return "user";
+		
+	}
+	@RequestMapping(method=RequestMethod.GET,value="/login/{email}/",produces={"text/html"})
+	public String getLibrarianHome(@PathVariable String email,
+			Model model,HttpServletResponse res) throws SQLException{
+		System.out.println("email :"+email);
+		User user = userService.getUser(email);
+		if(user==null){
+			System.out.println("no user");
+			res.setStatus(404);
+			model.addAttribute("id",email);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		else{
+				System.out.println("true");
+				List<Book> books=userService.getBooks(user.getSjsuId());
+				model.addAttribute("user", user);
+				model.addAttribute("books", books);
+				return "librarian";
+		}
+	
+		
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE,value="/deleteUser/{sjsuId}",produces={"text/html"})

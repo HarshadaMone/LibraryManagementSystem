@@ -1,9 +1,14 @@
 package edu.sjsu.cmpe275.project.service;
 
+
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import edu.sjsu.cmpe275.project.dao.UserDao;
+import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
 
 /**
@@ -38,5 +43,8 @@ public class UserServiceImpl implements UserService {
 		
 		userDao.deleteUser(user);
 		return "true";
+	}
+	public List<Book> getBooks(int sjsuId){
+		return userDao.getBooks(sjsuId);
 	}
 }
