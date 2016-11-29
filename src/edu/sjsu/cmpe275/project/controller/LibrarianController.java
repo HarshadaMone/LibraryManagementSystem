@@ -37,7 +37,8 @@ public class LibrarianController {
 			@RequestParam("password") String password,
 			Model model) throws SQLException{
 		String role="librarian";
-		User user= new User(sjsuId,firstName,lastName,email,password,role);
+		String status="Active";
+		User user= new User(sjsuId,firstName,lastName,email,password,role,status);
 		userService.createUser(user);
 		model.addAttribute("user",user);		
 		return "user";
