@@ -116,6 +116,10 @@ public class PatronController {
 			return "error";
 		}
 		else{
+			if(user.getStatus().equals("InActive")){				
+				return "activationError";
+			}
+			else{
 			if((user.getPassword()).equals(password))
 			{
 				System.out.println("true");
@@ -134,7 +138,7 @@ public class PatronController {
 			}
 		}
 	
-		
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/books",produces={"text/html"})

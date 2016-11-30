@@ -45,9 +45,10 @@ public class LibrarianController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/login",produces={"text/html"})
-	public String loginLibrarian(@RequestParam("email") String email,
-			@RequestParam("password") String password,
-			Model model,HttpServletResponse res) throws SQLException{
+	public String loginLibrarian(
+		@RequestParam("email") String email,
+		@RequestParam("password") String password,
+		Model model,HttpServletResponse res) throws SQLException{
 		System.out.println("email :"+email);
 		User user = userService.getUser(email);
 		if(user==null){
@@ -58,26 +59,29 @@ public class LibrarianController {
 			return "error";
 		}
 		else{
-			if((user.getPassword()).equals(password))
-			{	
-				System.out.println("true");
-				List<Book> books=userService.getBooks(user.getSjsuId());
-				model.addAttribute("user", user);
-				model.addAttribute("books", books);
-				return "librarian";
+			if(user.getStatus().equals("InActive")){				
+				return "activationError";
 			}
-			else
-			{
-				System.out.println("wrong pass");
-				res.setStatus(404);
-				model.addAttribute("id","worng password");
-				model.addAttribute("res",res.getStatus());
-				return "error";
+			else{
+				if((user.getPassword()).equals(password)){	
+					System.out.println("true");
+					List<Book> books=userService.getBooks(user.getSjsuId());
+					model.addAttribute("user", user);
+					model.addAttribute("books", books);
+					return "librarian";
+				}
+				else{
+					System.out.println("wrong pass");
+					res.setStatus(404);
+					model.addAttribute("id","worng password");
+					model.addAttribute("res",res.getStatus());
+					return "error";
+				}
 			}
 		}
-	
 		
 	}
+
 	@RequestMapping(method=RequestMethod.GET,value="/login/{email}/",produces={"text/html"})
 	public String getLibrarianHome(@PathVariable String email,
 			Model model,HttpServletResponse res) throws SQLException{

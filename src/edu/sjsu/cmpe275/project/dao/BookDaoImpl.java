@@ -111,7 +111,8 @@ public List<Book> getBooks() {
 
 	List<Book> results=null;
 	try{
-		Query query = session.createQuery("SELECT book FROM Book book");
+		String hql = "FROM Book";
+		Query query = session.createQuery(hql);
 		results=query.list();
 		tx.commit();
 	}catch(HibernateException e){
