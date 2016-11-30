@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.project.model;
 
-import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,9 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+
 
 
 
@@ -40,8 +40,7 @@ public class Book {
 	@Column(name="KEYWORD")
     private String keyword;
 	@Column(name="IMAGE")
-	@Lob
-    private Blob image;
+    private String image;
 	@Column(name="IMAGE_NAME")
 	private String imageName;
 	@ManyToOne
@@ -50,10 +49,9 @@ public class Book {
 	
 	public Book() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Book(String author, String title, int callNumber, String publisher, int yearOfPublication, String location,
-			int copies, String status, String keyword, Blob image, String imageName) {
+			int copies, String status, String keyword, String image, String imageName) {
 		super();
 		this.author = author;
 		this.title = title;
@@ -128,12 +126,6 @@ public class Book {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	public Blob getImage() {
-		return image;
-	}
-	public void setImage(Blob image) {
-		this.image = image;
-	}
 	public String getImageName() {
 		return imageName;
 	}
@@ -146,6 +138,11 @@ public class Book {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 }

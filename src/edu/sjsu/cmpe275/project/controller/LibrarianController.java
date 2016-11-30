@@ -4,10 +4,7 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.service.BookService;
 import edu.sjsu.cmpe275.project.service.UserService;
 
 
@@ -30,6 +28,7 @@ public class LibrarianController {
 	@Autowired
 	private UserService userService;
 	
+	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createLibrarian(@PathVariable int sjsuId,
 			@RequestParam("firstName") String firstName,
@@ -38,13 +37,14 @@ public class LibrarianController {
 			@RequestParam("password") String password,
 			Model model) throws SQLException{
 		String role="librarian";
-		User user= new User(sjsuId,firstName,lastName,email,password,role);
+		String status="Active";
+		User user= new User(sjsuId,firstName,lastName,email,password,role,status);
 		userService.createUser(user);
 		model.addAttribute("user",user);		
 		return "user";
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/login/{email}",produces={"text/html"})
+	@RequestMapping(method=RequestMethod.POST,value="/login",produces={"text/html"})
 	public String loginLibrarian(@RequestParam("email") String email,
 			@RequestParam("password") String password,
 			Model model,HttpServletResponse res) throws SQLException{
@@ -59,7 +59,7 @@ public class LibrarianController {
 		}
 		else{
 			if((user.getPassword()).equals(password))
-			{
+			{	
 				System.out.println("true");
 				List<Book> books=userService.getBooks(user.getSjsuId());
 				model.addAttribute("user", user);

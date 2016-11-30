@@ -10,6 +10,12 @@ public interface BookDao {
 	public Book getBook(int id);
 	public void deleteBook(Book book);
 	public int getMaxId();
+<<<<<<< HEAD
 	public List<Book> getBooks();
 }
+=======
+	public List<Book> searchForBook(String searchText);
+	public List<Book> getBooks();
+	}
+>>>>>>> refs/remotes/origin/master
 

@@ -17,7 +17,25 @@
 
 <script type="text/javascript">
 	function changeMethod(action_name) {
-		if (action_name == "delete") {
+		if (action_name == "update") {
+			$.ajax({
+				url :'${pageContext.request.contextPath}/book/updateBook/${book.bookId}'+ "?sjsuId="
+						+ document.updateForm.sjsuId.value + "&author="
+						+ document.updateForm.author.value + "&title="
+						+ document.updateForm.title.value + "&callNumber="
+						+ document.updateForm.callNumber.value + "&publisher="
+						+ document.updateForm.publisher.value + "&yearOfPublication="
+						+ document.updateForm.yearOfPublication.value + "&location="
+						+ document.updateForm.location.value + "&copies="
+						+ document.updateForm.copies.value + "&status="
+						+ document.updateForm.status.value + "&keyword="
+						+ document.updateForm.keyword.value,
+				method : 'POST',
+				success : function(data){
+					location.pathname = "${pageContext.request.contextPath}/book/getBook/"+ ${book.bookId};
+				}
+			});
+		} else if (action_name == "delete") {
 			$.ajax({
 				url : '${pageContext.request.contextPath}/book/deleteBook/${book.bookId}',
 				method : 'DELETE',
@@ -41,7 +59,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label"></label>
 			<div class="col-sm-8">
-				<img src="<c:url value="/resources/${book.imageName}" />" alt="" width="200" height="200" />
+				<img src="data:image/jpeg;base64,${image}" alt="" width="200" height="200" />
 			</div>
 		</div>	
 		<div class="form-group">

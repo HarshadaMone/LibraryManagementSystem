@@ -30,12 +30,14 @@ public class User {
     private String role;
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
 	private List<Book> books;
-	
+	@Column(name="STATUS")
+    private String status;
+
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public User(int sjsuId, String firstName, String lastName, String email, String password, String role) {
+	public User(int sjsuId, String firstName, String lastName, String email, String password, String role,String status) {
 		super();
 		this.sjsuId = sjsuId;
 		this.firstName = firstName;
@@ -43,6 +45,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.role = role;
+		this.status = status;
 	}
 	public int getSjsuId() {
 		return sjsuId;
@@ -85,6 +88,12 @@ public class User {
 	}
 	public void setBooks(List<Book> books) {
 		this.books = books;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

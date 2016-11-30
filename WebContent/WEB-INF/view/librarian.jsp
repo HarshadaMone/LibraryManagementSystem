@@ -19,13 +19,13 @@
 
 <script type="text/javascript">
 	function changeAction() {
-			document.searchForm.action = "${pageContext.request.contextPath}/search/"+document.getElementById("search").value;
+			document.searchForm.action = "${pageContext.request.contextPath}/book/doSearch";
 			document.forms["searchForm"].submit();	
 	}
 	function newBook(sjsuId) {
 				location.pathname = "${pageContext.request.contextPath}/book/createBookView/${user.sjsuId}";
 	}
-	function changeAction(bookId) {
+	function getBook(bookId) {
 		location.pathname = "${pageContext.request.contextPath}/book/getBook/"+bookId;
 }
 </script>
@@ -56,11 +56,12 @@
   </div>
 </nav>
 <h1> Recent Books added by you</h1><br>
+
 	<c:forEach items="${books}" var="current">	
 			<div class="col-sm-4">
-				<img src="<c:url value="/resources/${current.imageName}" />" alt="" width="200" height="200" />
+				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
 				<br>${current.author}
-				<br><a onclick="changeAction('${current.bookId}')">${current.bookId}</a>
+				<br><a onclick="getBook('${current.bookId}')">${current.bookId}</a>
 			</div>
 		</c:forEach>
 

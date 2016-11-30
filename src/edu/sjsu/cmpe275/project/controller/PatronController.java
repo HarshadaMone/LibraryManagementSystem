@@ -4,11 +4,17 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
+=======
+import java.util.List;
+import java.util.Random;
+>>>>>>> refs/remotes/origin/master
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.naming.factory.SendMailFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+<<<<<<< HEAD
+=======
+import edu.sjsu.cmpe275.project.SendEmail;
+>>>>>>> refs/remotes/origin/master
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
@@ -31,16 +41,36 @@ public class PatronController {
 	private UserService userService;
 	@Autowired
 	private BookService bookService;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> refs/remotes/origin/master
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
-	public String createBook(@PathVariable int sjsuId,
+	public String createPatron(@PathVariable int sjsuId,
 			@RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName,
 			@RequestParam("email") String email,
 			@RequestParam("password") String password,
 			Model model) throws SQLException{
+		Random rnd = new Random();
+		int activationCode = 100000 + rnd.nextInt(900000);
 		String role="patron";
-		User user= new User(sjsuId,firstName,lastName,email,password,role);
+		String status="InActive";
+		User user= new User(sjsuId,firstName,lastName,email,password,role,status);
+		userService.createUser(user);
+		String mailTo = email;
+		String mailFrom = "siddharth6258@gmail.com";	 
+		SendEmail.sendEmail(mailTo, mailFrom,activationCode);
+		model.addAttribute("user",user);
+		model.addAttribute("activationCode",activationCode);
+		return "activation";
+	}
+	@RequestMapping(method=RequestMethod.POST,value="/activatePatron/{sjsuId}",produces={"text/html"})
+	public String activatePatron(@PathVariable int sjsuId,
+			Model model) throws SQLException{
+		User user = userService.getUser(sjsuId);
+		user.setStatus("Active");
 		userService.createUser(user);
 		model.addAttribute("user",user);		
 		return "user";
@@ -70,10 +100,12 @@ public class PatronController {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/login/{email}",produces={"text/html"})
+	@RequestMapping(method=RequestMethod.POST,value="/login",produces={"text/html"})
 	public String loginPatron(@RequestParam("email") String email,
 			@RequestParam("password") String password,
 			Model model,HttpServletResponse res) throws SQLException{
+		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
+		res.addHeader( "Access-Control-Allow-Origin", "*" );   
 		System.out.println("email :"+email);
 		User user = userService.getUser(email);
 		if(user==null){
@@ -87,6 +119,8 @@ public class PatronController {
 			if((user.getPassword()).equals(password))
 			{
 				System.out.println("true");
+				List<Book> books=bookService.getBooks();
+				model.addAttribute("books", books);
 				model.addAttribute("user", user);
 				return "patron";
 			}

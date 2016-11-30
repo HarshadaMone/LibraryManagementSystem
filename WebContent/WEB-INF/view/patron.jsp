@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -17,6 +18,7 @@
 <title>Patron Profile</title>
 
 <script type="text/javascript">
+<<<<<<< HEAD
 	function changeAction(action_name) {
 		if (action_name == "search") {
 			document.searchForm.action = "${pageContext.request.contextPath}/search/"+document.getElementById("search").value;
@@ -28,6 +30,15 @@
 		}
 		
 	}
+=======
+function changeAction() {
+	document.searchForm.action = "${pageContext.request.contextPath}/book/patron/doSearch";
+	document.forms["searchForm"].submit();	
+}
+function getBook(bookId) {
+	location.pathname = "${pageContext.request.contextPath}/book/getBook/"+bookId;
+}
+>>>>>>> refs/remotes/origin/master
 </script>
 
 </head>
@@ -54,6 +65,15 @@
     </ul>
   </div>
 </nav>
+<h1> Available Books</h1><br>
+
+	<c:forEach items="${books}" var="current">	
+			<div class="col-sm-4">
+				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
+				<br>${current.author}
+				<br><a onclick="getBook('${current.bookId}')">${current.bookId}</a>
+			</div>
+		</c:forEach>
 
 
 </body>
