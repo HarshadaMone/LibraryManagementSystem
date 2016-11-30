@@ -40,8 +40,10 @@ public class LibrarianController {
 		String status="Active";
 		User user= new User(sjsuId,firstName,lastName,email,password,role,status);
 		userService.createUser(user);
-		model.addAttribute("user",user);		
-		return "user";
+		List<Book> books=userService.getBooks(user.getSjsuId());
+		model.addAttribute("user", user);
+		model.addAttribute("books", books);
+		return "librarian";
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/login",produces={"text/html"})
