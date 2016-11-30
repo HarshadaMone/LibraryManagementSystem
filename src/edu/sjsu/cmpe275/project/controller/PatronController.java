@@ -4,13 +4,8 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 import java.sql.SQLException;
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.List;
-=======
 import java.util.List;
 import java.util.Random;
->>>>>>> refs/remotes/origin/master
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-<<<<<<< HEAD
-=======
 import edu.sjsu.cmpe275.project.SendEmail;
->>>>>>> refs/remotes/origin/master
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
@@ -41,11 +33,7 @@ public class PatronController {
 	private UserService userService;
 	@Autowired
 	private BookService bookService;
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> refs/remotes/origin/master
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createPatron(@PathVariable int sjsuId,
 			@RequestParam("firstName") String firstName,
@@ -139,21 +127,6 @@ public class PatronController {
 		}
 	
 		}
-	}
-	
-	@RequestMapping(method=RequestMethod.GET,value="/books",produces={"text/html"})
-	public String getbooks(Model model,HttpServletResponse res){
-		List<Book> books = new ArrayList<Book>();
-		books=bookService.getBooks();
-		if(books==null){
-			res.setStatus(404);
-			//model.addAttribute("id",sjsuId);
-			model.addAttribute("res",res.getStatus());
-			return "error";
-		}
-		model.addAttribute("books",books);
-		return "showBooks";
-		
 	}
 
 

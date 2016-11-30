@@ -45,19 +45,11 @@ public class BookServiceImpl implements BookService {
 	public int getMaxId() {		 
 		return bookDao.getMaxId();
 	}
-<<<<<<< HEAD
-
-	@Override
-	public List<Book> getBooks() {
-		// TODO Auto-generated method stub
-		
-=======
 	public List<Book> searchForBook(String searchText){
 		return bookDao.searchForBook(searchText);
 	}
 	public List<Book> getBooks()
 	{
->>>>>>> refs/remotes/origin/master
 		return bookDao.getBooks();
 	}
 }
