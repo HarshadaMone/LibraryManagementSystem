@@ -60,8 +60,10 @@ public class PatronController {
 		User user = userService.getUser(sjsuId);
 		user.setStatus("Active");
 		userService.createUser(user);
-		model.addAttribute("user",user);		
-		return "user";
+		List<Book> books=bookService.getBooks();
+		model.addAttribute("books", books);
+		model.addAttribute("user", user);
+		return "patron";
 	}
 	@RequestMapping(method=RequestMethod.DELETE,value="/deleteUser/{sjsuId}",produces={"text/html"})
 	@ResponseBody
