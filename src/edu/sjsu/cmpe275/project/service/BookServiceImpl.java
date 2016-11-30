@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +44,12 @@ public class BookServiceImpl implements BookService {
 	}
 	public int getMaxId() {		 
 		return bookDao.getMaxId();
+	}
+
+	@Override
+	public List<Book> getBooks() {
+		// TODO Auto-generated method stub
+		
+		return bookDao.getBooks();
 	}
 }

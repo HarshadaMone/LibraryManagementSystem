@@ -17,9 +17,16 @@
 <title>Patron Profile</title>
 
 <script type="text/javascript">
-	function changeAction() {
+	function changeAction(action_name) {
+		if (action_name == "search") {
 			document.searchForm.action = "${pageContext.request.contextPath}/search/"+document.getElementById("search").value;
 			document.forms["searchForm"].submit();	
+		}
+		if (action_name == "book") {
+			location.pathname = "${pageContext.request.contextPath}/patron/books"
+				
+		}
+		
 	}
 </script>
 
@@ -32,12 +39,14 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li> 
+      <li><a onclick="changeAction('book')" >Books</a></li>
+      <li><a href="#">Return Book</a></li>
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search" id="search" name="search">
       </div>
-      <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
+      <button type="button" onclick="changeAction('search')" class="btn btn-default">Search</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>

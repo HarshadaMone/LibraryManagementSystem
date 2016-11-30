@@ -1,14 +1,20 @@
 package edu.sjsu.cmpe275.project.dao;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import edu.sjsu.cmpe275.project.model.Book;
+import edu.sjsu.cmpe275.project.model.User;
 
 
 /**
@@ -90,5 +96,31 @@ public int getMaxId() {
 		}
 		return id;
 	}
+
+@Override
+public List<Book> getBooks() {
+	Session session = sessionFactory.openSession();
+	Transaction tx = session.beginTransaction();
+	List<Book>  books=new ArrayList<Book>();
+	try{
+		String sql="SELECT * FROM BOOK WHERE COPIES>1";
+		SQLQuery query = session.createSQLQuery(sql);
+		query.addEntity(Book.class);
+		//query.setParameter("email", email);
+		//user = (User) session.get(User.class, email);
+		books = query.list();
+		 for (Iterator iterator = 
+				 books.iterator(); iterator.hasNext();){
+			 books.add((Book) iterator.next()); 
+		 }
+		tx.commit();
+	}catch(HibernateException e){
+		tx.rollback();
+	}finally{
+		session.close();
+	}
+	System.out.println("aaaa"+books.get(0));
+	return books;
+}
 
 }

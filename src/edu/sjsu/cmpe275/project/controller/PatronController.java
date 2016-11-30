@@ -4,6 +4,8 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.service.BookService;
 import edu.sjsu.cmpe275.project.service.UserService;
 
 
@@ -24,6 +29,8 @@ import edu.sjsu.cmpe275.project.service.UserService;
 public class PatronController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private BookService bookService;
 	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createBook(@PathVariable int sjsuId,
@@ -93,6 +100,21 @@ public class PatronController {
 			}
 		}
 	
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.GET,value="/books",produces={"text/html"})
+	public String getbooks(Model model,HttpServletResponse res){
+		List<Book> books = new ArrayList<Book>();
+		books=bookService.getBooks();
+		if(books==null){
+			res.setStatus(404);
+			//model.addAttribute("id",sjsuId);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		model.addAttribute("books",books);
+		return "showBooks";
 		
 	}
 
