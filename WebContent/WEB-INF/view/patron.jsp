@@ -182,10 +182,14 @@ function checkout()
 		        },
 		    success : function(data) {
 		    	console.log("in"+data);
-		    	
+		    	if(data=="limit")
+		    		{
+		    			alert("cant checkout more than 10 books");
+		    		}
+		    	else{
 		    	 	location.pathname = "${pageContext.request.contextPath}/patron/"+data+"/${user.sjsuId}"; 
 		   		    }
-		   	  
+		    }
 		    
 	});
 }

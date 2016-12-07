@@ -43,10 +43,11 @@
 	<c:forEach items="${books}" var="current" varStatus="status">	
 			<div class="col-sm-4">
 				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
+				<br>${current.title}
 				<br>${current.author}
 				<br>return Date :${rd[status.index]}
 				</div>
-		</c:forEach>
+	</c:forEach>
 
 
 

@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.project.dao;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +110,32 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		}
 		return dates;
 		
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	public int getbooksday(int userid) {
+		// TODO Auto-generated method stub
+		//return null;
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		int a = null;
+		try{
+			String sql="SELECT count(*) FROM CHECKOUT WHERE SJSU_ID= :sjsuid and DATE= :date";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("sjsuid", userid);
+			System.out.println("ajay"+(new java.sql.Date(System.currentTimeMillis()).toString()));
+			query.setParameter("date", new java.sql.Date(System.currentTimeMillis()));
+			
+				List l=query.list();
+			 a=(BigInteger) l.get(0);
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		return a;
 	}
 	
 
