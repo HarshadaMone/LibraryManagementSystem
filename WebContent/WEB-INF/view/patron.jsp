@@ -186,6 +186,10 @@ function checkout()
 		    		{
 		    			alert("cant checkout more than 10 books");
 		    		}
+		    	else if(data=="day limit")
+		    		{
+		    			alert("cant checkout more than 5 books in a day");
+		    		}
 		    	else{
 		    	 	location.pathname = "${pageContext.request.contextPath}/patron/"+data+"/${user.sjsuId}"; 
 		   		    }

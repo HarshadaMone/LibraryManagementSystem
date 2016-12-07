@@ -175,13 +175,18 @@ public class PatronController {
 				}
 				
 				else{
-					
+					if(num>=5)
+					{
+						return "day limit";
+					}
+					else{
 				for (int i = 0; i < data1.getBooks().size(); i++) {
 					Book book=bookService.getBook(data1.getBooks().get(i).getId());
 					Checkout checkout=new Checkout(returndate, now, 0);
 					checkout.setBook(book);
 					checkout.setUser(user);
 					checkoutService.createcheckout(checkout);
+				}
 				}
 				}
 				//List<Books> book=data.getBooks();
