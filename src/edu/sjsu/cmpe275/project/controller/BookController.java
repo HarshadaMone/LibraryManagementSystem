@@ -34,8 +34,9 @@ public class BookController {
 	
 	@RequestMapping(method=RequestMethod.GET,value="/createBookView/{sjsuId}",produces={"text/html"})
 	public String getCreateBookView(@PathVariable int sjsuId,
-			Model model){
+			Model model){		
 		model.addAttribute("sjsuId",sjsuId);
+		model.addAttribute("user",userService.getUser(sjsuId));
 		return "createBook";
 	}	//Request Mapping for create book
 	

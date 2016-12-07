@@ -28,6 +28,11 @@
 	function getBook(bookId) {
 		location.pathname = "${pageContext.request.contextPath}/book/getBook/"+bookId;
 }
+	function changeMethod(action_name) {		
+		if (action_name == "") {
+			location.pathname = "${pageContext.request.contextPath}/librarian/login/${user.email}/";			
+		}		
+	}
 </script>
 
 </head>
@@ -38,10 +43,13 @@
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li> 
+      <li class="active"><a onclick="changeMethod('')">Home</a></li> 
     </ul>
     <ul class="nav navbar-nav">
       <li class="active"><a onclick="newBook('${user.sjsuId}')">Add New Book</a></li> 
+    </ul>
+        <ul class="nav navbar-nav navbar-right">
+      <li class="active"><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
@@ -50,7 +58,7 @@
       <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
+      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
       
     </ul>
   </div>
