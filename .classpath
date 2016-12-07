@@ -21,10 +21,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commonio"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commonCodec"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/aakas/OneDrive/Documents/commons-collections-3.2.2/commons-collections-3.2.2.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

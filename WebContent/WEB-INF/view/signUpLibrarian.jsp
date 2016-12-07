@@ -17,8 +17,17 @@
 <title>Create User</title>
 <script type="text/javascript">
 	function changeAction() {
+		var myVal = document.getElementById("email").value;
+		var tmp = myVal.substr ( myVal.indexOf ( '@' ) + 1 ); // tmp now contains whatever is after ?
+		if(tmp == 'sjsu.edu' )
+			{
 			document.createForm.action = "${pageContext.request.contextPath}/librarian/signUp/"+document.getElementById("sjsuId").value;
+			document.forms["createForm"].submit();	}
+		else
+			{
+			document.createForm.action = "${pageContext.request.contextPath}/patron/signUp/"+document.getElementById("sjsuId").value;
 			document.forms["createForm"].submit();	
+			}
 	}
 </script>
 <style type="text/css">
@@ -53,7 +62,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label">Email</label>
 			<div class="col-sm-8">
-				<input type="email" name="email" class="form-control">
+				<input type="email" id="email" name="email" class="form-control">
 			</div>
 		</div>	
 				<div class="form-group">
