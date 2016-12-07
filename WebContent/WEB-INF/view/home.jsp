@@ -30,11 +30,7 @@
 <div class="container">
 	<div class="row">
 	<div class="col-md-4 text-center"> 
-		<a href="${pageContext.request.contextPath}/signUpAsLibrarian"><button type="button" class="btn btn-success">SignUp As Librarian</button></a>
-	</div></div><br>
-	<div class="row">
-	<div class="col-md-4 text-center">
-		<a href="${pageContext.request.contextPath}/signUpAsPatron"><button type="button" class="btn btn-success">SignUp as Patron</button></a><br>
+		<a href="${pageContext.request.contextPath}/signUpUser"><button type="button" class="btn btn-success ">User Sign Up</button></a>
 	</div></div><br>
 	<div class="row">	
 	<div class="col-md-4 text-center">
