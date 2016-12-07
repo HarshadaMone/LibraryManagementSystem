@@ -20,6 +20,11 @@
 			document.createForm.action = "${pageContext.request.contextPath}/book/createBook/${sjsuId}";
 			document.forms["createForm"].submit();	
 	}
+function changeMethod(action_name) {		
+		if (action_name == "") {
+			location.pathname = "${pageContext.request.contextPath}/librarian/login/${user.email}/";			
+		}		
+	}
 </script>
 <style type="text/css">
 .phone-input{
@@ -30,6 +35,23 @@
 <body style="
     background-color: rgb(12, 12, 12);
     color: white;">
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Sjsu Library</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a onclick="changeMethod('')">Home</a></li> 
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName}</a></li>
+      
+    </ul>
+  </div>
+</nav>
 <div class="container">
 	<h1 align="center">Add Book</h1><br>
 	<form class="form-horizontal" name="createForm" enctype="multipart/form-data" method="post" style="max-width:450px;">

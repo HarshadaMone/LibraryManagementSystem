@@ -17,6 +17,7 @@
 
 <script type="text/javascript">
 	function changeMethod(action_name) {
+		
 		if (action_name == "update") {
 			$.ajax({
 				url :'${pageContext.request.contextPath}/book/updateBook/${book.bookId}'+ "?sjsuId="
@@ -45,6 +46,8 @@
 				}
 			});
 			
+		}else if (action_name == "") {
+			location.pathname = "${pageContext.request.contextPath}/librarian/login/${book.user.email}/";			
 		}		
 	}
 </script>
@@ -52,6 +55,23 @@
 <body style="
     background-color: rgb(12, 12, 12);
     color: white;">
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Sjsu Library</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a onclick="changeMethod('')">Home</a></li> 
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${book.user.firstName}</a></li>
+      
+    </ul>
+  </div>
+</nav>
 <div class="container">
 	<h1 align="center">Book</h1><br>
 	

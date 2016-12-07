@@ -72,6 +72,9 @@ function add(image,title,bookid,id)
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search" id="search" name="search">
       </div>
+          <ul class="nav navbar-nav navbar-right">
+      <li class="active"><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
+    </ul>
       <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
     </form>
     <ul class="nav navbar-nav navbar-right">

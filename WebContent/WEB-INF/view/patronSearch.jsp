@@ -37,6 +37,9 @@ function getBook(bookId) {
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li> 
     </ul>
+        <ul class="nav navbar-nav navbar-right">
+      <li class="active"><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
+    </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search" id="search" name="search">
