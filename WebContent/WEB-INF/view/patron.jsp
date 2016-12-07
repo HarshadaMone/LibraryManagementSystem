@@ -204,12 +204,9 @@ function changeMethod(action_name) {
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-<<<<<<< HEAD
+
       <li class="active"><a onclick="changeMethod('')">Home</a></li> 
-=======
-      <li class="active"><a href="#">Home</a></li>
-      <li ><a href="#">Return Book</a></li> 
->>>>>>> ajay
+      <li><a href="#">Return Book</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
