@@ -200,6 +200,11 @@ function checkout()
 		    }
 	});
 }
+function changeMethod(action_name) {		
+	if (action_name == "") {
+		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
+	}		
+}
 </script>
 
 </head>
@@ -210,8 +215,12 @@ function checkout()
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
+<<<<<<< HEAD
       <li class="active"><a href="#">Home</a></li>
       <li ><a href="#">Return Book</a></li> 
+=======
+      <li class="active"><a onclick="changeMethod('')">Home</a></li> 
+>>>>>>> sid2
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
@@ -223,7 +232,7 @@ function checkout()
       <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
+      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
       <li class="dropdown">
           <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">

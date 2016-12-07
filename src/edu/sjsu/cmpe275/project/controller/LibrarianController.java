@@ -53,7 +53,7 @@ public class LibrarianController {
 		Model model,HttpServletResponse res) throws SQLException{
 		System.out.println("email :"+email);
 		User user = userService.getUser(email);
-		if(user==null){
+		if(user==null || user.getRole().equals("patron")){
 			System.out.println("no user");
 			res.setStatus(404);
 			model.addAttribute("id",email);
