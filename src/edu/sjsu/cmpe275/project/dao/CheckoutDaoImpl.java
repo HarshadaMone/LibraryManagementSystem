@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.sjsu.cmpe275.project.SendCheckoutEmail;
 import edu.sjsu.cmpe275.project.model.Checkout;
 
 @Repository
@@ -20,6 +21,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try{
+			System.out.println("here");
 			session.saveOrUpdate(checkout);
 			tx.commit();
 		}catch(HibernateException e){
@@ -27,6 +29,8 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			throw e;
 		}finally{
 			session.close();
+			SendCheckoutEmail.sendEmail(checkout.getUser().getEmail(),checkout.getBook());
+			
 		}
 	}
 

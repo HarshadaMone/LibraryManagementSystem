@@ -6,6 +6,7 @@ package edu.sjsu.cmpe275.project.controller;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -28,6 +29,7 @@ import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.Data;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
+import edu.sjsu.cmpe275.project.service.CheckoutService;
 import edu.sjsu.cmpe275.project.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -39,6 +41,8 @@ public class PatronController {
 	private UserService userService;
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private CheckoutService checkoutService;
 
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createPatron(@PathVariable int sjsuId,
@@ -138,10 +142,11 @@ public class PatronController {
 	}
 	
 	
-	@RequestMapping(method=RequestMethod.POST,value="/checkout",produces={"text/html"})
+	@RequestMapping(method=RequestMethod.POST,value="/checkout/{sjsuId}",produces={"text/html"})
 	public String checkout(@RequestParam(value="myArray") String books,
-			@RequestParam(value="sjsuId") int sjsuId,
+			@PathVariable int sjsuId,
 			Model model,HttpServletResponse res) throws SQLException{
+		//int sjsuid=Integer.parseInt(sjsuId);
 				res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
 				res.addHeader( "Access-Control-Allow-Origin", "*" );
 				Gson gson=new Gson();
@@ -153,13 +158,20 @@ public class PatronController {
 				//System.out.println(data.getId());
 				System.out.println(data1.getBooks());
 				System.out.println(data1.getBooks().get(0).getId());
-				java.util.Date uDate = new java.util.Date();
-				
+				User user=userService.getUser(sjsuId);
+				java.util.Calendar cal=java.util.Calendar.getInstance();
+				java.sql.Date now = new Date(cal.getTimeInMillis());
+				cal.add(Calendar.DATE, 30);
+				Date returndate=new Date(cal.getTimeInMillis());
 				for (int i = 0; i < data1.getBooks().size(); i++) {
-					Checkout checkout=new Checkout(returnDate, date, fine)
+					Book book=bookService.getBook(data1.getBooks().get(i).getId());
+					Checkout checkout=new Checkout(returndate, now, 0);
+					checkout.setBook(book);
+					checkout.setUser(user);
+					checkoutService.createcheckout(checkout);
 				}
 				//List<Books> book=data.getBooks();
-				//System.out.println(result.get(0));
+				System.out.println("ajay");
 				return null;
 		
 	}

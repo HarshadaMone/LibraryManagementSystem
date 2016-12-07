@@ -19,6 +19,7 @@
 
 <script type="text/javascript">
 var line;
+var id;
 var co;
 var books=[];
 $(document).ready(function(){
@@ -40,6 +41,7 @@ function getBook(bookId) {
 }
 function add(image,title,bookid,id)
 {
+	id=id;
 	console.log(bookid);
 	console.log(books);
 	var menu=document.getElementById("books");
@@ -172,11 +174,10 @@ function checkout()
 	console.log("in");
 	$.ajax({
 		 type : "POST",
-		    url : "${pageContext.request.contextPath}/patron/checkout",
+		    url : "${pageContext.request.contextPath}/patron/checkout/${user.sjsuId}",
 		    datatype: 'json',
 		    data : {
-		        myArray: JSON.stringify(books),
-		        sjsuId: id,
+		        myArray: JSON.stringify(books)
 		        
 		    },
 		    success : function(data) {
