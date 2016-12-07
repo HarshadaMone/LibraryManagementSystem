@@ -42,7 +42,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 	}
 
 
-	public BigInteger getbooksday(int userid) {
+	public int getbooksday(int userid) {
 		// TODO Auto-generated method stub
 		return checkoutDao.getbooksday(userid);
 	}

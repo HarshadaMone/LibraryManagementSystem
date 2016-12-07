@@ -12,6 +12,6 @@ public interface CheckoutService {
 	public void createcheckout(Checkout checkout);
 	public List<Book> getbooks(int userid);
 	public List<Date> getdates(int userid);
-	public BigInteger getbooksday(int userid);
+	public int getbooksday(int userid);
 	
 }

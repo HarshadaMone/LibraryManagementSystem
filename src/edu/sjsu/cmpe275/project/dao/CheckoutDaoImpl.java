@@ -119,7 +119,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		//return null;
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		int a = null;
+		int a = -1;
 		try{
 			String sql="SELECT count(*) FROM CHECKOUT WHERE SJSU_ID= :sjsuid and DATE= :date";
 			SQLQuery query = session.createSQLQuery(sql);
@@ -128,7 +128,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("date", new java.sql.Date(System.currentTimeMillis()));
 			
 				List l=query.list();
-			 a=(BigInteger) l.get(0);
+			 a=(Integer) l.get(0);
 			tx.commit();
 		}catch(HibernateException e){
 			tx.rollback();
