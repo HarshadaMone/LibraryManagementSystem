@@ -172,7 +172,38 @@ public class PatronController {
 				}
 				//List<Books> book=data.getBooks();
 				System.out.println("ajay");
-				return null;
+				return "checkoutpage";
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/checkoutpage/{sjsuId}",produces={"text/html"})
+	public String checkoutpage(@RequestParam(value="myArray") String books,
+			@PathVariable int sjsuId,
+			Model model,HttpServletResponse res) throws SQLException{
+		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
+		res.addHeader( "Access-Control-Allow-Origin", "*" );
+		Gson gson=new Gson();
+		System.out.println(books);
+		books="{books:"+books+"}";
+		JsonReader reader = new JsonReader(new StringReader(books));
+		reader.setLenient(true);
+		Data data1=new Gson().fromJson(reader, Data.class);
+		//System.out.println(data.getId());
+		System.out.println(data1.getBooks());
+		System.out.println(data1.getBooks().get(0).getId());
+		User user=userService.getUser(sjsuId);
+		java.util.Calendar cal=java.util.Calendar.getInstance();
+		model.addAttribute("cdate", cal.getTime());
+		java.sql.Date now = new Date(cal.getTimeInMillis());
+		cal.add(Calendar.DATE, 30);
+		Date returndate=new Date(cal.getTimeInMillis());
+		model.addAttribute("user", user);
+		model.addAttribute("books",data1.getBooks() );
+		model.addAttribute("rdate", cal.getTime());
+		return "checkout";
+		
+		
+	//	return null;
 		
 	}
 
