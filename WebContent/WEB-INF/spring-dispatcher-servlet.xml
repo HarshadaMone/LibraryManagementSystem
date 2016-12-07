@@ -23,6 +23,8 @@
 	   <bean id="bookDao" class="edu.sjsu.cmpe275.project.dao.BookDaoImpl"></bean>
 	   <bean id="userService" class="edu.sjsu.cmpe275.project.service.UserServiceImpl"></bean>
 	   <bean id="userDao" class="edu.sjsu.cmpe275.project.dao.UserDaoImpl"></bean>
+	   <bean id="checkoutService" class="edu.sjsu.cmpe275.project.service.CheckoutServiceImpl"></bean>
+	   <bean id="checkoutDao" class="edu.sjsu.cmpe275.project.dao.CheckoutDaoImpl"></bean>
 	   
 	   <bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

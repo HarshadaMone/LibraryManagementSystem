@@ -1,13 +1,18 @@
 package edu.sjsu.cmpe275.project.model;
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -47,6 +52,15 @@ public class Book {
 	@JoinColumn(name="SJSU_ID")
 	private User user;
 	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="book",cascade={CascadeType.ALL})
+	private List<Checkout> checkouts;
+	
+	public List<Checkout> getCheckouts() {
+		return checkouts;
+	}
+	public void setCheckouts(List<Checkout> checkouts) {
+		this.checkouts = checkouts;
+	}
 	public Book() {
 		super();
 	}

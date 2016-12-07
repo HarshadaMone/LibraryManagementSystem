@@ -18,7 +18,20 @@
 <title>Patron Profile</title>
 
 <script type="text/javascript">
+var line;
+var id;
+var co;
+var books=[];
+$(document).ready(function(){
+	console.log("ready");
+	if(books.length<=0)
+	 line=document.getElementById("line");
+	 co=document.getElementById("checkout");
+	 line.parentNode.removeChild(line);
+	 co.parentNode.removeChild(co);
+})
 var i=0;
+
 function changeAction() {
 	document.searchForm.action = "${pageContext.request.contextPath}/book/patron/doSearch";
 	document.forms["searchForm"].submit();	
@@ -28,10 +41,94 @@ function getBook(bookId) {
 }
 function add(image,title,bookid,id)
 {
+	id=id;
+	console.log(bookid);
+	console.log(books);
+	var menu=document.getElementById("books");
+	console.log(menu);
+	if(books.length>0)
+		{
+			line.parentNode.removeChild(line);
+			 co.parentNode.removeChild(co);
+			for(i=0;i<books.length;i++)
+				{
+					if(books[i].id==bookid)
+						{
+						console.log(books[i].id);
+						alert("Book Already in cart");
+						menu.appendChild(line);
+						menu.appendChild(co);
+						}
+					else
+						{
+						
+						var book={};
+						book.title=title;
+						book.id=bookid;
+						books.push(book);
+						
+						var a="data:image/jpeg;base64,"+image;
+						var imgv="'"+a+"'";
+							
+							var num=document.getElementById("cart");
+							var li=document.createElement("li");
+							var span=document.createElement("span");
+							span.className="item";
+							var span1=document.createElement("span");
+							span1.className="item-left";
+							var img=document.createElement("img");
+							img.setAttribute('src',a);
+							img.style.height="10px";
+							img.style.width="10px";
+							
+							var span2=document.createElement("span");
+							span2.className="item-info";
+							var span3=document.createElement("span");
+							span3.innerHTML=title;
+							span2.appendChild(span3);
+							span1.appendChild(img);
+							span1.appendChild(span2);
+							span.appendChild(span1);
+							li.appendChild(span);
+							var span4=document.createElement("span");
+							span4.className="item-right";
+							var b=document.createElement("button");
+							b.className="btn btn-xs btn-danger pull-right";
+							b.innerHTML="x";
+							span4.appendChild(b);
+							span.appendChild(span4);
+							
+							menu.appendChild(li);
+							num.text=" "+($("#books").length)+" items";
+							$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
+							$("#cart").append("<span class=\"caret\"></span>");
+							line.className="divider";
+							line.id="line";
+							co.className="text-center";
+							co.id="checkout"
+							menu.appendChild(line);
+							menu.appendChild(co);
+						
+						}
+				}
+		}
+	else if(books.length>=5)
+		{
+		alert("Can Only add 5 books at a time");
+		}
+	else
+		{
+		
+	var book={};
+	book.title=title;
+	book.id=bookid;
+	books.push(book);
+	
+	
 	console.log("in");
 	var a="data:image/jpeg;base64,"+image;
 	var imgv="'"+a+"'";
-		var menu=document.getElementById("books");
+		
 		var num=document.getElementById("cart");
 		var li=document.createElement("li");
 		var span=document.createElement("span");
@@ -52,9 +149,42 @@ function add(image,title,bookid,id)
 		span1.appendChild(span2);
 		span.appendChild(span1);
 		li.appendChild(span);
-		menu.appendChild(li);
-		num.text=" "+($("books").length+1)+" items";
+		var span4=document.createElement("span");
+		span4.className="item-right";
+		var b=document.createElement("button");
+		b.className="btn btn-xs btn-danger pull-right";
+		b.innerHTML="x";
+		span4.appendChild(b);
+		span.appendChild(span4);
 		
+		menu.appendChild(li);
+		num.text=" "+($("#books").length)+" items";
+		$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
+		$("#cart").append("<span class=\"caret\"></span>");
+		line.className="divider";
+		co.className="text-center";
+		menu.appendChild(line);
+		menu.appendChild(co);
+		
+		}	
+}
+
+function checkout()
+{
+	console.log("in");
+	$.ajax({
+		 type : "POST",
+		    url : "${pageContext.request.contextPath}/patron/checkout/${user.sjsuId}",
+		    datatype: 'json',
+		    data : {
+		        myArray: JSON.stringify(books)
+		        
+		    },
+		    success : function(data) {
+		    	console.log("in");
+		       // do something ... 
+		    }
+	});
 }
 </script>
 
@@ -82,6 +212,8 @@ function add(image,title,bookid,id)
       <li class="dropdown">
           <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
+          		<li class="divider" id="line"></li>
+              	<li><a class="text-center" id="checkout" onclick="checkout()" href="">CheckOut</a></li>
           </ul>
         </li>
     </ul>
@@ -93,7 +225,7 @@ function add(image,title,bookid,id)
 			<div class="col-sm-4">
 				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
 				<br>${current.author}
-				<br><button type="button" onclick="add('${current.image}','${current.title}','${current.bookId}','${user.sjsuId}')" class="btn btn-default">Add to Cart</button>
+				<br><button type="button" id="add${current.bookId}" onclick="event.preventDefault();add('${current.image}','${current.title}','${current.bookId}','${user.sjsuId}')" class="btn btn-default">Add to Cart</button>
 				</div>
 		</c:forEach>
 
