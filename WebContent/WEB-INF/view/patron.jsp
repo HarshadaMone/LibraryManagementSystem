@@ -171,6 +171,7 @@ function add(image,title,bookid,id)
 
 function checkout()
 {
+	
 	console.log("in");
 	$.ajax({
 		 type : "POST",
@@ -181,8 +182,21 @@ function checkout()
 		        
 		    },
 		    success : function(data) {
-		    	console.log("in");
-		       // do something ... 
+		    	console.log("in"+);
+		    	
+		    	/* $.ajax({
+		   		 type : "POST",
+		   		    url : "${pageContext.request.contextPath}/patron/checkoutpage/${user.sjsuId}",
+		   		    datatype: 'json',
+		   		    data : {
+		   		        myArray: JSON.stringify(books)
+		   		        
+		   		    },
+		   		    success : function(data) {
+		   		    	console.log("in");
+		   		    	location.pathname = "${pageContext.request.contextPath}/patron/"+data; 
+		   		    }
+		   	});  */
 		    }
 	});
 }
@@ -196,7 +210,8 @@ function checkout()
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li> 
+      <li class="active"><a href="#">Home</a></li>
+      <li ><a href="#">Return Book</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
