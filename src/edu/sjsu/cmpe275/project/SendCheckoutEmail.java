@@ -18,8 +18,8 @@ public class SendCheckoutEmail {
 	
 	public static void sendEmail(String to,Book book) {
 	
-		final String username = "";
-		final String password = "";
+		final String username = "ajaymodi12@gmail.com";
+		final String password = "pradeep";
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");

@@ -179,25 +179,14 @@ function checkout()
 		    datatype: 'json',
 		    data : {
 		        myArray: JSON.stringify(books)
-		        
-		    },
+		        },
 		    success : function(data) {
 		    	console.log("in"+data);
 		    	
-		    	/* $.ajax({
-		   		 type : "POST",
-		   		    url : "${pageContext.request.contextPath}/patron/checkoutpage/${user.sjsuId}",
-		   		    datatype: 'json',
-		   		    data : {
-		   		        myArray: JSON.stringify(books)
-		   		        
-		   		    },
-		   		    success : function(data) {
-		   		    	console.log("in");
-		   		    	location.pathname = "${pageContext.request.contextPath}/patron/"+data; 
+		    	 	location.pathname = "${pageContext.request.contextPath}/patron/"+data+"/${user.sjsuId}"; 
 		   		    }
-		   	});  */
-		    }
+		   	  
+		    
 	});
 }
 </script>
@@ -228,7 +217,7 @@ function checkout()
           <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
           		<li class="divider" id="line"></li>
-              	<li><a class="text-center" id="checkout" onclick="checkout()" href="">CheckOut</a></li>
+              	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>
           </ul>
         </li>
     </ul>
