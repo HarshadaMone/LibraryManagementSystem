@@ -18,14 +18,9 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value="/signUpAsLibrarian",produces={"text/html"})
+	@RequestMapping(method=RequestMethod.GET,value="/signUpUser",produces={"text/html"})
 	public String getSignUpAsLibrarianView(){
-		return "signUpLibrarian";
-	}
-	
-	@RequestMapping(method=RequestMethod.GET,value="/signUpAsPatron",produces={"text/html"})
-	public String getSignUpAsPatronView(){
-		return "signUpPatron";
+		return "signUpUser";
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/loginLibrarian",produces={"text/html"})
