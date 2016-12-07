@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.project.dao;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.List;
 
@@ -10,5 +11,6 @@ public interface CheckoutDao {
 
 	public void createcheckout(Checkout checkout);
 	public List<Book> getbooks(int userid);
+	public int getbooksday(int userid);
 	public List<Date> getdates(int userid);
 }

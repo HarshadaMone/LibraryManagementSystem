@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.project.service;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.List;
 
@@ -11,5 +12,6 @@ public interface CheckoutService {
 	public void createcheckout(Checkout checkout);
 	public List<Book> getbooks(int userid);
 	public List<Date> getdates(int userid);
+	public int getbooksday(int userid);
 	
 }

@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.project.service;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.List;
 
@@ -38,6 +39,12 @@ public class CheckoutServiceImpl implements CheckoutService {
 	public List<Date> getdates(int userid) {
 		List<Date> dates=checkoutDao.getdates(userid);
 		return dates;
+	}
+
+
+	public int getbooksday(int userid) {
+		// TODO Auto-generated method stub
+		return checkoutDao.getbooksday(userid);
 	}
 
 }

@@ -186,12 +186,24 @@ public class PatronController {
 				java.sql.Date now = new Date(cal.getTimeInMillis());
 				cal.add(Calendar.DATE, 30);
 				Date returndate=new Date(cal.getTimeInMillis());
+				List<Book> cbooks=new ArrayList<Book>();
+				cbooks=checkoutService.getbooks(sjsuId);
+				int num=checkoutService.getbooksday(sjsuId);
+				System.out.println("a"+num);
+				if(cbooks.size()>=10)
+				{
+					return "limit";
+				}
+				
+				else{
+					
 				for (int i = 0; i < data1.getBooks().size(); i++) {
 					Book book=bookService.getBook(data1.getBooks().get(i).getId());
 					Checkout checkout=new Checkout(returndate, now, 0);
 					checkout.setBook(book);
 					checkout.setUser(user);
 					checkoutService.createcheckout(checkout);
+				}
 				}
 				//List<Books> book=data.getBooks();
 				System.out.println("ajay");
