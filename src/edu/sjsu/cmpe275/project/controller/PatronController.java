@@ -140,7 +140,28 @@ public class PatronController {
 	
 		}
 	}
+	@RequestMapping(method=RequestMethod.GET,value="/login/{email}/",produces={"text/html"})
+	public String getPatronHome(@PathVariable String email,
+			Model model,HttpServletResponse res) throws SQLException{
+		System.out.println("email :"+email);
+		User user = userService.getUser(email);
+		if(user==null){
+			System.out.println("no user");
+			res.setStatus(404);
+			model.addAttribute("id",email);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		else{
+				System.out.println("true");
+				List<Book> books=bookService.getBooks();
+				model.addAttribute("user", user);
+				model.addAttribute("books", books);
+				return "patron";
+		}
 	
+		
+	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/checkout/{sjsuId}",produces={"text/html"})
 	public String checkout(@RequestParam(value="myArray") String books,
