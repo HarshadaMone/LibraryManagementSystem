@@ -3,7 +3,9 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 
+import java.io.StringReader;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -21,10 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.sjsu.cmpe275.project.SendEmail;
 import edu.sjsu.cmpe275.project.model.Book;
+import edu.sjsu.cmpe275.project.model.Books;
+import edu.sjsu.cmpe275.project.model.Checkout;
+import edu.sjsu.cmpe275.project.model.Data;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
 import edu.sjsu.cmpe275.project.service.UserService;
-
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 @Controller
 @RequestMapping("/patron")
@@ -129,6 +135,33 @@ public class PatronController {
 		}
 	
 		}
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.POST,value="/checkout",produces={"text/html"})
+	public String checkout(@RequestParam(value="myArray") String books,
+			@RequestParam(value="sjsuId") int sjsuId,
+			Model model,HttpServletResponse res) throws SQLException{
+				res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
+				res.addHeader( "Access-Control-Allow-Origin", "*" );
+				Gson gson=new Gson();
+				System.out.println(books);
+				books="{books:"+books+"}";
+				JsonReader reader = new JsonReader(new StringReader(books));
+				reader.setLenient(true);
+				Data data1=new Gson().fromJson(reader, Data.class);
+				//System.out.println(data.getId());
+				System.out.println(data1.getBooks());
+				System.out.println(data1.getBooks().get(0).getId());
+				java.util.Date uDate = new java.util.Date();
+				
+				for (int i = 0; i < data1.getBooks().size(); i++) {
+					Checkout checkout=new Checkout(returnDate, date, fine)
+				}
+				//List<Books> book=data.getBooks();
+				//System.out.println(result.get(0));
+				return null;
+		
 	}
 
 
