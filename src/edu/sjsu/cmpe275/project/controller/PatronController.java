@@ -6,6 +6,7 @@ package edu.sjsu.cmpe275.project.controller;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -164,6 +165,7 @@ public class PatronController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/checkout/{sjsuId}",produces={"text/html"})
+	@ResponseBody
 	public String checkout(@RequestParam(value="myArray") String books,
 			@PathVariable int sjsuId,
 			Model model,HttpServletResponse res) throws SQLException{
@@ -193,7 +195,28 @@ public class PatronController {
 				}
 				//List<Books> book=data.getBooks();
 				System.out.println("ajay");
-				return null;
+				return "checkoutpage";
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.GET,value="/checkoutpage/{sjsuId}",produces={"text/html"})
+	public String checkoutpage(@PathVariable int sjsuId,Model model,HttpServletResponse res) throws SQLException{
+		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
+		res.addHeader( "Access-Control-Allow-Origin", "*" );
+		User user=userService.getUser(sjsuId);
+		List<Book> books=checkoutService.getbooks(sjsuId);
+		List<Date> rd=new ArrayList<Date>();
+		model.addAttribute("books", books);
+		model.addAttribute("user", user);
+		System.out.println(books.get(0).getBookId());
+		
+		rd=checkoutService.getdates(sjsuId);
+		System.out.println(rd.get(0));
+		model.addAttribute("rd", rd);
+		return "checkoutpage";
+		
+		
+	//	return null;
 		
 	}
 

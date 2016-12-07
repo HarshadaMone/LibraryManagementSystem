@@ -171,6 +171,7 @@ function add(image,title,bookid,id)
 
 function checkout()
 {
+	
 	console.log("in");
 	$.ajax({
 		 type : "POST",
@@ -178,12 +179,14 @@ function checkout()
 		    datatype: 'json',
 		    data : {
 		        myArray: JSON.stringify(books)
-		        
-		    },
+		        },
 		    success : function(data) {
-		    	console.log("in");
-		       // do something ... 
-		    }
+		    	console.log("in"+data);
+		    	
+		    	 	location.pathname = "${pageContext.request.contextPath}/patron/"+data+"/${user.sjsuId}"; 
+		   		    }
+		   	  
+		    
 	});
 }
 function changeMethod(action_name) {		
@@ -201,7 +204,12 @@ function changeMethod(action_name) {
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
+<<<<<<< HEAD
       <li class="active"><a onclick="changeMethod('')">Home</a></li> 
+=======
+      <li class="active"><a href="#">Home</a></li>
+      <li ><a href="#">Return Book</a></li> 
+>>>>>>> ajay
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
@@ -218,7 +226,7 @@ function changeMethod(action_name) {
           <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
           		<li class="divider" id="line"></li>
-              	<li><a class="text-center" id="checkout" onclick="checkout()" href="">CheckOut</a></li>
+              	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>
           </ul>
         </li>
     </ul>
