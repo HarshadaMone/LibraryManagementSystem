@@ -179,25 +179,18 @@ function checkout()
 		    datatype: 'json',
 		    data : {
 		        myArray: JSON.stringify(books)
-		        
-		    },
+		        },
 		    success : function(data) {
 		    	console.log("in"+data);
-		    	
-		    	/* $.ajax({
-		   		 type : "POST",
-		   		    url : "${pageContext.request.contextPath}/patron/checkoutpage/${user.sjsuId}",
-		   		    datatype: 'json',
-		   		    data : {
-		   		        myArray: JSON.stringify(books)
-		   		        
-		   		    },
-		   		    success : function(data) {
-		   		    	console.log("in");
-		   		    	location.pathname = "${pageContext.request.contextPath}/patron/"+data; 
+		    	if(data=="limit")
+		    		{
+		    			alert("cant checkout more than 10 books");
+		    		}
+		    	else{
+		    	 	location.pathname = "${pageContext.request.contextPath}/patron/"+data+"/${user.sjsuId}"; 
 		   		    }
-		   	});  */
 		    }
+		    
 	});
 }
 function changeMethod(action_name) {		
@@ -216,10 +209,16 @@ function changeMethod(action_name) {
     </div>
     <ul class="nav navbar-nav">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <li class="active"><a href="#">Home</a></li>
       <li ><a href="#">Return Book</a></li> 
 =======
       <li class="active"><a onclick="changeMethod('')">Home</a></li> 
+>>>>>>> sid2
+=======
+
+      <li class="active"><a onclick="changeMethod('')">Home</a></li> 
+      <li><a href="#">Return Book</a></li> 
 >>>>>>> sid2
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
@@ -237,7 +236,7 @@ function changeMethod(action_name) {
           <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
           		<li class="divider" id="line"></li>
-              	<li><a class="text-center" id="checkout" onclick="checkout()" href="">CheckOut</a></li>
+              	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>
           </ul>
         </li>
     </ul>

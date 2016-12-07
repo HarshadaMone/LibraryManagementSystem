@@ -6,6 +6,7 @@ package edu.sjsu.cmpe275.project.controller;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -164,6 +165,7 @@ public class PatronController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/checkout/{sjsuId}",produces={"text/html"})
+	@ResponseBody
 	public String checkout(@RequestParam(value="myArray") String books,
 			@PathVariable int sjsuId,
 			Model model,HttpServletResponse res) throws SQLException{
@@ -184,6 +186,17 @@ public class PatronController {
 				java.sql.Date now = new Date(cal.getTimeInMillis());
 				cal.add(Calendar.DATE, 30);
 				Date returndate=new Date(cal.getTimeInMillis());
+				List<Book> cbooks=new ArrayList<Book>();
+				cbooks=checkoutService.getbooks(sjsuId);
+				int num=checkoutService.getbooksday(sjsuId);
+				System.out.println("a"+num);
+				if(cbooks.size()>=10)
+				{
+					return "limit";
+				}
+				
+				else{
+					
 				for (int i = 0; i < data1.getBooks().size(); i++) {
 					Book book=bookService.getBook(data1.getBooks().get(i).getId());
 					Checkout checkout=new Checkout(returndate, now, 0);
@@ -191,37 +204,28 @@ public class PatronController {
 					checkout.setUser(user);
 					checkoutService.createcheckout(checkout);
 				}
+				}
 				//List<Books> book=data.getBooks();
 				System.out.println("ajay");
 				return "checkoutpage";
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/checkoutpage/{sjsuId}",produces={"text/html"})
-	public String checkoutpage(@RequestParam(value="myArray") String books,
-			@PathVariable int sjsuId,
-			Model model,HttpServletResponse res) throws SQLException{
+	@RequestMapping(method=RequestMethod.GET,value="/checkoutpage/{sjsuId}",produces={"text/html"})
+	public String checkoutpage(@PathVariable int sjsuId,Model model,HttpServletResponse res) throws SQLException{
 		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
 		res.addHeader( "Access-Control-Allow-Origin", "*" );
-		Gson gson=new Gson();
-		System.out.println(books);
-		books="{books:"+books+"}";
-		JsonReader reader = new JsonReader(new StringReader(books));
-		reader.setLenient(true);
-		Data data1=new Gson().fromJson(reader, Data.class);
-		//System.out.println(data.getId());
-		System.out.println(data1.getBooks());
-		System.out.println(data1.getBooks().get(0).getId());
 		User user=userService.getUser(sjsuId);
-		java.util.Calendar cal=java.util.Calendar.getInstance();
-		model.addAttribute("cdate", cal.getTime());
-		java.sql.Date now = new Date(cal.getTimeInMillis());
-		cal.add(Calendar.DATE, 30);
-		Date returndate=new Date(cal.getTimeInMillis());
+		List<Book> books=checkoutService.getbooks(sjsuId);
+		List<Date> rd=new ArrayList<Date>();
+		model.addAttribute("books", books);
 		model.addAttribute("user", user);
-		model.addAttribute("books",data1.getBooks() );
-		model.addAttribute("rdate", cal.getTime());
-		return "checkout";
+		System.out.println(books.get(0).getBookId());
+		
+		rd=checkoutService.getdates(sjsuId);
+		System.out.println(rd.get(0));
+		model.addAttribute("rd", rd);
+		return "checkoutpage";
 		
 		
 	//	return null;
