@@ -32,6 +32,10 @@ public class User {
 	private List<Book> books;
 	@Column(name="STATUS")
     private String status;
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
+	private List<Checkout> checkouts;
+	
 
 	public User() {
 		super();
@@ -46,6 +50,12 @@ public class User {
 		this.password = password;
 		this.role = role;
 		this.status = status;
+	}
+	public List<Checkout> getCheckouts() {
+		return checkouts;
+	}
+	public void setCheckouts(List<Checkout> checkouts) {
+		this.checkouts = checkouts;
 	}
 	public int getSjsuId() {
 		return sjsuId;
