@@ -128,7 +128,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("date", new java.sql.Date(System.currentTimeMillis()));
 			
 				List l=query.list();
-			 a=(Integer) l.get(0);
+			 a=(int) l.get(0);
 			tx.commit();
 		}catch(HibernateException e){
 			tx.rollback();
