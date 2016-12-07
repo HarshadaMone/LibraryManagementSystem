@@ -182,7 +182,7 @@ function checkout()
 		        
 		    },
 		    success : function(data) {
-		    	console.log("in"+);
+		    	console.log("in"+data);
 		    	
 		    	/* $.ajax({
 		   		 type : "POST",
