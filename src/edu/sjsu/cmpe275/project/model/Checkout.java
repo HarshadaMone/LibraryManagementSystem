@@ -102,6 +102,14 @@ public class Checkout {
 		return book;
 	}
 
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
 	public void setBook(Book book) {
 		this.book = book;
 	}

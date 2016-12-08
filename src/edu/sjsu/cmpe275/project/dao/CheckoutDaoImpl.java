@@ -31,6 +31,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try{
+			checkout.setFlag("false");
 			System.out.println("here");
 			session.saveOrUpdate(checkout);
 			tx.commit();
@@ -76,6 +77,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			checkouts.addAll(user.getCheckouts());
 			for(int i=0;i<checkouts.size();i++)
 			{
+				if(checkouts.get(i).getFlag().equals("false"))
 				books.add(checkouts.get(i).getBook());
 			}
 			tx.commit();
@@ -171,10 +173,11 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		List<Checkout> ll=new ArrayList<Checkout>();
 		try{
 			System.out.println(userid);
-			String hql = "Select * FROM CHECKOUT where SJSU_ID= :sjsu_id";
+			String hql = "Select * FROM CHECKOUT where SJSU_ID= :sjsu_id and RETURNFLAG=:returnflag";
 			SQLQuery query= session.createSQLQuery(hql);
 			
 			query.setParameter("sjsu_id", userid);
+			query.setParameter("returnflag", "false");
 			query.addEntity(Checkout.class);
 			List l=query.list();
 			for(Iterator i=l.iterator();i.hasNext();)

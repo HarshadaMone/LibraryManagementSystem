@@ -248,7 +248,7 @@ public class PatronController {
 		List<Date> rd=new ArrayList<Date>();
 		model.addAttribute("books", books);
 		model.addAttribute("user", user);
-		System.out.println(books.get(0).getBookId());
+		//System.out.println(books.get(0).getBookId());
 		
 		rd=checkoutService.getdates(sjsuId);
 		System.out.println(rd.get(0));
@@ -269,7 +269,7 @@ public class PatronController {
 		List<Date> rd=new ArrayList<Date>();
 		model.addAttribute("books", books);
 		model.addAttribute("user", user);
-		System.out.println(books.get(0).getBookId());
+		//System.out.println(books.get(0).getBookId());
 		
 		rd=checkoutService.getdates(sjsuId);
 		System.out.println(rd.get(0));
