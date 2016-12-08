@@ -46,5 +46,19 @@ public class CheckoutServiceImpl implements CheckoutService {
 		// TODO Auto-generated method stub
 		return checkoutDao.getbooksday(userid);
 	}
+	
+	public List<Checkout> getcheckout(int userid)
+	{
+		return checkoutDao.getcheckout(userid);
+	}
+
+
+
+	
+	public void returnbook(int userid, int bookid) {
+		// TODO Auto-generated method stub
+		checkoutDao.returnbook(userid, bookid);
+		
+	}
 
 }

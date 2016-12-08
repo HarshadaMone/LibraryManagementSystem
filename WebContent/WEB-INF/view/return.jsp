@@ -15,7 +15,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-<title>Patron Profile</title>
+<title>Book Return</title>
 
 <script type="text/javascript">
 var line;
@@ -31,15 +31,12 @@ $(document).ready(function(){
 	 co.parentNode.removeChild(co);
 })
 var i=0;
-
 function changeAction() {
-	document.searchForm.action = "${pageContext.request.contextPath}/book/patron/doSearch";
+	document.searchForm.action = "${pageContext.request.contextPath}/book/returned/{sjsuId}";
 	document.forms["searchForm"].submit();	
 }
-function getBook(bookId) {
-	location.pathname = "${pageContext.request.contextPath}/book/getBook/"+bookId;
-}
-function add(image,title,bookid,id)
+
+function returnBook(image,title,bookid,id)
 {
 	id=id;
 	console.log(bookid);
@@ -112,9 +109,9 @@ function add(image,title,bookid,id)
 						}
 				}
 		}
-	else if(books.length>=5)
+	else if(books.length>=10)
 		{
-		alert("Can Only add 5 books at a time");
+		alert("Can Only add 10 books at a time");
 		}
 	else
 		{
@@ -166,33 +163,28 @@ function add(image,title,bookid,id)
 		menu.appendChild(line);
 		menu.appendChild(co);
 		
-		}	
+		}
+ 	
+	 	
 }
 
-function checkout()
+function returnbookf()
 {
 	
 	console.log("in");
 	$.ajax({
 		 type : "POST",
-		    url : "${pageContext.request.contextPath}/patron/checkout/${user.sjsuId}",
+		    url : "${pageContext.request.contextPath}/patron/returnbook/${user.sjsuId}",
 		    datatype: 'json',
 		    data : {
 		        myArray: JSON.stringify(books)
 		        },
 		    success : function(data) {
 		    	console.log("in"+data);
-		    	if(data=="limit")
-		    		{
-		    			alert("cant checkout more than 10 books");
-		    		}
-		    	else if(data=="day limit")
-		    		{
-		    			alert("cant checkout more than 5 books in a day");
-		    		}
-		    	else{
+		    	
+		    	
 		    	 	location.pathname = "${pageContext.request.contextPath}/patron/"+data+"/${user.sjsuId}"; 
-		   		    }
+		   		
 		    }
 		    
 	});
@@ -207,37 +199,33 @@ function checkout()
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li ><a href="${pageContext.request.contextPath}/patron/return/${user.sjsuId}">Return Book</a></li> 
+      <li class="active"><a href="#">Home</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search" id="search" name="search">
       </div>
-          <ul class="nav navbar-nav navbar-right">
-      <li class="active"><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
-    </ul>
-      <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
+      <button type="button" onclick="changeAction()" class="btn btn-default"></button>
     </form>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
-      <li class="dropdown">
+     <li class="dropdown">
           <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
           		<li class="divider" id="line"></li>
-              	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>
+              	<li><a class="text-center" id="checkout" onclick="returnbookf()" >CheckOut</a></li>
           </ul>
         </li>
     </ul>
   </div>
 </nav>
-<h1> Available Books</h1><br>
+<h1> Checked Out Books</h1><br>
 
 	<c:forEach items="${books}" var="current">	
 			<div class="col-sm-4">
 				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
 				<br>${current.author}
-				<br><button type="button" id="add${current.bookId}" onclick="event.preventDefault();add('${current.image}','${current.title}','${current.bookId}','${user.sjsuId}')" class="btn btn-default">Add to Cart</button>
+				<br><button type="button" onclick="returnBook('${current.image}','${current.title}','${current.bookId}','${user.sjsuId}')" class="btn btn-default">Return</button>
 				</div>
 		</c:forEach>
 
