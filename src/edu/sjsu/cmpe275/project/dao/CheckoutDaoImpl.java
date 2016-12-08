@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.project.dao;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -161,6 +162,37 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		
 	}
 	
+<<<<<<< HEAD
 
+=======
+	public List<Checkout> getcheckout(int userid)
+	{
+		int j=0;
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<Checkout> ll=new ArrayList<Checkout>();
+		try{
+			System.out.println(userid);
+			String hql = "Select * FROM checkout where sjsu_id= :sjsu_id";
+			SQLQuery query= session.createSQLQuery(hql);
+			
+			query.setParameter("sjsu_id", userid);
+			query.addEntity(Checkout.class);
+			List l=query.list();
+			for(Iterator i=l.iterator();i.hasNext();)
+			{
+				ll.add((Checkout) i.next());
+			}
+			//ll=query.getNamedParameters("");
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		return ll;
+		
+	}
+>>>>>>> ajay
 
 }

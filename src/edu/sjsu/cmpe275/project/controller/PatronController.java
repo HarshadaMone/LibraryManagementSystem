@@ -209,17 +209,25 @@ public class PatronController {
 						System.out.println(data1.getBooks().get(i).getId());
 						System.out.println(c.get(j).getBook().getBookId());
 						System.out.println(sjsuId);
-						System.out.println(c.get(j).getUser().getSjsuId());
+						System.out.println(c.get(j));
 						if(data1.getBooks().get(i).getId()==c.get(j).getBook().getBookId() && sjsuId==c.get(j).getUser().getSjsuId())
 						{
 							data1.getBooks().remove(i);
+							break;
 						}
 					}
+					if(data1.getBooks().size()>0)
+					{
 					Book book=bookService.getBook(data1.getBooks().get(i).getId());
 					Checkout checkout=new Checkout(returndate, now, 0);
 					checkout.setBook(book);
 					checkout.setUser(user);
 					checkoutService.createcheckout(checkout);
+					}
+					else
+					{
+						return "checkoutpage";
+					}
 				}
 				}
 				}
