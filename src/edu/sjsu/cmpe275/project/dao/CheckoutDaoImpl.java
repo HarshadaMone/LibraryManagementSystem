@@ -171,7 +171,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		List<Checkout> ll=new ArrayList<Checkout>();
 		try{
 			System.out.println(userid);
-			String hql = "Select * FROM checkout where sjsu_id= :sjsu_id";
+			String hql = "Select * FROM CHECKOUT where SJSU_ID= :sjsu_id";
 			SQLQuery query= session.createSQLQuery(hql);
 			
 			query.setParameter("sjsu_id", userid);
