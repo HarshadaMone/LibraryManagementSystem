@@ -162,9 +162,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		
 	}
 	
-<<<<<<< HEAD
 
-=======
 	public List<Checkout> getcheckout(int userid)
 	{
 		int j=0;
@@ -193,6 +191,5 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		return ll;
 		
 	}
->>>>>>> ajay
 
 }
