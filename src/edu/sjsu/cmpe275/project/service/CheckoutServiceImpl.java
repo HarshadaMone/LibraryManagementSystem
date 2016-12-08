@@ -52,8 +52,6 @@ public class CheckoutServiceImpl implements CheckoutService {
 		return checkoutDao.getcheckout(userid);
 	}
 
-
-
 	
 	public void returnbook(int userid, int bookid) {
 		// TODO Auto-generated method stub

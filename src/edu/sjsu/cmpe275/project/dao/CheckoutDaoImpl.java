@@ -161,24 +161,6 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		
 	}
 	
-	public List<Checkout> getcheckout(int userid)
-	{
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		List<Checkout> ll=new ArrayList<Checkout>();
-		try{
-			String hql = "Select book_id,sjsu_idFROM checkout where sjsu_id= :sjsu_id";
-			Query query= session.createQuery(hql);
-			query.setParameter("sjsu_id", userid);
-			ll=query.list();
-			tx.commit();
-		}catch(HibernateException e){
-			tx.rollback();
-		}finally{
-			session.close();
-		}
-		return ll;
-		
-	}
+
 
 }
