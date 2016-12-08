@@ -13,4 +13,6 @@ public interface CheckoutDao {
 	public List<Book> getbooks(int userid);
 	public int getbooksday(int userid);
 	public List<Date> getdates(int userid);
+	public void returnbook(int userid,int bookid);
+	public List<Checkout> getcheckout(int userid);
 }

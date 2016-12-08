@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -128,7 +129,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("date", new java.sql.Date(System.currentTimeMillis()));
 			
 				List l=query.list();
-			 a=(int) l.get(0);
+			 a=Integer.parseInt(l.get(0).toString());
 			tx.commit();
 		}catch(HibernateException e){
 			tx.rollback();
@@ -137,6 +138,47 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		}
 		return a;
 	}
+
 	
+	public void returnbook(int userid, int bookid) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			String sql="UPDATE CHECKOUT SET returnFlag= :v where BOOK_ID = :bookid and SJSU_ID= :sjsuid ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("bookid", bookid);
+			query.setParameter("v", "true");
+			query.setParameter("sjsuid", userid);
+			query.executeUpdate();
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		
+		
+	}
+	
+	public List<Checkout> getcheckout(int userid)
+	{
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<Checkout> ll=new ArrayList<Checkout>();
+		try{
+			String hql = "FROM checkout where sjsu_id= :sjsu_id";
+			Query query= session.createQuery(hql);
+			query.setParameter("sjsu_id", userid);
+			ll=query.list();
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		return ll;
+		
+	}
 
 }

@@ -13,5 +13,7 @@ public interface CheckoutService {
 	public List<Book> getbooks(int userid);
 	public List<Date> getdates(int userid);
 	public int getbooksday(int userid);
+	public void returnbook(int userid,int bookid);
+	public List<Checkout> getcheckout(int userid);
 	
 }
