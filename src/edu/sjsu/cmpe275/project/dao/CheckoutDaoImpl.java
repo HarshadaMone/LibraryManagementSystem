@@ -63,6 +63,25 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			session.close();
 		}
 	}
+	
+	public void incbook(int bookid)
+	{
+		System.out.println("ajay"+bookid);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		try{
+			String sql="UPDATE BOOK SET COPIES=COPIES+1 where BOOK_ID = :bookid";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("bookid", bookid);
+			query.executeUpdate();
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+	}
 
 	
 	public List<Book> getbooks(int userid) {
@@ -155,6 +174,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("sjsuid", userid);
 			query.executeUpdate();
 			tx.commit();
+			this.incbook(bookid);
 		}catch(HibernateException e){
 			tx.rollback();
 		}finally{
