@@ -29,7 +29,8 @@ $(document).ready(function(){
 	 co=document.getElementById("checkout");
 	 line.parentNode.removeChild(line);
 	 co.parentNode.removeChild(co);
-})
+	 //var events = $._data(document.getElementById('textDiv'), "events");
+});
 var i=0;
 
 function changeAction() {
@@ -41,27 +42,31 @@ function getBook(bookId) {
 }
 function add(image,title,bookid,id)
 {
+	var book1=books;
+	var l=book1.length;
 	id=id;
 	console.log(bookid);
-	console.log(books);
+	console.log(books.length);
+	console.log("ajay");
 	var menu=document.getElementById("books");
 	console.log(menu);
-	if(books.length>0)
+	if(book1.length>0 && book1.length<5)
 		{
 			line.parentNode.removeChild(line);
 			 co.parentNode.removeChild(co);
-			for(i=0;i<books.length;i++)
+			for(i=0;i<l;i++)
 				{
-					if(books[i].id==bookid)
+				console.log(i);
+					if(book1[i].id==bookid)
 						{
-						console.log(books[i].id);
+						console.log(book1[i].id);
 						alert("Book Already in cart");
 						menu.appendChild(line);
 						menu.appendChild(co);
 						}
 					else
 						{
-						
+						console.log("in in");
 						var book={};
 						book.title=title;
 						book.id=bookid;
@@ -112,7 +117,7 @@ function add(image,title,bookid,id)
 						}
 				}
 		}
-	else if(books.length>=5)
+	else if(book1.length>=5)
 		{
 		alert("Can Only add 5 books at a time");
 		}
