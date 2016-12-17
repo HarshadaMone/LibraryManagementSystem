@@ -29,9 +29,10 @@ $(document).ready(function(){
 	 co=document.getElementById("checkout");
 	 line.parentNode.removeChild(line);
 	 co.parentNode.removeChild(co);
-})
+	 //var events = $._data(document.getElementById('textDiv'), "events");
+});
 var i=0;
-
+var a=[];
 function changeAction() {
 	document.searchForm.action = "${pageContext.request.contextPath}/book/patron/doSearch";
 	document.forms["searchForm"].submit();	
@@ -41,27 +42,37 @@ function getBook(bookId) {
 }
 function add(image,title,bookid,id)
 {
+	var book1=books;
+	var l=book1.length;
 	id=id;
 	console.log(bookid);
 	console.log(books);
+	var flag="false";
 	var menu=document.getElementById("books");
 	console.log(menu);
-	if(books.length>0)
+	console.log("Books length: "+books.length);
+	if(books.length>0 && books.length<=5)
 		{
 			line.parentNode.removeChild(line);
 			 co.parentNode.removeChild(co);
-			for(i=0;i<books.length;i++)
+/* 			for(i=0;i<books.length;i++)
+				{ */
+	for(i=0;i<books.length;i++)
 				{
-					if(books[i].id==bookid)
+		if(books[i].id==bookid)
+		{
+		
+		console.log(books[i].id);
+		alert("Book Already in cart");
+		menu.appendChild(line);
+		menu.appendChild(co);
+		flag="true";
+		}
+		
+				}
+					if(flag == "false")	
 						{
-						console.log(books[i].id);
-						alert("Book Already in cart");
-						menu.appendChild(line);
-						menu.appendChild(co);
-						}
-					else
-						{
-						
+
 						var book={};
 						book.title=title;
 						book.id=bookid;
@@ -95,11 +106,11 @@ function add(image,title,bookid,id)
 							var b=document.createElement("button");
 							b.className="btn btn-xs btn-danger pull-right";
 							b.innerHTML="x";
+							b.onclick = function() { menu.removeChild(li);books.pop(book); };
 							span4.appendChild(b);
-							span.appendChild(span4);
-							
+							span.appendChild(span4);							
 							menu.appendChild(li);
-							num.text=" "+($("#books").length)+" items";
+							num.text="Cart";
 							$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 							$("#cart").append("<span class=\"caret\"></span>");
 							line.className="divider";
@@ -109,10 +120,10 @@ function add(image,title,bookid,id)
 							menu.appendChild(line);
 							menu.appendChild(co);
 						
-						}
-				}
+					
+/* } */	}			
 		}
-	else if(books.length>=5)
+	else if(book1.length>=5)
 		{
 		alert("Can Only add 5 books at a time");
 		}
@@ -154,11 +165,12 @@ function add(image,title,bookid,id)
 		var b=document.createElement("button");
 		b.className="btn btn-xs btn-danger pull-right";
 		b.innerHTML="x";
+		b.onclick = function() { menu.removeChild(li);books.pop(book); };
 		span4.appendChild(b);
 		span.appendChild(span4);
 		
 		menu.appendChild(li);
-		num.text=" "+($("#books").length)+" items";
+		num.text="  cart";
 		$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 		$("#cart").append("<span class=\"caret\"></span>");
 		line.className="divider";
@@ -186,6 +198,10 @@ function checkout()
 		    		{
 		    			alert("cant checkout more than 10 books");
 		    		}
+		    	else if(data=="day limit")
+		    		{
+		    			alert("cant checkout more than 5 books in a day");
+		    		}
 		    	else{
 		    	 	location.pathname = "${pageContext.request.contextPath}/patron/"+data+"/${user.sjsuId}"; 
 		   		    }
@@ -208,18 +224,11 @@ function changeMethod(action_name) {
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <li class="active"><a href="#">Home</a></li>
-      <li ><a href="#">Return Book</a></li> 
-=======
-      <li class="active"><a onclick="changeMethod('')">Home</a></li> 
->>>>>>> sid2
-=======
 
-      <li class="active"><a onclick="changeMethod('')">Home</a></li> 
-      <li><a href="#">Return Book</a></li> 
->>>>>>> sid2
+
+      <li class="active"><a onclick="changeMethod('')">Home</a></li>  
+      <li ><a href="${pageContext.request.contextPath}/patron/return/${user.sjsuId}">Return Book</a></li> 
+
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
@@ -233,7 +242,7 @@ function changeMethod(action_name) {
     <ul class="nav navbar-nav navbar-right">
       <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
       <li class="dropdown">
-          <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
+          <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> Cart<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
           		<li class="divider" id="line"></li>
               	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>
