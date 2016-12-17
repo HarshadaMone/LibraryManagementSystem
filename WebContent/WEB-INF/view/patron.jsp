@@ -31,7 +31,7 @@ $(document).ready(function(){
 	 co.parentNode.removeChild(co);
 })
 var i=0;
-
+var a=[];
 function changeAction() {
 	document.searchForm.action = "${pageContext.request.contextPath}/book/patron/doSearch";
 	document.forms["searchForm"].submit();	
@@ -54,6 +54,7 @@ function add(image,title,bookid,id)
 				{
 					if(books[i].id==bookid)
 						{
+						
 						console.log(books[i].id);
 						alert("Book Already in cart");
 						menu.appendChild(line);
@@ -99,7 +100,7 @@ function add(image,title,bookid,id)
 							span.appendChild(span4);
 							
 							menu.appendChild(li);
-							num.text=" "+($("#books").length)+" items";
+							num.text="Cart";
 							$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 							$("#cart").append("<span class=\"caret\"></span>");
 							line.className="divider";
@@ -158,7 +159,7 @@ function add(image,title,bookid,id)
 		span.appendChild(span4);
 		
 		menu.appendChild(li);
-		num.text=" "+($("#books").length)+" items";
+		num.text="  cart";
 		$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 		$("#cart").append("<span class=\"caret\"></span>");
 		line.className="divider";
@@ -230,7 +231,7 @@ function changeMethod(action_name) {
     <ul class="nav navbar-nav navbar-right">
       <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
       <li class="dropdown">
-          <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
+          <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> Cart<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
           		<li class="divider" id="line"></li>
               	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>

@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.naming.factory.SendMailFactory;
@@ -104,7 +105,7 @@ public class PatronController {
 	@RequestMapping(method=RequestMethod.POST,value="/login",produces={"text/html"})
 	public String loginPatron(@RequestParam("email") String email,
 			@RequestParam("password") String password,
-			Model model,HttpServletResponse res) throws SQLException{
+			Model model,HttpServletResponse res,HttpServletRequest req) throws SQLException{
 		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
 		res.addHeader( "Access-Control-Allow-Origin", "*" );   
 		System.out.println("email :"+email);
@@ -124,6 +125,7 @@ public class PatronController {
 			if((user.getPassword()).equals(password))
 			{
 				System.out.println("true");
+				req.getSession().setAttribute("user", user);
 				List<Book> books=bookService.getBooks();
 				model.addAttribute("books", books);
 				model.addAttribute("user", user);
