@@ -55,6 +55,9 @@ public class Book {
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="book",cascade={CascadeType.ALL})
 	private List<Checkout> checkouts;
 	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="book",cascade={CascadeType.ALL})
+	private List<Waitlist> waitlist;
+	
 	public List<Checkout> getCheckouts() {
 		return checkouts;
 	}

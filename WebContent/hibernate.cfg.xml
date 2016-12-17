@@ -12,5 +12,6 @@
 		<mapping class="edu.sjsu.cmpe275.project.model.Book"/>
 		<mapping class="edu.sjsu.cmpe275.project.model.User"/>
 		<mapping class="edu.sjsu.cmpe275.project.model.Checkout"/>
+		<mapping class="edu.sjsu.cmpe275.project.model.Waitlist"/>
 	</session-factory>
 </hibernate-configuration>
