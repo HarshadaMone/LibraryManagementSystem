@@ -317,6 +317,51 @@ public class PatronController {
 		
 	}
 
-	
-
+	@RequestMapping(method=RequestMethod.POST,value="/extendBook",produces={"text/html"})
+	@ResponseBody
+	public String extendBook(@RequestParam("bookId") int bookId,
+			@RequestParam("sjsuId") int sjsuId,
+			Model model,HttpServletResponse res) throws SQLException{
+		Book book=bookService.getBook(bookId);
+		Checkout checkout = checkoutService.getCheckedOutBook(sjsuId, bookId);
+		int diffInDays = (int)( (checkout.getReturnDate().getTime() - checkout.getDate().getTime()) 
+                / (1000 * 60 * 60 * 24) );
+		System.out.println("Difference in days : "+diffInDays);
+		if(book.getCopies() > 0 && diffInDays<90)
+		{
+			  Calendar cal = Calendar.getInstance();
+			  cal.setTime(checkout.getReturnDate());
+			  cal.add(Calendar.DATE, 30);
+			  Date returndate=new Date(cal.getTimeInMillis());
+			  checkout.setReturnDate(returndate);
+			  checkoutService.updateCheckoutDate(checkout);
+			  model.addAttribute("status",200);
+		}
+		else if(diffInDays>90 ){
+			return "404";
+		}
+		else if(book.getCopies() < 0){
+			return "405";
+		}
+		return "200";
+	}
+	@RequestMapping(method=RequestMethod.GET,value="/extendReturnDate/{sjsuId}/{bookId}/{status}",produces={"text/html"})
+	public String extendReturnDate(@PathVariable("sjsuId") int sjsuId,
+			@PathVariable("bookId") int bookId,
+			@PathVariable("status") int status,
+			Model model,HttpServletResponse res) throws SQLException{
+		Book book=bookService.getBook(bookId);
+		Checkout checkout = checkoutService.getCheckedOutBook(sjsuId, bookId);
+		model.addAttribute("returnDate", checkout.getReturnDate());
+		model.addAttribute("book", book);
+		if(status == 404)
+		{
+			return "extensionError1";
+		}
+		if(status == 405)
+		{
+			return "extensionError";
+		}
+		return "extend";
+	}
 }

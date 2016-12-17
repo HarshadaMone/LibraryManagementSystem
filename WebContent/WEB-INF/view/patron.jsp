@@ -46,7 +46,6 @@ function add(image,title,bookid,id)
 	var l=book1.length;
 	id=id;
 	console.log(bookid);
-<<<<<<< HEAD
 	console.log(books);
 	var flag="false";
 	var menu=document.getElementById("books");
@@ -73,29 +72,7 @@ function add(image,title,bookid,id)
 				}
 					if(flag == "false")	
 						{
-=======
-	console.log(books.length);
-	console.log("ajay");
-	var menu=document.getElementById("books");
-	console.log(menu);
-	if(book1.length>0 && book1.length<5)
-		{
-			line.parentNode.removeChild(line);
-			 co.parentNode.removeChild(co);
-			for(i=0;i<l;i++)
-				{
-				console.log(i);
-					if(book1[i].id==bookid)
-						{
-						console.log(book1[i].id);
-						alert("Book Already in cart");
-						menu.appendChild(line);
-						menu.appendChild(co);
-						}
-					else
-						{
-						console.log("in in");
->>>>>>> ajay
+
 						var book={};
 						book.title=title;
 						book.id=bookid;
