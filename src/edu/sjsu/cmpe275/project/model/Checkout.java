@@ -31,6 +31,9 @@ public class Checkout {
 	@Column(name="fine")
     private int fine;
 	
+	@Column(name="returnFlag")
+    private String flag;
+	
 	@ManyToOne
 	@JoinColumn(name="SJSU_ID")
 	private User user ;
@@ -38,6 +41,8 @@ public class Checkout {
 	@ManyToOne
 	@JoinColumn(name="BOOK_ID")
 	private Book book;
+	
+	
 	
 	public Checkout()
 	{
@@ -95,6 +100,14 @@ public class Checkout {
 
 	public Book getBook() {
 		return book;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
 	public void setBook(Book book) {

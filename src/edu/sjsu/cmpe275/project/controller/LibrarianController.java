@@ -6,8 +6,10 @@ package edu.sjsu.cmpe275.project.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +52,7 @@ public class LibrarianController {
 	public String loginLibrarian(
 		@RequestParam("email") String email,
 		@RequestParam("password") String password,
-		Model model,HttpServletResponse res) throws SQLException{
+		Model model,HttpServletResponse res,HttpServletRequest req) throws SQLException{
 		System.out.println("email :"+email);
 		User user = userService.getUser(email);
 		if(user==null || user.getRole().equals("patron")){
@@ -67,6 +69,7 @@ public class LibrarianController {
 			else{
 				if((user.getPassword()).equals(password)){	
 					System.out.println("true");
+					req.getSession().setAttribute("user", user);
 					List<Book> books=userService.getBooks(user.getSjsuId());
 					model.addAttribute("user", user);
 					model.addAttribute("books", books);

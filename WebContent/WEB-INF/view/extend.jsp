@@ -15,24 +15,19 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-<title>Patron Profile</title>
+<title>Book Return</title>
 
 <script type="text/javascript">
-	function changeAction() {
-			document.searchForm.action = "${pageContext.request.contextPath}/book/doSearch";
-			document.forms["searchForm"].submit();	
-	}
-	function newBook(sjsuId) {
-				location.pathname = "${pageContext.request.contextPath}/book/createBookView/${user.sjsuId}";
-	}
-	function getBook(bookId) {
-		location.pathname = "${pageContext.request.contextPath}/book/getBook/"+bookId;
+function changeAction() {
+	document.searchForm.action = "${pageContext.request.contextPath}/book/returned/{sjsuId}";
+	document.forms["searchForm"].submit();	
 }
-	function changeMethod(action_name) {		
-		if (action_name == "") {
-			location.pathname = "${pageContext.request.contextPath}/librarian/login/${user.email}/";			
-		}		
-	}
+
+function changeMethod(action_name) {		
+	if (action_name == "") {
+		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
+	}		
+}
 </script>
 
 </head>
@@ -45,33 +40,26 @@
     <ul class="nav navbar-nav">
       <li class="active"><a onclick="changeMethod('')">Home</a></li> 
     </ul>
-    <ul class="nav navbar-nav">
-      <li class="active"><a onclick="newBook('${user.sjsuId}')">Add New Book</a></li> 
-    </ul>
-        <ul class="nav navbar-nav navbar-right">
-      <li class="active"><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
-    </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search" id="search" name="search">
       </div>
-      <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
+      <button type="button" onclick="changeAction()" class="btn btn-default"></button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${sessionScope.user.firstName}</a></li>
-      
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${sessionScope.user.firstName }</a></li>
+       <li class="active"><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
     </ul>
   </div>
 </nav>
-<h1>Search Results</h1><br>
+<h1> Return Date Extended</h1><br>
 
-	<c:forEach items="${books}" var="current">	
+
 			<div class="col-sm-4">
-				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
-				<br>${current.author}
-				<br><a onclick="getBook('${current.bookId}')">${current.bookId}</a>
-			</div>
-		</c:forEach>
+				<img src="data:image/jpeg;base64,${book.image}" alt="" width="200" height="200" />
+				<br>${book.author}
+				<br>Updated Return Date: ${returnDate}<br>
+				</div>
 
 </body>
 </html>

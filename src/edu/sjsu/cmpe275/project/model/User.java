@@ -36,6 +36,9 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
 	private List<Checkout> checkouts;
 	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
+	private List<Waitlist> waitlist;
+	
 
 	public User() {
 		super();
