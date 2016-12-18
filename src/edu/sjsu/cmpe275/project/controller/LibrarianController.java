@@ -148,7 +148,7 @@ public class LibrarianController {
 	   Model model,HttpServletRequest req) 
 	   {
 	      System.out.println("Current date is : "+date);
-	      SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	      SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 	        String dateInString = date;
 	        List<Checkout> checkouts=new ArrayList<Checkout>();
 	        try {
