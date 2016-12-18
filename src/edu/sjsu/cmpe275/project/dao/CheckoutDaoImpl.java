@@ -261,5 +261,44 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		return checkout;
 		
 	}
+	public List<Checkout> getCheckouts() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
 
+		List<Checkout> ll=new ArrayList<Checkout>();
+		try{
+			SQLQuery query = session.createSQLQuery("SELECT * from CHECKOUT where RETURNFLAG=:returnflag");
+			query.setParameter("returnflag", "false");
+			query.addEntity(Checkout.class);
+			List l=query.list();
+			for(Iterator i=l.iterator();i.hasNext();)
+			{
+				ll.add((Checkout) i.next());
+			}
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return ll;
+	}
+	public void updateFine(Checkout checkout) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			checkout.setFlag("false");
+			System.out.println("here");
+			session.update(checkout);
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+			SendCheckoutEmail.checkoutFine(checkout.getUser(),checkout.getBook(),checkout);
+		}
+	}
 }

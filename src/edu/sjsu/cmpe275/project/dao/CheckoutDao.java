@@ -18,4 +18,6 @@ public interface CheckoutDao {
 	public List<Checkout> getcheckout(int userid);
 	public Checkout getCheckedOutBook(int userId,int bookId);
 	public void updateCheckoutDate(Checkout checkout);
+	public List<Checkout> getCheckouts();
+	public void updateFine(Checkout checkout);
 }

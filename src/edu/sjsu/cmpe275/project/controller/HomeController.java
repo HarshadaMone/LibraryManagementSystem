@@ -5,6 +5,8 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 
+import java.sql.Date;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +34,5 @@ public class HomeController {
 	public String getLoginPatronView(){
 		return "loginPatron";
 	}
-
-
+	
 }

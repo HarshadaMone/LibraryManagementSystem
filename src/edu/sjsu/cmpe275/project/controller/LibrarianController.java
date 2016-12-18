@@ -3,7 +3,11 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 
+import java.util.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.sjsu.cmpe275.project.SendCheckoutEmail;
 import edu.sjsu.cmpe275.project.model.Book;
+import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
+import edu.sjsu.cmpe275.project.service.CheckoutService;
 import edu.sjsu.cmpe275.project.service.UserService;
 
 
@@ -29,6 +36,8 @@ import edu.sjsu.cmpe275.project.service.UserService;
 public class LibrarianController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CheckoutService checkoutService;
 	
 	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
@@ -134,6 +143,41 @@ public class LibrarianController {
 		return "user";
 		
 	}
-
+	 @RequestMapping(value = "/changeDate", method = RequestMethod.POST)
+	   public String changeDate(
+			   @RequestParam("datepicker") String date,
+	   Model model,HttpServletRequest req) 
+	   {
+	      System.out.println("Current date is : "+date);
+	      SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+	        String dateInString = date;
+	        List<Checkout> checkouts=new ArrayList<Checkout>();
+	        try {
+	            Date date1 = (Date) formatter.parse(dateInString);
+	            System.out.println(date1); 
+	            checkouts=checkoutService.getCheckouts();
+	            for(Checkout checkout : checkouts)
+	            {
+	            	int diffInDays = (int)( (date1.getTime() - checkout.getReturnDate().getTime()) 
+	                        / (1000 * 60 * 60 * 24) );
+	            	if(diffInDays >0)
+	            	{
+	            		checkout.setFine(diffInDays);
+	            		checkoutService.updateFine(checkout);
+	            	}
+	            	if(diffInDays >= -5 && diffInDays < 0)
+	            	{
+	            		SendCheckoutEmail.returnReminder(checkout.getUser(),checkout.getBook(),checkout,diffInDays);
+	            	}
+	            }
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+	      User user=(User) req.getSession().getAttribute("user");
+	      List<Book> books=userService.getBooks(user.getSjsuId());
+	      model.addAttribute("user", user);
+	      model.addAttribute("books", books);
+		  return "librarian";
+	   }
 
 }

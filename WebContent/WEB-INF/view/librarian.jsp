@@ -13,7 +13,15 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#datepicker").datepicker();
+    $('#datepicker').datepicker('setDate', 'today');
+  });
+  </script>
 
 <title>Patron Profile</title>
 
@@ -33,6 +41,10 @@
 			location.pathname = "${pageContext.request.contextPath}/librarian/login/${user.email}/";			
 		}		
 	}
+	function changeDate() {
+		document.dateForm.action = "${pageContext.request.contextPath}/librarian/changeDate";
+		document.forms["dateForm"].submit();	
+}
 </script>
 
 </head>
@@ -47,6 +59,14 @@
     </ul>
     <ul class="nav navbar-nav">
       <li ><a onclick="newBook('${user.sjsuId}')">Add New Book</a></li> 
+    </ul>
+      <ul class="nav navbar-nav navbar-right">
+    <li class="active">
+    <form name="dateForm" method="post">
+    <input id="datepicker" name="datepicker" value=""/>
+    <button type="button" onclick="changeDate()" class="btn btn-default">Set Date</button>
+	</form> 
+     </li> 
     </ul>
         <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="${pageContext.request.contextPath}/">Log Out</a></li> 
