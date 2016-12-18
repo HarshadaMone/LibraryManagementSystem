@@ -67,4 +67,12 @@ public class CheckoutServiceImpl implements CheckoutService {
 	{
 		checkoutDao.updateCheckoutDate(checkout);
 	}
+	public List<Checkout> getCheckouts()
+	{
+		return checkoutDao.getCheckouts();
+	}
+	public void updateFine(Checkout checkout)
+	{
+		checkoutDao.updateFine(checkout);
+	}
 }
