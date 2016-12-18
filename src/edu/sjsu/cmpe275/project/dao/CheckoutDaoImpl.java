@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +44,23 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			session.close();
 			SendCheckoutEmail.sendEmail(checkout.getUser().getEmail(),checkout.getBook());
 			decbook(checkout.getBook().getBookId());
+		}
+	}
+	public void updateCheckoutDate(Checkout checkout) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			checkout.setFlag("false");
+			System.out.println("here");
+			session.update(checkout);
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+			SendCheckoutEmail.checkoutDateUpdated(checkout.getUser(),checkout.getBook(),checkout);
 		}
 	}
 	
@@ -214,5 +233,72 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		return ll;
 		
 	}
+	public Checkout getCheckedOutBook(int sjsuId,int bookId)
+	{
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Checkout checkout=new Checkout();
+		List<Checkout> ll=new ArrayList<Checkout>();
+		try{
+			SQLQuery query = session.createSQLQuery("SELECT * from CHECKOUT where SJSU_ID= :sjsu_id and RETURNFLAG=:returnflag and BOOK_ID= :book_id");
+			query.setParameter("sjsu_id", sjsuId);
+			query.setParameter("returnflag", "false");
+			query.setParameter("book_id", bookId);
+			query.addEntity(Checkout.class);
+			List l=query.list();
+			for(Iterator i=l.iterator();i.hasNext();)
+			{
+				ll.add((Checkout) i.next());
+			}
+			checkout=ll.get(0);
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return checkout;
+		
+	}
+	public List<Checkout> getCheckouts() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
 
+		List<Checkout> ll=new ArrayList<Checkout>();
+		try{
+			SQLQuery query = session.createSQLQuery("SELECT * from CHECKOUT where RETURNFLAG=:returnflag");
+			query.setParameter("returnflag", "false");
+			query.addEntity(Checkout.class);
+			List l=query.list();
+			for(Iterator i=l.iterator();i.hasNext();)
+			{
+				ll.add((Checkout) i.next());
+			}
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return ll;
+	}
+	public void updateFine(Checkout checkout) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			checkout.setFlag("false");
+			System.out.println("here");
+			session.update(checkout);
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+			SendCheckoutEmail.checkoutFine(checkout.getUser(),checkout.getBook(),checkout);
+		}
+	}
 }

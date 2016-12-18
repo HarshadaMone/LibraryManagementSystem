@@ -13,22 +13,33 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 <title>Welcome</title>
 <style type="text/css">
 .phone-input{
 	margin-bottom:8px;
 }
+
 </style>
+
 </head>
 <body style="
     background-color: rgb(12, 12, 12);
-    color: white;">
+    color: #35a54f;">
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Sjsu Library</a>
+    </div>
+  </div>
+
+</nav>
     <div class="jumbotron text-center">
     <h1 align="center" style="color:black;">Welcome to SJSU Library System</h1><br><br><br>
     </div>
 <div class="container">
-	<div class="row">
+
+ 	<div class="row">
 	<div class="col-md-4 text-center"> 
 		<a href="${pageContext.request.contextPath}/signUpUser"><button type="button" class="btn btn-success ">User Sign Up</button></a>
 	</div></div><br>

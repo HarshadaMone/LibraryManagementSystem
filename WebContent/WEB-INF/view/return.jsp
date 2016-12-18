@@ -189,6 +189,25 @@ function returnbookf()
 		    
 	});
 }
+function extendBook(bookId,sjsuId)
+{
+	
+	console.log("in");
+	$.ajax({
+		 type : "POST",
+		    url : "${pageContext.request.contextPath}/patron/extendBook/",
+		    datatype: 'json',
+		    data : {
+		        bookId: bookId,
+		        sjsuId: sjsuId
+		        },
+		    success : function(data) {
+		    	console.log("in"+data);
+		    	location.pathname = "${pageContext.request.contextPath}/patron/extendReturnDate/"+sjsuId+"/"+bookId+"/"+data;  
+		    }
+		    
+	});
+}
 function changeMethod(action_name) {		
 	if (action_name == "") {
 		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
@@ -230,7 +249,9 @@ function changeMethod(action_name) {
 			<div class="col-sm-4">
 				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
 				<br>${current.author}
+				<br>
 				<br><button type="button" onclick="returnBook('${current.image}','${current.title}','${current.bookId}','${user.sjsuId}')" class="btn btn-default">Return</button>
+				<br><button type="button" onclick="extendBook('${current.bookId}','${user.sjsuId}')" class="btn btn-default">Extend</button>
 				</div>
 		</c:forEach>
 

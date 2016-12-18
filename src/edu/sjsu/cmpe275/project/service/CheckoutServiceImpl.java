@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.sjsu.cmpe275.project.dao.CheckoutDao;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
+import edu.sjsu.cmpe275.project.model.User;
 
 @Service
 @Transactional
@@ -58,5 +59,20 @@ public class CheckoutServiceImpl implements CheckoutService {
 		checkoutDao.returnbook(userid, bookid);
 		
 	}
-
+	public Checkout getCheckedOutBook(int userId,int bookId)
+	{
+		return checkoutDao.getCheckedOutBook(userId, bookId);
+	}
+	public void updateCheckoutDate(Checkout checkout)
+	{
+		checkoutDao.updateCheckoutDate(checkout);
+	}
+	public List<Checkout> getCheckouts()
+	{
+		return checkoutDao.getCheckouts();
+	}
+	public void updateFine(Checkout checkout)
+	{
+		checkoutDao.updateFine(checkout);
+	}
 }
