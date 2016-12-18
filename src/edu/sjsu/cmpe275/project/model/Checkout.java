@@ -39,17 +39,29 @@ public class Checkout {
 	@JoinColumn(name="BOOK_ID")
 	private Book book;
 	
+	@Column(name="returnFlag")
+	private String returnFlag;
+	
+	public String getReturnFlag() {
+		return returnFlag;
+	}
+
+	public void setReturnFlag(String returnFlag) {
+		this.returnFlag = returnFlag;
+	}
+
 	public Checkout()
 	{
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Checkout(Date returnDate, Date date, int fine) {
+	public Checkout(Date returnDate, Date date, int fine, String returnFlag) {
 		super();
 		this.returnDate = returnDate;
 		this.date = date;
 		this.fine = fine;
+		this.returnFlag = returnFlag;
 		
 	}
 

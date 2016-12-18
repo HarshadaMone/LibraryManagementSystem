@@ -14,12 +14,10 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<title>Login Patron</title>
+<title>Add New Book</title>
 <script type="text/javascript">
 	function changeAction() {
-			document.createForm.action = "${pageContext.request.contextPath}/patron/login";
-			//document.createForm.action = "${pageContext.request.contextPath}/book/isbnbook/9780262140874"
-			console.log(document.getElementById("email").value);
+		document.createForm.action = "${pageContext.request.contextPath}/book/createBook/${sjsuId}";
 			document.forms["createForm"].submit();	
 	}
 </script>
@@ -29,25 +27,28 @@
 }
 </style>
 </head>
-<body>
+<body style="
+    background-color: rgb(12, 12, 12);
+    color: white;">
 <div class="container">
-	<h1 align="center">Login Patron</h1><br>
-	<form class="form-horizontal" name="createForm" method="post" style="max-width:450px;">
+	<h1 align="center">Add Book</h1><br>
+	<form class="form-horizontal" name="createForm" enctype="multipart/form-data" method="post" style="max-width:450px;">
 		<div class="form-group">
-			<label class="col-sm-4 control-label">Email</label>
+			<label class="col-sm-4 control-label">SJSU ID</label>
 			<div class="col-sm-8">
-				<input type="email" id="email" name="email" class="form-control">
+				<input type="text" name="sjsuId" id="sjsuId" value="${sjsuId}" readonly class="form-control">
 			</div>
-		</div>	
-				<div class="form-group">
-			<label class="col-sm-4 control-label">Password</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">Author</label>
 			<div class="col-sm-8">
-				<input type="password" name="password" class="form-control">
+				<input type="text" name="ISBN" id="isbn" class="form-control">
 			</div>
-		</div>			
+		</div>
+											
 	</form>
 	<label class="col-sm-4 control-label"></label>
-		<button type="button" value="Create" onclick="changeAction()" class="col-sm-2 btn btn-success ">Login</button>
+		<button type="button" value="Create" onclick="changeAction()" class="col-sm-2 btn btn-success ">Add</button>
 		
 </div>
 <hr>

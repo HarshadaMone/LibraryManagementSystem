@@ -24,6 +24,8 @@
 	}
 	function newBook(sjsuId) {
 				location.pathname = "${pageContext.request.contextPath}/book/createBookView/${user.sjsuId}";
+
+		//location.pathname = "${pageContext.request.contextPath}/book/isbnbook/9780262140874";
 	}
 	function getBook(bookId) {
 		location.pathname = "${pageContext.request.contextPath}/book/getBook/"+bookId;

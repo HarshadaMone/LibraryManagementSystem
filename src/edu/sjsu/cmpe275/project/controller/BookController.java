@@ -12,12 +12,17 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import edu.sjsu.cmpe275.project.GoogleBooksAPI;
+import edu.sjsu.cmpe275.project.dao.CheckoutDaoImpl;
+import edu.sjsu.cmpe275.project.dao.UserDaoImpl;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
@@ -36,8 +41,9 @@ public class BookController {
 	public String getCreateBookView(@PathVariable int sjsuId,
 			Model model){		
 		model.addAttribute("sjsuId",sjsuId);
-		model.addAttribute("user",userService.getUser(sjsuId));
-		return "createBook";
+		//model.addAttribute("user",userService.getUser(sjsuId));
+		//return "createBook";
+		return "isbn";
 	}	//Request Mapping for create book
 	
 	@RequestMapping(method=RequestMethod.POST,value="/createBook/{sjsuId}",produces={"text/html"})
@@ -150,5 +156,56 @@ public class BookController {
 	      model.addAttribute("books", books);
 	      return "patronSearch";
 	   }
+	 
+	 @RequestMapping(value = "/return/{sjsuId}", method = RequestMethod.POST)
+	   public String returnBooks(@PathVariable int sjsuId, Model model) 
+	   {
+		 
+	      List<Book> books = new CheckoutDaoImpl().getBooks(sjsuId);
+	      
+	      model.addAttribute("books", books);
+	      return "return";
+	   }
+	 
+	 @RequestMapping(value = "/returned/{sjsuId}", method = RequestMethod.POST)
+	   public String returnedBooks(@PathVariable int sjsuId,@ModelAttribute(value = "books") List<Book> books,  Model model) 
+	   {
+		 
+	      CheckoutDaoImpl cdi = new CheckoutDaoImpl();
+	      cdi.returnedBooks(books, sjsuId);
+	      
+	      return "patron";
+	   }
+	 
+		@RequestMapping(method = RequestMethod.POST, value = "/isbnbook/{sjsuId}", produces={"text/html"})
+		public String createBookByIsbn(@PathVariable int sjsuId, @RequestParam(value="isbn") long isbn, Model model){
+			/*@PathVariable int sjsuId,*/
+			
+			GoogleBooksAPI gba = new GoogleBooksAPI(isbn); 
+			//User user;
+			Book book = gba.getBookInfo();
+			//user = userService.getUser(sjsuId);
+			//book.setUser(user);
+			model.addAttribute("book",book);
+			model.addAttribute("sjsuId",sjsuId);
+			System.out.println("Book: "+ book.getTitle() + "\n Authors:" + book.getAuthor() + "\n Keyword" + book.getKeyword());
+			return "googleCreateBook";
+			
+		}
+		
+		/*@RequestMapping(method = RequestMethod.GET, value = "/isbnbook/{isbn}",produces={"text/html"})
+		public String createBookByIsbn(@PathVariable long isbn, Model model){
+			
+			GoogleBooksAPI gba = new GoogleBooksAPI(isbn); 
+			User user=userService.getUser(010717200);
+			Book book = gba.getBookInfo();
+			book.setUser(user);
+			model.addAttribute("book",book);
+			System.out.println("To google create book");
+			return "googleCreateBook";
+			
+		}
+		*/
+		
 
 }
