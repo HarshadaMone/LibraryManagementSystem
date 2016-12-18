@@ -58,7 +58,7 @@
       <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
+      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${sessionScope.user.firstName}</a></li>
       
     </ul>
   </div>

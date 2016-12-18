@@ -31,6 +31,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try{
+			checkout.setFlag("false");
 			System.out.println("here");
 			session.saveOrUpdate(checkout);
 			tx.commit();
@@ -62,6 +63,25 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			session.close();
 		}
 	}
+	
+	public void incbook(int bookid)
+	{
+		System.out.println("ajay"+bookid);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		try{
+			String sql="UPDATE BOOK SET COPIES=COPIES+1 where BOOK_ID = :bookid";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("bookid", bookid);
+			query.executeUpdate();
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+	}
 
 	
 	public List<Book> getbooks(int userid) {
@@ -76,6 +96,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			checkouts.addAll(user.getCheckouts());
 			for(int i=0;i<checkouts.size();i++)
 			{
+				if(checkouts.get(i).getFlag().equals("false"))
 				books.add(checkouts.get(i).getBook());
 			}
 			tx.commit();
@@ -153,6 +174,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("sjsuid", userid);
 			query.executeUpdate();
 			tx.commit();
+			this.incbook(bookid);
 		}catch(HibernateException e){
 			tx.rollback();
 		}finally{
@@ -162,6 +184,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		
 	}
 	
+
 	public List<Checkout> getcheckout(int userid)
 	{
 		int j=0;
@@ -170,10 +193,11 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		List<Checkout> ll=new ArrayList<Checkout>();
 		try{
 			System.out.println(userid);
-			String hql = "Select * FROM checkout where sjsu_id= :sjsu_id";
+			String hql = "Select * FROM CHECKOUT where SJSU_ID= :sjsu_id and RETURNFLAG=:returnflag";
 			SQLQuery query= session.createSQLQuery(hql);
 			
 			query.setParameter("sjsu_id", userid);
+			query.setParameter("returnflag", "false");
 			query.addEntity(Checkout.class);
 			List l=query.list();
 			for(Iterator i=l.iterator();i.hasNext();)

@@ -13,6 +13,13 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+function changeMethod(action_name) {		
+	if (action_name == "") {
+		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
+	}		
+}
+</script>
 
 <title>CheckOut Page</title>
 </head>
@@ -23,7 +30,7 @@
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
+      <li class="active"><a onclick="changeMethod('')">Home</a></li>
       <li ><a href="#">Return Book</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">

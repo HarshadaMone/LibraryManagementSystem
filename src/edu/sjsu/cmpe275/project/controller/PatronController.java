@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.naming.factory.SendMailFactory;
@@ -104,7 +105,7 @@ public class PatronController {
 	@RequestMapping(method=RequestMethod.POST,value="/login",produces={"text/html"})
 	public String loginPatron(@RequestParam("email") String email,
 			@RequestParam("password") String password,
-			Model model,HttpServletResponse res) throws SQLException{
+			Model model,HttpServletResponse res,HttpServletRequest req) throws SQLException{
 		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
 		res.addHeader( "Access-Control-Allow-Origin", "*" );   
 		System.out.println("email :"+email);
@@ -124,6 +125,7 @@ public class PatronController {
 			if((user.getPassword()).equals(password))
 			{
 				System.out.println("true");
+				req.getSession().setAttribute("user", user);
 				List<Book> books=bookService.getBooks();
 				model.addAttribute("books", books);
 				model.addAttribute("user", user);
@@ -141,7 +143,28 @@ public class PatronController {
 	
 		}
 	}
+	@RequestMapping(method=RequestMethod.GET,value="/login/{email}/",produces={"text/html"})
+	public String getPatronHome(@PathVariable String email,
+			Model model,HttpServletResponse res) throws SQLException{
+		System.out.println("email :"+email);
+		User user = userService.getUser(email);
+		if(user==null){
+			System.out.println("no user");
+			res.setStatus(404);
+			model.addAttribute("id",email);
+			model.addAttribute("res",res.getStatus());
+			return "error";
+		}
+		else{
+				System.out.println("true");
+				List<Book> books=bookService.getBooks();
+				model.addAttribute("user", user);
+				model.addAttribute("books", books);
+				return "patron";
+		}
 	
+		
+	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/checkout/{sjsuId}",produces={"text/html"})
 	@ResponseBody
@@ -227,7 +250,7 @@ public class PatronController {
 		List<Date> rd=new ArrayList<Date>();
 		model.addAttribute("books", books);
 		model.addAttribute("user", user);
-		System.out.println(books.get(0).getBookId());
+		//System.out.println(books.get(0).getBookId());
 		
 		rd=checkoutService.getdates(sjsuId);
 		System.out.println(rd.get(0));
@@ -248,7 +271,7 @@ public class PatronController {
 		List<Date> rd=new ArrayList<Date>();
 		model.addAttribute("books", books);
 		model.addAttribute("user", user);
-		System.out.println(books.get(0).getBookId());
+		//System.out.println(books.get(0).getBookId());
 		
 		rd=checkoutService.getdates(sjsuId);
 		System.out.println(rd.get(0));

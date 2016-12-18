@@ -32,7 +32,7 @@ $(document).ready(function(){
 	 //var events = $._data(document.getElementById('textDiv'), "events");
 });
 var i=0;
-
+var a=[];
 function changeAction() {
 	document.searchForm.action = "${pageContext.request.contextPath}/book/patron/doSearch";
 	document.forms["searchForm"].submit();	
@@ -46,6 +46,7 @@ function add(image,title,bookid,id)
 	var l=book1.length;
 	id=id;
 	console.log(bookid);
+<<<<<<< HEAD
 	console.log(books.length);
 	console.log("ajay");
 	var menu=document.getElementById("books");
@@ -67,6 +68,34 @@ function add(image,title,bookid,id)
 					else
 						{
 						console.log("in in");
+=======
+	console.log(books);
+	var flag="false";
+	var menu=document.getElementById("books");
+	console.log(menu);
+	console.log("Books length: "+books.length);
+	if(books.length>0 && books.length<=5)
+		{
+			line.parentNode.removeChild(line);
+			 co.parentNode.removeChild(co);
+/* 			for(i=0;i<books.length;i++)
+				{ */
+	for(i=0;i<books.length;i++)
+				{
+		if(books[i].id==bookid)
+		{
+		
+		console.log(books[i].id);
+		alert("Book Already in cart");
+		menu.appendChild(line);
+		menu.appendChild(co);
+		flag="true";
+		}
+		
+				}
+					if(flag == "false")	
+						{
+>>>>>>> refs/remotes/origin/sid2
 						var book={};
 						book.title=title;
 						book.id=bookid;
@@ -100,11 +129,11 @@ function add(image,title,bookid,id)
 							var b=document.createElement("button");
 							b.className="btn btn-xs btn-danger pull-right";
 							b.innerHTML="x";
+							b.onclick = function() { menu.removeChild(li);books.pop(book); };
 							span4.appendChild(b);
-							span.appendChild(span4);
-							
+							span.appendChild(span4);							
 							menu.appendChild(li);
-							num.text=" "+($("#books").length)+" items";
+							num.text="Cart";
 							$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 							$("#cart").append("<span class=\"caret\"></span>");
 							line.className="divider";
@@ -114,8 +143,8 @@ function add(image,title,bookid,id)
 							menu.appendChild(line);
 							menu.appendChild(co);
 						
-						}
-				}
+					
+/* } */	}			
 		}
 	else if(book1.length>=5)
 		{
@@ -159,11 +188,12 @@ function add(image,title,bookid,id)
 		var b=document.createElement("button");
 		b.className="btn btn-xs btn-danger pull-right";
 		b.innerHTML="x";
+		b.onclick = function() { menu.removeChild(li);books.pop(book); };
 		span4.appendChild(b);
 		span.appendChild(span4);
 		
 		menu.appendChild(li);
-		num.text=" "+($("#books").length)+" items";
+		num.text="  cart";
 		$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 		$("#cart").append("<span class=\"caret\"></span>");
 		line.className="divider";
@@ -202,6 +232,11 @@ function checkout()
 		    
 	});
 }
+function changeMethod(action_name) {		
+	if (action_name == "") {
+		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
+	}		
+}
 </script>
 
 </head>
@@ -212,8 +247,11 @@ function checkout()
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
+
+
+      <li class="active"><a onclick="changeMethod('')">Home</a></li>  
       <li ><a href="${pageContext.request.contextPath}/patron/return/${user.sjsuId}">Return Book</a></li> 
+
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
@@ -225,9 +263,9 @@ function checkout()
       <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
+      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
       <li class="dropdown">
-          <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 0 - Items<span class="caret"></span></a>
+          <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> Cart<span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
           		<li class="divider" id="line"></li>
               	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>

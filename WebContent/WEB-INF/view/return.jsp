@@ -189,6 +189,11 @@ function returnbookf()
 		    
 	});
 }
+function changeMethod(action_name) {		
+	if (action_name == "") {
+		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
+	}		
+}
 </script>
 
 </head>
@@ -199,7 +204,7 @@ function returnbookf()
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li> 
+      <li class="active"><a onclick="changeMethod('')">Home</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
