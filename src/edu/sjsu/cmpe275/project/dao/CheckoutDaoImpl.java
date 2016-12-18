@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.project.dao;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,9 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.sjsu.cmpe275.project.SendCheckoutEmail;
+import edu.sjsu.cmpe275.project.sendReservationEmail;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.model.Waitlist;
 
 @Repository
 public class CheckoutDaoImpl implements CheckoutDao {
@@ -83,6 +86,90 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		}
 	}
 	
+	public void setreserve(Waitlist wl)
+	{
+		System.out.println("ajayajayajays");
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			wl.setReserve("TRUE");
+			java.util.Calendar cal=java.util.Calendar.getInstance();
+			cal.add(Calendar.DATE, 3);
+			java.sql.Date now = new Date(cal.getTimeInMillis());
+			wl.setDate(now);
+			session.update(wl);
+			tx.commit();
+		}catch (HibernateException e) {
+			// TODO: handle exception
+			tx.rollback();
+		}finally {
+			session.close();
+			sendReservationEmail.sendEmail(wl.getUser().getEmail(), wl.getBook());
+		}
+	}
+	
+	public void reserve(int bookid)
+	{
+		System.out.println("ajayajayajays"+bookid);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			String sql="select * from WAITLIST where BOOK_ID= :bookid having MIN(ID)";
+			SQLQuery q=session.createSQLQuery(sql);
+			q.setParameter("bookid", bookid);
+			q.addEntity(Waitlist.class);
+			List l=q.list();
+			Iterator i=l.iterator();
+			Waitlist wl=null;
+			if(i.hasNext())
+			{
+				wl=(Waitlist)i.next();
+				System.out.println("aaaaaa"+wl.getReserve()+"bbb"+wl.getDate());
+				
+			}
+			tx.commit();
+			if(wl!=null)
+			{
+				this.setreserve(wl);
+			}
+			
+		}catch (HibernateException e) {
+			// TODO: handle exception
+			tx.rollback();
+		}finally {
+			session.close();
+		}
+		
+	}
+	
+	public void check(int bookid){
+		int a;
+		System.out.println("ajayajay"+bookid);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			String sql="SELECT COPIES FROM BOOK WHERE BOOK_ID= :bookid";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("bookid", bookid);
+			//System.out.println("ajay"+(new java.sql.Date(System.currentTimeMillis()).toString()));
+			//query.setParameter("date", new java.sql.Date(System.currentTimeMillis()));
+			
+				List l=query.list();
+			 a=Integer.parseInt(l.get(0).toString());
+			
+			tx.commit();
+			if(a==1)
+			{
+				this.reserve(bookid);
+			}
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		
+	}
+	
 	public void incbook(int bookid)
 	{
 		System.out.println("ajay"+bookid);
@@ -95,6 +182,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("bookid", bookid);
 			query.executeUpdate();
 			tx.commit();
+			this.check(bookid);
 		}catch(HibernateException e){
 			tx.rollback();
 		}finally{

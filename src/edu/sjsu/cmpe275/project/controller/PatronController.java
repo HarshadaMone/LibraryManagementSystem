@@ -30,9 +30,12 @@ import edu.sjsu.cmpe275.project.model.Books;
 import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.Data;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.model.Waitlist;
 import edu.sjsu.cmpe275.project.service.BookService;
 import edu.sjsu.cmpe275.project.service.CheckoutService;
 import edu.sjsu.cmpe275.project.service.UserService;
+import edu.sjsu.cmpe275.project.service.WaitlistService;
+
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -45,7 +48,9 @@ public class PatronController {
 	private BookService bookService;
 	@Autowired
 	private CheckoutService checkoutService;
-
+	@Autowired
+	private WaitlistService waitlistService;
+	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createPatron(@PathVariable int sjsuId,
 			@RequestParam("firstName") String firstName,
@@ -224,7 +229,24 @@ public class PatronController {
 					Checkout checkout=new Checkout(returndate, now, 0);
 					checkout.setBook(book);
 					checkout.setUser(user);
-					checkoutService.createcheckout(checkout);
+						if(book.getCopies()>0)
+							{
+								checkoutService.createcheckout(checkout);
+							}
+						else
+							{
+								System.out.println("ININ");
+								Waitlist waitlist=new Waitlist();
+								waitlist.setBook(book);
+								waitlist.setUser(user);
+								System.out.println("waitlist"+waitlistService.getWaitlist(sjsuId, book.getBookId()));
+								if(waitlistService.getWaitlist(sjsuId, book.getBookId())==null)
+								{
+									System.out.println("KYUKYU");
+								waitlistService.createWaitList(waitlist);
+								}
+							}
+					
 					}
 					else
 					{
@@ -247,6 +269,8 @@ public class PatronController {
 		res.addHeader( "Access-Control-Allow-Origin", "*" );
 		User user=userService.getUser(sjsuId);
 		List<Book> books=checkoutService.getbooks(sjsuId);
+		if(books.size()>0)
+		{
 		List<Date> rd=new ArrayList<Date>();
 		model.addAttribute("books", books);
 		model.addAttribute("user", user);
@@ -256,6 +280,13 @@ public class PatronController {
 		System.out.println(rd.get(0));
 		model.addAttribute("rd", rd);
 		return "checkoutpage";
+		}
+		else
+		{
+			model.addAttribute("books", null);
+			model.addAttribute("user", user);
+			return "checkoutpage";
+		}
 		
 		
 	//	return null;

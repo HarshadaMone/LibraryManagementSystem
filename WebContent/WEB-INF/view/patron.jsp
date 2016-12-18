@@ -243,7 +243,7 @@ function changeMethod(action_name) {
       <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
       <li class="dropdown">
           <a href="#" id="cart" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> Cart<span class="caret"></span></a>
-          <ul class="dropdown-menu dropdown-cart" role="menu" id="books">
+          <ul class="dropdown-menu dropdown-cart" role="menu" id="books" style="width: 400px;">
           		<li class="divider" id="line"></li>
               	<li><a class="text-center" id="checkout" onclick="checkout()" >CheckOut</a></li>
           </ul>
