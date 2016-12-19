@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.project.dao;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -51,6 +52,33 @@ public class WaitlistDaoImpl implements WaitlistDao {
 			if(i.hasNext())
 			{
 			waitlist=(Waitlist) i.next();
+			}
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return waitlist;
+	}
+
+	@Override
+	public List<Waitlist> getWaitlist(int bookid) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<Waitlist> waitlist=null;
+		try{
+			String hql="select * from WAITLIST where (BOOK_ID = :bookid)";
+			SQLQuery q=session.createSQLQuery(hql);
+			//q.setParameter("sjsuid", sjsuid);
+			q.setParameter("bookid", bookid);
+			q.addEntity(Waitlist.class);
+			Iterator i=q.list().iterator();
+			while(i.hasNext())
+			{
+			waitlist.add((Waitlist) i.next());
 			}
 			tx.commit();
 		}catch(HibernateException e){

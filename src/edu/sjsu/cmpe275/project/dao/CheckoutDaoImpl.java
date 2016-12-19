@@ -86,6 +86,25 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		}
 	}
 	
+	public void updatebook(int bookid)
+	{
+		System.out.println("ajayajayajayajays");
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			String sql="UPDATE BOOK SET STATUS='RESERVED' where BOOK_ID = :bookid";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("bookid", bookid);
+			query.executeUpdate();
+			tx.commit();
+			this.check(bookid);
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+	}
+	
 	public void setreserve(Waitlist wl)
 	{
 		System.out.println("ajayajayajays");
@@ -99,6 +118,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			wl.setDate(now);
 			session.update(wl);
 			tx.commit();
+			this.updatebook(wl.getBook().getBookId());
 		}catch (HibernateException e) {
 			// TODO: handle exception
 			tx.rollback();

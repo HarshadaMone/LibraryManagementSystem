@@ -51,6 +51,11 @@ public class PatronController {
 	@Autowired
 	private WaitlistService waitlistService;
 	
+	List<Book> checkedoutbooks=new ArrayList<Book>();
+	List<Book> waitlistbooks=new ArrayList<Book>();
+	List<Book> alreadybooks=new ArrayList<Book>();
+	List<Book> reservedbooks=new ArrayList<Book>();
+	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createPatron(@PathVariable int sjsuId,
 			@RequestParam("firstName") String firstName,
@@ -132,6 +137,10 @@ public class PatronController {
 				System.out.println("true");
 				req.getSession().setAttribute("user", user);
 				List<Book> books=bookService.getBooks();
+				 checkedoutbooks=new ArrayList<Book>();
+				 waitlistbooks=new ArrayList<Book>();
+				 alreadybooks=new ArrayList<Book>();
+				 reservedbooks=new ArrayList<Book>();
 				model.addAttribute("books", books);
 				model.addAttribute("user", user);
 				return "patron";
@@ -176,6 +185,10 @@ public class PatronController {
 	public String checkout(@RequestParam(value="myArray") String books,
 			@PathVariable int sjsuId,
 			Model model,HttpServletResponse res) throws SQLException{
+		checkedoutbooks=new ArrayList<Book>();
+		 waitlistbooks=new ArrayList<Book>();
+		 alreadybooks=new ArrayList<Book>();
+		 reservedbooks=new ArrayList<Book>();
 		//int sjsuid=Integer.parseInt(sjsuId);
 				res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
 				res.addHeader( "Access-Control-Allow-Origin", "*" );
@@ -198,65 +211,92 @@ public class PatronController {
 				int num=checkoutService.getbooksday(sjsuId);
 				System.out.println("a"+num);
 				List<Checkout> c=checkoutService.getcheckout(sjsuId);
+				
 				if(cbooks.size()>=10)
 				{
 					return "limit";
 				}
-				
-				else{
+				else
+				{
 					if(num>=5)
 					{
 						return "day limit";
 					}
-					else{
-						System.out.println(c.size());
-				for (int i = 0; i < data1.getBooks().size(); i++) {
-					for(int j=0;j<c.size();j++)
-					{
-						System.out.println(data1.getBooks().get(i).getId());
-						System.out.println(c.get(j).getBook().getBookId());
-						System.out.println(sjsuId);
-						System.out.println(c.get(j));
-						if(data1.getBooks().get(i).getId()==c.get(j).getBook().getBookId() && sjsuId==c.get(j).getUser().getSjsuId())
-						{
-							data1.getBooks().remove(i);
-							break;
-						}
-					}
-					if(data1.getBooks().size()>0)
-					{
-					Book book=bookService.getBook(data1.getBooks().get(i).getId());
-					Checkout checkout=new Checkout(returndate, now, 0);
-					checkout.setBook(book);
-					checkout.setUser(user);
-						if(book.getCopies()>0)
-							{
-								checkoutService.createcheckout(checkout);
-							}
-						else
-							{
-								System.out.println("ININ");
-								Waitlist waitlist=new Waitlist();
-								waitlist.setBook(book);
-								waitlist.setUser(user);
-								System.out.println("waitlist"+waitlistService.getWaitlist(sjsuId, book.getBookId()));
-								if(waitlistService.getWaitlist(sjsuId, book.getBookId())==null)
-								{
-									System.out.println("KYUKYU");
-								waitlistService.createWaitList(waitlist);
-								}
-							}
-					
-					}
 					else
 					{
-						return "checkoutpage";
-					}
+						System.out.println(c.size());
+						for (int i = 0; i < data1.getBooks().size(); i++) 
+						{
+							for(int j=0;j<c.size();j++)
+							{
+								System.out.println(data1.getBooks().get(i).getId());
+								System.out.println(c.get(j).getBook().getBookId());
+								System.out.println(sjsuId);
+								System.out.println(c.get(j));
+								if(data1.getBooks().get(i).getId()==c.get(j).getBook().getBookId() && sjsuId==c.get(j).getUser().getSjsuId())
+								{
+									alreadybooks.add(c.get(j).getBook());
+									data1.getBooks().remove(i);
+									break;
+								}
+							}
+						if(data1.getBooks().size()>0)
+						{
+							Book book=bookService.getBook(data1.getBooks().get(i).getId());
+							Checkout checkout=new Checkout(returndate, now, 0);
+							checkout.setBook(book);
+							checkout.setUser(user);
+								if(book.getCopies()>0)
+								{
+									if(book.getCopies()==1 && (book.getStatus().equals("RESERVED")|| book.getStatus()=="RESERVED"))
+									{
+										Waitlist wl=waitlistService.getWaitlist(sjsuId, book.getBookId());
+										if(wl!=null)
+										{
+											if(wl.getReserve()=="TRUE")
+											{
+												checkedoutbooks.add(book);
+												checkoutService.createcheckout(checkout);
+											}
+											else
+											{
+												reservedbooks.add(book);
+											}
+										}
+										else{
+											reservedbooks.add(book);
+										}
+									}
+									else
+									{
+										checkedoutbooks.add(book);
+									checkoutService.createcheckout(checkout);
+									}
+								}
+								else
+								{
+									System.out.println("ININ");
+									Waitlist waitlist=new Waitlist();
+									waitlist.setBook(book);
+									waitlist.setUser(user);
+									System.out.println("waitlist"+waitlistService.getWaitlist(sjsuId, book.getBookId()));
+									if(waitlistService.getWaitlist(sjsuId, book.getBookId())==null)
+									{
+											checkedoutbooks.add(book);
+											System.out.println("KYUKYU");
+										waitlistService.createWaitList(waitlist);
+										
+									}
+								}
+							
+						}
+						
 				}
 				}
 				}
 				//List<Books> book=data.getBooks();
 				System.out.println("ajay");
+				
 				return "checkoutpage";
 		
 	}
@@ -279,6 +319,14 @@ public class PatronController {
 		rd=checkoutService.getdates(sjsuId);
 		System.out.println(rd.get(0));
 		model.addAttribute("rd", rd);
+		model.addAttribute("checkedoutbooks", checkedoutbooks);
+		model.addAttribute("alreadybooks", alreadybooks);
+		model.addAttribute("waitbooks", waitlistbooks);
+		model.addAttribute("reserved",reservedbooks);
+		checkedoutbooks=new ArrayList<Book>();
+		 waitlistbooks=new ArrayList<Book>();
+		 alreadybooks=new ArrayList<Book>();
+		 reservedbooks=new ArrayList<Book>();
 		return "checkoutpage";
 		}
 		else
