@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.sjsu.cmpe275.project.AmazonSESSample;
 import edu.sjsu.cmpe275.project.SendCheckoutEmail;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
@@ -172,7 +173,7 @@ public class LibrarianController {
 	            	}
 	            	if(diffInDays >= -5 && diffInDays < 0)
 	            	{
-	            		SendCheckoutEmail.returnReminder(checkout.getUser(),checkout.getBook(),checkout,diffInDays);
+	            		AmazonSESSample.returnReminder(checkout.getUser(),checkout.getBook(),checkout,diffInDays);
 	            	}
 	            }
 	        } catch (ParseException e) {

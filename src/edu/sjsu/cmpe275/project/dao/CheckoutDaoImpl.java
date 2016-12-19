@@ -65,7 +65,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			throw e;
 		}finally{
 			session.close();
-			SendCheckoutEmail.checkoutDateUpdated(checkout.getUser(),checkout.getBook(),checkout);
+			AmazonSESSample.checkoutDateUpdated(checkout.getUser(),checkout.getBook(),checkout);
 		}
 	}
 	
@@ -408,7 +408,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			throw e;
 		}finally{
 			session.close();
-			SendCheckoutEmail.checkoutFine(checkout.getUser(),checkout.getBook(),checkout);
+			AmazonSESSample.checkoutFine(checkout.getUser(),checkout.getBook(),checkout);
 		}
 	}
 	public int getCheckoutCountFromBookId(int bookId)

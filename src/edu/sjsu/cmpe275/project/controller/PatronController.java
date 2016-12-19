@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.sjsu.cmpe275.project.AmazonSESSample;
 import edu.sjsu.cmpe275.project.SendEmail;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Books;
@@ -71,7 +72,7 @@ public class PatronController {
 		userService.createUser(user);
 		String mailTo = email;
 		String mailFrom = "siddharth6258@gmail.com";	 
-		SendEmail.sendEmail(mailTo, mailFrom,activationCode);
+		AmazonSESSample.sendEmail(mailTo, mailFrom,activationCode);
 		model.addAttribute("user",user);
 		model.addAttribute("activationCode",activationCode);
 		return "activation";
