@@ -76,14 +76,12 @@ public class CheckoutServiceImpl implements CheckoutService {
 	{
 		checkoutDao.updateFine(checkout);
 	}
-<<<<<<< HEAD
 	public int getCheckoutCountFromBookId(int bookId)
 	{
 		return checkoutDao.getCheckoutCountFromBookId(bookId);
-=======
 
 
-
+	}
 	
 	public void getreserve(int bookid) {
 		// TODO Auto-generated method stub
@@ -97,6 +95,5 @@ public class CheckoutServiceImpl implements CheckoutService {
 		// TODO Auto-generated method stub
 		checkoutDao.setreserve(wl);
 		
->>>>>>> ajay
 	}
 }

@@ -97,7 +97,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("bookid", bookid);
 			query.executeUpdate();
 			tx.commit();
-			this.check(bookid);
+			//this.check(bookid);
 		}catch(HibernateException e){
 			tx.rollback();
 		}finally{

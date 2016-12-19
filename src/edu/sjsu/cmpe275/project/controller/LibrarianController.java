@@ -197,7 +197,7 @@ public class LibrarianController {
 	  	    	  {
 	  	    		System.out.println("heyindelete");
 	  	    		  waitlistservice.delete(w);
-	  	    		  System.out.println(w.getBook().getBookId());
+	  	    		//  System.out.println(w.getBook().getBookId());
 	  	    		  ww=waitlistservice.getWaitlist(w.getBook().getBookId());
 	  	    		  
 	  	    	  }
@@ -235,8 +235,7 @@ public class LibrarianController {
 	      User user=(User) req.getSession().getAttribute("user");
 	      List<Book> books=userService.getBooks(user.getSjsuId());
 	      model.addAttribute("user", user);
-	      model.addAttribute("books", books);
-	      
+	      model.addAttribute("books", books);	      
 		  return "librarian";
 	   }
 
