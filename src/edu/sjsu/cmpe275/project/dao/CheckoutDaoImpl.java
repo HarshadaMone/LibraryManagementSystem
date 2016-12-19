@@ -18,6 +18,7 @@ import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.sjsu.cmpe275.project.AmazonSESSample;
 import edu.sjsu.cmpe275.project.SendCheckoutEmail;
 import edu.sjsu.cmpe275.project.sendReservationEmail;
 import edu.sjsu.cmpe275.project.model.Book;
@@ -46,6 +47,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 		}finally{
 			session.close();
 			SendCheckoutEmail.sendEmail(checkout.getUser().getEmail(),checkout.getBook());
+			AmazonSESSample.sendEmail(checkout.getUser().getEmail(),checkout.getBook());
 			decbook(checkout.getBook().getBookId());
 		}
 	}
