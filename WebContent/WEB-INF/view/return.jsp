@@ -38,27 +38,36 @@ function changeAction() {
 
 function returnBook(image,title,bookid,id)
 {
+	var book1=books;
 	id=id;
 	console.log(bookid);
 	console.log(books);
+	var flag="false";
 	var menu=document.getElementById("books");
 	console.log(menu);
-	if(books.length>0)
+	console.log("Books length: "+books.length);
+	if(books.length>0 && books.length<=5)
 		{
 			line.parentNode.removeChild(line);
 			 co.parentNode.removeChild(co);
-			for(i=0;i<books.length;i++)
+/* 			for(i=0;i<books.length;i++)
+				{ */
+	for(i=0;i<books.length;i++)
 				{
-					if(books[i].id==bookid)
+		if(books[i].id==bookid)
+		{
+		
+		console.log(books[i].id);
+		alert("Book Already in cart");
+		menu.appendChild(line);
+		menu.appendChild(co);
+		flag="true";
+		}
+		
+				}
+					if(flag == "false")	
 						{
-						console.log(books[i].id);
-						alert("Book Already in cart");
-						menu.appendChild(line);
-						menu.appendChild(co);
-						}
-					else
-						{
-						
+
 						var book={};
 						book.title=title;
 						book.id=bookid;
@@ -92,11 +101,11 @@ function returnBook(image,title,bookid,id)
 							var b=document.createElement("button");
 							b.className="btn btn-xs btn-danger pull-right";
 							b.innerHTML="x";
+							b.onclick = function() { menu.removeChild(li);books.pop(book); };
 							span4.appendChild(b);
-							span.appendChild(span4);
-							
+							span.appendChild(span4);							
 							menu.appendChild(li);
-							num.text=" "+($("#books").length)+" items";
+							num.text="Cart";
 							$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 							$("#cart").append("<span class=\"caret\"></span>");
 							line.className="divider";
@@ -106,12 +115,12 @@ function returnBook(image,title,bookid,id)
 							menu.appendChild(line);
 							menu.appendChild(co);
 						
-						}
-				}
+					
+/* } */	}			
 		}
-	else if(books.length>=10)
+	else if(book1.length>=5)
 		{
-		alert("Can Only add 10 books at a time");
+		alert("Can Only add 5 books at a time");
 		}
 	else
 		{
@@ -151,11 +160,12 @@ function returnBook(image,title,bookid,id)
 		var b=document.createElement("button");
 		b.className="btn btn-xs btn-danger pull-right";
 		b.innerHTML="x";
+		b.onclick = function() { menu.removeChild(li);books.pop(book); };
 		span4.appendChild(b);
 		span.appendChild(span4);
 		
 		menu.appendChild(li);
-		num.text=" "+($("#books").length)+" items";
+		num.text="  cart";
 		$("#cart").prepend("<span class=\"glyphicon glyphicon-shopping-cart\"></span>");
 		$("#cart").append("<span class=\"caret\"></span>");
 		line.className="divider";
@@ -163,7 +173,8 @@ function returnBook(image,title,bookid,id)
 		menu.appendChild(line);
 		menu.appendChild(co);
 		
-		}
+		}	
+
  	
 	 	
 }

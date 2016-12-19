@@ -195,8 +195,9 @@ public class LibrarianController {
 	  	    	System.out.println("heyheyhey"+diffInDays);
 	  	    	  if(diffInDays>0)
 	  	    	  {
-	  	    		System.out.println("heyindelete");
+	  	    		System.out.println("heyindelete"+w.getBook().getBookId());
 	  	    		  waitlistservice.delete(w);
+	  	    		System.out.println("heyindelete");
 	  	    		  System.out.println(w.getBook().getBookId());
 	  	    		  ww=waitlistservice.getWaitlist(w.getBook().getBookId());
 	  	    		  
