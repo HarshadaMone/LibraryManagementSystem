@@ -34,9 +34,12 @@ import com.sun.xml.internal.ws.transport.http.ResourceLoader;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import edu.sjsu.cmpe275.project.bookapi.copy.GoogleBooksAPI;
 import edu.sjsu.cmpe275.project.model.Book;
+import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.User;
 import edu.sjsu.cmpe275.project.service.BookService;
+import edu.sjsu.cmpe275.project.service.CheckoutService;
 import edu.sjsu.cmpe275.project.service.UserService;
+import edu.sjsu.cmpe275.project.service.WaitlistService;
 
 
 @Controller
@@ -46,6 +49,11 @@ public class BookController {
 	private BookService bookService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CheckoutService checkoutService;
+	@Autowired
+	private WaitlistService waitlistService;
+
 	
 	@RequestMapping(method=RequestMethod.GET,value="/createBookView/{sjsuId}",produces={"text/html"})
 	public String getCreateBookView(@PathVariable int sjsuId,
@@ -92,8 +100,17 @@ public class BookController {
 	public String deleteBook(@PathVariable int bookId, Model model,HttpServletResponse res){
 		
 		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
-		res.addHeader( "Access-Control-Allow-Origin", "*" );   
-		String isBookDeleted = bookService.deleteBook(bookId);
+		res.addHeader( "Access-Control-Allow-Origin", "*" );
+		String isBookDeleted=null;
+		int checkoutCount=checkoutService.getCheckoutCountFromBookId(bookId);
+		int waitListCount=waitlistService.getWaitlistCountFromBookId(bookId);
+		if(waitListCount > 0 || checkoutCount > 0)
+		{
+			return "error";
+		}
+		else{
+			isBookDeleted = bookService.deleteBook(bookId);
+		}		
 		if(isBookDeleted=="true")
 			return "book";
 		return "book"+bookId;	
@@ -197,7 +214,11 @@ public class BookController {
 		        return "createBookisbn";
 
 		    }
-
+		@RequestMapping(method=RequestMethod.GET,value="/errorDeleteBook",produces={"text/html"})
+		public String errorBook(Model model,HttpServletResponse res){
+			return "errorDeleteBook";
+			
+		}
 			
 		}
 	 

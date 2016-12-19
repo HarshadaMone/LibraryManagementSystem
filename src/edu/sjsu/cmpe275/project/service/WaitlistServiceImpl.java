@@ -36,5 +36,8 @@ public class WaitlistServiceImpl implements WaitlistService {
 		
 		return waitlistDao.getWaitlist(bookid);
 	}
-
+	public int getWaitlistCountFromBookId(int bookId)
+	{
+		return waitlistDao.getWaitlistCountFromBookId(bookId);
+	}
 }

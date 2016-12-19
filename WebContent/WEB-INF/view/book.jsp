@@ -42,7 +42,11 @@
 				method : 'DELETE',
 				dataType:'html',
 				success : function(data) {
-					location.pathname = "${pageContext.request.contextPath}/librarian/login/${book.user.email}/";
+					if(data == "book"){
+					location.pathname = "${pageContext.request.contextPath}/librarian/login/${book.user.email}/";}
+					else{
+						location.pathname = "${pageContext.request.contextPath}/book/errorDeleteBook/";
+					}
 				}
 			});
 			

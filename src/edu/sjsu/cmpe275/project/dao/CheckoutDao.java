@@ -20,4 +20,5 @@ public interface CheckoutDao {
 	public void updateCheckoutDate(Checkout checkout);
 	public List<Checkout> getCheckouts();
 	public void updateFine(Checkout checkout);
+	public int getCheckoutCountFromBookId(int bookId);
 }

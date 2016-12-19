@@ -409,4 +409,33 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			SendCheckoutEmail.checkoutFine(checkout.getUser(),checkout.getBook(),checkout);
 		}
 	}
+	public int getCheckoutCountFromBookId(int bookId)
+	{
+		int j=0;
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<Checkout> ll=new ArrayList<Checkout>();
+		try{
+			System.out.println(bookId);
+			String hql = "Select * FROM CHECKOUT where BOOK_ID= :book_id and RETURNFLAG=:returnflag";
+			SQLQuery query= session.createSQLQuery(hql);
+			
+			query.setParameter("book_id", bookId);
+			query.setParameter("returnflag", "false");
+			query.addEntity(Checkout.class);
+			List l=query.list();
+			for(Iterator i=l.iterator();i.hasNext();)
+			{
+				ll.add((Checkout) i.next());
+			}
+			//ll=query.getNamedParameters("");
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		return ll.size();
+		
+	}
 }

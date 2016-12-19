@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.project.dao;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
+import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.Waitlist;
 
 
@@ -88,6 +89,34 @@ public class WaitlistDaoImpl implements WaitlistDao {
 			session.close();
 		}
 		return waitlist;
+	}
+	public int getWaitlistCountFromBookId(int bookId)
+	{
+		int j=0;
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<Waitlist> ll=new ArrayList<Waitlist>();
+		try{
+			System.out.println(bookId);
+			String hql = "Select * FROM WAITLIST where BOOK_ID= :book_id";
+			SQLQuery query= session.createSQLQuery(hql);
+			
+			query.setParameter("book_id", bookId);
+			query.addEntity(Waitlist.class);
+			List l=query.list();
+			for(Iterator i=l.iterator();i.hasNext();)
+			{
+				ll.add((Waitlist) i.next());
+			}
+			//ll=query.getNamedParameters("");
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+		return ll.size();
+		
 	}
 
 }

@@ -75,4 +75,8 @@ public class CheckoutServiceImpl implements CheckoutService {
 	{
 		checkoutDao.updateFine(checkout);
 	}
+	public int getCheckoutCountFromBookId(int bookId)
+	{
+		return checkoutDao.getCheckoutCountFromBookId(bookId);
+	}
 }
