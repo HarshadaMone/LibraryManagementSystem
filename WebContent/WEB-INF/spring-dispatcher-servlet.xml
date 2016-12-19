@@ -25,7 +25,11 @@
 	   <bean id="userDao" class="edu.sjsu.cmpe275.project.dao.UserDaoImpl"></bean>
 	   <bean id="checkoutService" class="edu.sjsu.cmpe275.project.service.CheckoutServiceImpl"></bean>
 	   <bean id="checkoutDao" class="edu.sjsu.cmpe275.project.dao.CheckoutDaoImpl"></bean>
-	   
+	   <bean id="availableBooksDao" class="edu.sjsu.cmpe275.project.dao.AvailableBooksDaoImpl"></bean>
+	   <bean id="availableBooksService" class="edu.sjsu.cmpe275.project.service.AvailableBookServiceImpl"></bean>
+	   <bean id="waitListDao" class="edu.sjsu.cmpe275.project.dao.WaitListDaoImpl"></bean>
+	   <bean id="waitListService" class="edu.sjsu.cmpe275.project.service.WaitListServiceImpl"></bean>
+	   <!-- <bean id="threadForAvailability" class="edu.sjsu.cmpe275.project.ThreadForAvailability"></bean> -->
 	   <bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
@@ -33,7 +37,9 @@
 		<property name="maxUploadSize" value="10000000" />
 	</bean>
 	   <context:component-scan base-package="edu.sjsu.cmpe275.project.controller"></context:component-scan>
+	   <!-- removed edu.sjsu.cmpe275.project.controller -->
 	   <mvc:resources mapping="/resources/**" location="/resources/" />
+	   <mvc:default-servlet-handler/>
 	   <mvc:annotation-driven/>
 	   <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	   	<property name="prefix">

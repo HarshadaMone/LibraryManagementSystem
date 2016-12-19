@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -48,27 +50,42 @@ public class Book {
     private String image;
 	@Column(name="IMAGE_NAME")
 	private String imageName;
+	@Column(name ="AVAILABLE")
+	private int availableCopies;
+	public int getAvailableCopies() {
+		return availableCopies;
+	}
+	public void setAvailableCopies(int availableCopies) {
+		this.availableCopies = availableCopies;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="SJSU_ID")
 	private User user;
+	/*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "Checkedout", joinColumns = {
+			@JoinColumn(name = "BOOK_ID", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "SJSU_ID",
+					nullable = false, updatable = false) })
+	private List<User> user;*/
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="book",cascade={CascadeType.ALL})
+	
+	@OneToMany(fetch =  FetchType.LAZY,mappedBy="book",cascade={CascadeType.ALL})
 	private List<Checkout> checkouts;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="book",cascade={CascadeType.ALL})
-	private List<Waitlist> waitlist;
+	private List<WaitList> waitlists ;
 	
-	public List<Checkout> getCheckouts() {
-		return checkouts;
-	}
-	public void setCheckouts(List<Checkout> checkouts) {
-		this.checkouts = checkouts;
-	}
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="book",cascade={CascadeType.ALL})
+	private List<AvailableBooks> availableBooks ;
+	
+	
+	
 	public Book() {
 		super();
 	}
 	public Book(String author, String title, int callNumber, String publisher, int yearOfPublication, String location,
-			int copies, String status, String keyword, String image, String imageName) {
+			int copies, String status, String keyword, String image, String imageName ) {
 		super();
 		this.author = author;
 		this.title = title;
@@ -78,11 +95,26 @@ public class Book {
 		this.location = location;
 		this.copies = copies;
 		this.status = status;
+		this.availableCopies = copies;
 		this.keyword = keyword;
 		this.image = image;
 		this.imageName = imageName;
 	}
 
+	
+	public List<AvailableBooks> getAvailableBooks() {
+		return availableBooks;
+	}
+	public void setAvailableBooks(List<AvailableBooks> availableBooks) {
+		this.availableBooks = availableBooks;
+	}
+	public List<Checkout> getCheckouts() {
+		return checkouts;
+	}
+	public void setCheckouts(List<Checkout> checkouts) {
+		this.checkouts = checkouts;
+	}
+	
 	public int getBookId() {
 		return bookId;
 	}
@@ -161,5 +193,10 @@ public class Book {
 	public void setImage(String image) {
 		this.image = image;
 	}
-
+	public List<WaitList> getWaitlists() {
+		return waitlists;
+	}
+	public void setWaitlists(List<WaitList> waitlists) {
+		this.waitlists = waitlists;
+	}
 }

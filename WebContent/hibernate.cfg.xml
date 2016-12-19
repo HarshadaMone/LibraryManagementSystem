@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <!-- mappings for annotated classes -->
 <hibernate-configuration>
-	<session-factory>
-		<property name="show_sql">true</property>
-		<property name="format_sql">true</property>
-		<property name="use_sql_comments">true</property>
-		<mapping class="edu.sjsu.cmpe275.project.model.Book"/>
-		<mapping class="edu.sjsu.cmpe275.project.model.User"/>
-		<mapping class="edu.sjsu.cmpe275.project.model.Checkout"/>
-		<mapping class="edu.sjsu.cmpe275.project.model.Waitlist"/>
-	</session-factory>
+ <session-factory >
+  <property name="show_sql">true</property>
+  <property name="format_sql">true</property>
+  <property name="use_sql_comments">true</property>
+  <mapping class="edu.sjsu.cmpe275.project.model.Book"/>
+  <mapping class="edu.sjsu.cmpe275.project.model.User"/>
+  <mapping class="edu.sjsu.cmpe275.project.model.Checkout"/>
+  <mapping class="edu.sjsu.cmpe275.project.model.WaitList"/>
+  <mapping class="edu.sjsu.cmpe275.project.model.AvailableBooks"/>
+ </session-factory>
 </hibernate-configuration>

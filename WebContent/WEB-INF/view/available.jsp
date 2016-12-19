@@ -51,7 +51,7 @@ $(document).ready(function(){
 	 /* newwaitbooks = $('#waitbooks').val(); */
 	 /* newwaitbooks.push( ${waitbooks}); */
 	 alert(newwaitbooks);
-	//alert(newavailbooks);
+	alert(newavailbooks);
 	
 })
 var i=0;
@@ -193,52 +193,6 @@ function add(image,title,bookid,id)
 		}	
 }
 
-function addwait(bookid,id)
-{
-	id=id;
-	console.log(bookid);
-	console.log(newwaitbooks);
-	var flag = 0;
-	if(newwaitbooks.length>0)
-		{
-			console.log("Inside waitbooks.length>0 to check");
-			for(i=0;i<newwaitbooks.length;i++){
-				console.log("Inside for to check");
-					if(newwaitbooks[i] == bookid )
-						{
-						console.log(newwaitbooks[i]);
-						flag = 1;
-						alert("Book Already in waitlist");
-						}
-				
-			}
-		}
-			if( flag == 0){
-				
-				newwaitbooks.push(bookid);
-				var book = bookid;
-		
-			
-				console.log(newwaitbooks.toString());
-				alert("Book added to the waitlist");
-				console.log("in addition" + book);
-				$.ajax({
-					 type : "POST",
-					    url : "${pageContext.request.contextPath}/patron/addToWaitList/${user.sjsuId}",
-					    contentType: "application/x-www-form-urlencoded; charset=UTF-8", // this is the default value, so it's optional
-					    datatype: 'json',
-					    data : {book: book},
-					    success : function(data) {
-					    	console.log("in"+data);
-					    	console.log(JSON.stringify(newwaitbooks));
-					    	 		
-					    }				    
-				});
-
-				
-		}
-}
-
 function checkout()
 {
 	
@@ -266,39 +220,21 @@ function checkout()
 function changeMethod(action_name) {		
 	if (action_name == "") {
 		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
-	}	
-	else if (action_name == "available") {
-		location.pathname = "${pageContext.request.contextPath}/patron/availList/${user.sjsuId}";			
-	}	
+	}		
 }
-
-
 </script>
 
 </head>
 <body>
-<nav class="navbar navbar-inverse" >
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Sjsu Library</a>
     </div>
-    <ul class="nav navbar-nav" >
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <li class="active"><a href="#">Home</a></li>
-      <li ><a href="#">Return Book</a></li> 
-=======
+    <ul class="nav navbar-nav">
       <li class="active"><a onclick="changeMethod('')">Home</a></li> 
->>>>>>> sid2
-=======
-
       <li class="active"><a onclick="changeMethod('')">Home</a></li> 
       <li><a href="#">Return Book</a></li> 
-  >>>>>>> sid2    
-      <li class="active"><a onclick="changeMethod('available')">Available Books</a></li> 
-    
-
-
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
@@ -330,24 +266,20 @@ function changeMethod(action_name) {
 	
 	<c:forEach items="${books}" var="current">	
 			
+			<c:forEach items="${availbooks}" var="current1">	
 			
-			
-			<div class="col-sm-4">
+			<c:if test = "${current.bookId == current1}" >
+				<div class="col-sm-4">
 				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
 				<br><b>Title : ${current.title}</b>
 				<br><b>Author: ${current.author}</b>
+				<br><button type="button" id="add${current.bookId}" onclick="event.preventDefault();add('${current.image}','${current.title}','${current.bookId}','${user.sjsuId}')" class="btn btn-default">Add to Cart</button>
 				
-				<c:choose>
-				<c:when test = "${current.status== 'Available'}" >
-					<br><button type="button" id="add${current.bookId}" onclick="event.preventDefault();add('${current.image}','${current.title}','${current.bookId}','${user.sjsuId}')" class="btn btn-default">Add to Cart</button>
-				</c:when>
-				<c:when test = "${current.status== 'Unavailable'}" >
-					<br><b>Book Not Available</b>
-					<button type="button" id="addwait${current.bookId}" onclick="event.preventDefault();addwait('${current.bookId}','${user.sjsuId}')" class="btn btn-default">Add to Wish List</button>
-				</c:when>
-				</c:choose>
 				</div>
-		</c:forEach>
+			</c:if>
+			</c:forEach>
+			
+	</c:forEach>
 
 
 </body>

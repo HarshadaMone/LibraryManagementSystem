@@ -7,8 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 
@@ -30,14 +33,20 @@ public class User {
     private String role;
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
 	private List<Book> books;
+	/*@ManyToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
+	private List<Book> books;*/
+	
 	@Column(name="STATUS")
     private String status;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
 	private List<Checkout> checkouts;
 	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="user",cascade={CascadeType.ALL})
+	private List<WaitList> waitlists;
+	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade={CascadeType.ALL})
-	private List<Waitlist> waitlist;
+	private List<AvailableBooks> availableBooks;
 	
 
 	public User() {
@@ -53,6 +62,21 @@ public class User {
 		this.password = password;
 		this.role = role;
 		this.status = status;
+	}
+	
+	
+	
+	public List<AvailableBooks> getAvailableBooks() {
+		return availableBooks;
+	}
+	public void setAvailableBooks(List<AvailableBooks> availableBooks) {
+		this.availableBooks = availableBooks;
+	}
+	public List<WaitList> getWaitlists() {
+		return waitlists;
+	}
+	public void setWaitlists(List<WaitList> waitlists) {
+		this.waitlists = waitlists;
 	}
 	public List<Checkout> getCheckouts() {
 		return checkouts;
