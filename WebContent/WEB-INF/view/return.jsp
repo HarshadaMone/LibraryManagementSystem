@@ -43,7 +43,7 @@ function returnBook(image,title,bookid,id)
 	console.log(books);
 	var menu=document.getElementById("books");
 	console.log(menu);
-	if(books.length>0)
+	if(books.length>0 && books.length <= 10)
 		{
 			line.parentNode.removeChild(line);
 			 co.parentNode.removeChild(co);
@@ -109,7 +109,7 @@ function returnBook(image,title,bookid,id)
 						}
 				}
 		}
-	else if(books.length>=10)
+	else if(books.length>10)
 		{
 		alert("Can Only add 10 books at a time");
 		}
