@@ -80,13 +80,13 @@ function getBookDetails(isbn) {
 		<div class="form-group">
 			<label class="col-sm-4 control-label">Author</label>
 			<div class="col-sm-8">
-				<input type="text" name="author" id="author" class="form-control">
+				<input type="text" name="author" id="author" value="${book.author}" class="form-control">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-4 control-label">Title</label>
 			<div class="col-sm-8">
-				<input type="text" name="title" class="form-control">
+				<input type="text" name="title" value="${book.title}" class="form-control">
 			</div>
 		</div>
 		<div class="form-group">
@@ -98,7 +98,7 @@ function getBookDetails(isbn) {
 		<div class="form-group">
 			<label class="col-sm-4 control-label">Publisher</label>
 			<div class="col-sm-8">
-				<input type="text" name="publisher" class="form-control">
+				<input type="text" name="publisher" value="${book.publisher}" class="form-control">
 			</div>
 		</div>
 		<div class="form-group">
@@ -134,7 +134,7 @@ function getBookDetails(isbn) {
 		<div class="form-group">
 			<label class="col-sm-4 control-label">Image</label>
 			<div class="col-sm-8">
-				<input type="file" name="image"  accept="image/*" class="form-control">
+				<input type="file" name="image" accept="image/*" class="form-control">
 			</div>
 		</div>									
 	</form>

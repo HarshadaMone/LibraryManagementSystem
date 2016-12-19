@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.sjsu.cmpe275.project.SendCheckoutEmail;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.User;
@@ -148,7 +149,7 @@ public class LibrarianController {
 	   Model model,HttpServletRequest req) 
 	   {
 	      System.out.println("Current date is : "+date);
-	      SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	      SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 	        String dateInString = date;
 	        List<Checkout> checkouts=new ArrayList<Checkout>();
 	        try {
@@ -163,6 +164,10 @@ public class LibrarianController {
 	            	{
 	            		checkout.setFine(diffInDays);
 	            		checkoutService.updateFine(checkout);
+	            	}
+	            	if(diffInDays >= -5 && diffInDays < 0)
+	            	{
+	            		SendCheckoutEmail.returnReminder(checkout.getUser(),checkout.getBook(),checkout,diffInDays);
 	            	}
 	            }
 	        } catch (ParseException e) {
