@@ -12,6 +12,7 @@ import edu.sjsu.cmpe275.project.dao.CheckoutDao;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.model.Waitlist;
 
 @Service
 @Transactional
@@ -75,8 +76,27 @@ public class CheckoutServiceImpl implements CheckoutService {
 	{
 		checkoutDao.updateFine(checkout);
 	}
+<<<<<<< HEAD
 	public int getCheckoutCountFromBookId(int bookId)
 	{
 		return checkoutDao.getCheckoutCountFromBookId(bookId);
+=======
+
+
+
+	
+	public void getreserve(int bookid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	
+	public void setreserve(Waitlist wl) {
+		// TODO Auto-generated method stub
+		checkoutDao.setreserve(wl);
+		
+>>>>>>> ajay
 	}
 }

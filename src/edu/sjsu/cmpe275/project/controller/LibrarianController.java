@@ -4,6 +4,7 @@ package edu.sjsu.cmpe275.project.controller;
 
 
 import java.util.Date;
+import java.util.Iterator;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,9 +27,11 @@ import edu.sjsu.cmpe275.project.SendCheckoutEmail;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.model.Waitlist;
 import edu.sjsu.cmpe275.project.service.BookService;
 import edu.sjsu.cmpe275.project.service.CheckoutService;
 import edu.sjsu.cmpe275.project.service.UserService;
+import edu.sjsu.cmpe275.project.service.WaitlistService;
 
 
 @Controller
@@ -38,6 +41,8 @@ public class LibrarianController {
 	private UserService userService;
 	@Autowired
 	private CheckoutService checkoutService;
+	@Autowired
+	private WaitlistService waitlistservice;
 	
 	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
@@ -146,7 +151,7 @@ public class LibrarianController {
 	 @RequestMapping(value = "/changeDate", method = RequestMethod.POST)
 	   public String changeDate(
 			   @RequestParam("datepicker") String date,
-	   Model model,HttpServletRequest req) 
+	   Model model,HttpServletRequest req) throws Exception 
 	   {
 	      System.out.println("Current date is : "+date);
 	      SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -173,10 +178,65 @@ public class LibrarianController {
 	        } catch (ParseException e) {
 	            e.printStackTrace();
 	        }
+	        try{
+	        	System.out.println("heyhey");
+	        	Date date1 = (Date) formatter.parse(dateInString);
+	        	List<Waitlist> wl=waitlistservice.getWaitlist();
+	        	System.out.println("heyhey"+wl.size());
+	  	      Iterator<Waitlist> i=wl.iterator();
+	  	      List<Waitlist> ww=new ArrayList<Waitlist>();
+	  	      while(i.hasNext())
+	  	      {
+	  	    	System.out.println("heyheyhey");
+	  	    	System.out.println(date1); 
+	  	    	  Waitlist w=i.next();
+	  	    	  int diffInDays = (int)( (date1.getTime() - w.getDate().getTime()) 
+	                        / (1000 * 60 * 60 * 24) );
+	  	    	System.out.println("heyheyhey"+diffInDays);
+	  	    	  if(diffInDays>0)
+	  	    	  {
+	  	    		System.out.println("heyindelete");
+	  	    		  waitlistservice.delete(w);
+	  	    		  System.out.println(w.getBook().getBookId());
+	  	    		  ww=waitlistservice.getWaitlist(w.getBook().getBookId());
+	  	    		  
+	  	    	  }
+	  	    	  int n=diffInDays/3;
+	  	    	System.out.println("heyhey"+n+"hey"+ww.size());
+	  	    	  if(ww.size()>n)
+	  	    	  {
+	  	    		System.out.println("inin"+n+"hey"+ww.size());
+	  	    	 for(int i1=0;i1<=n;i1++)
+	  	    	 {
+	  	    		System.out.println("inin"+n+"in"+ww.size());
+	  	    		 if(i1==n)
+	  	    		 {
+	  	    			 checkoutService.setreserve(ww.get(i1));
+	  	    		 }
+	  	    		 else
+	  	    		 {
+	  	    			 waitlistservice.delete(ww.get(i1));
+	  	    		 }
+	  	    	 }
+	  	    	  }
+	  	    	  else
+	  	    	  {
+	  	    		System.out.println("heyhey"+n+"hey"+ww.size()+"last");
+	  	    		  for(int i1=0;i1<ww.size();i1++)
+	  	    		  {
+	  	    			waitlistservice.delete(ww.get(i1));
+	  	    		  }
+	  	    	  }
+	  	      }
+	        }catch (Exception e) {
+				// TODO: handle exception
+	        	throw e;
+			}
 	      User user=(User) req.getSession().getAttribute("user");
 	      List<Book> books=userService.getBooks(user.getSjsuId());
 	      model.addAttribute("user", user);
 	      model.addAttribute("books", books);
+	      
 		  return "librarian";
 	   }
 
