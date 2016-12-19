@@ -14,6 +14,10 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
+$(document).ready(function(){
+console.log("${books}");
+console.log("${reserved}");
+});
 function changeMethod(action_name) {		
 	if (action_name == "") {
 		location.pathname = "${pageContext.request.contextPath}/patron/login/${user.email}/";			
@@ -45,6 +49,7 @@ function changeMethod(action_name) {
     </ul>
   </div>
 </nav>
+<div class="container-fluid">
 <h1> Checkedout Books</h1><br>
 
 	<c:forEach items="${books}" var="current" varStatus="status">	
@@ -55,6 +60,43 @@ function changeMethod(action_name) {
 				<br>return Date :${rd[status.index]}
 				</div>
 	</c:forEach>
+</div>
+	<c:choose>
+		<c:when test="${not empty waitbooks }">
+		<div class="container-fluid">
+			<h1> Books added to waitlist in this transaction</h1><br>
+			<c:forEach items="${waitlistbooks}" var="current" varStatus="status">	
+				<div class="col-sm-4">
+					<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
+					<br>${current.title}
+					<br>${current.author}
+					
+					</div><br>
+			</c:forEach>
+			</div>
+		</c:when>
+		<c:when test="${not empty alreadybooks || not empty reserved}">
+		<div class="container-fluid">
+			<h1> Books not checked out because they are either already with you or reserved for someone</h1><br>
+			<c:forEach items="${alreadybooks}" var="current" varStatus="status">	
+				<div class="col-sm-4">
+					<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
+					<br>${current.title}
+					<br>${current.author}
+					
+					</div>
+			</c:forEach>
+			<c:forEach items="${reserved}" var="current" varStatus="status">	
+				<div class="col-sm-4">
+					<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
+					<br>${current.title}
+					<br>${current.author}
+					
+					</div>
+			</c:forEach>
+			</div>
+		</c:when>
+	</c:choose>
 
 
 

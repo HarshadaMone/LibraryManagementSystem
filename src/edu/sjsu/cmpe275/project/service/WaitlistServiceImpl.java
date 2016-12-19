@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,14 @@ public class WaitlistServiceImpl implements WaitlistService {
 	public Waitlist getWaitlist(int sjsuid, int bookid) {
 		// TODO Auto-generated method stub
 		return waitlistDao.getWaitlist(sjsuid, bookid);
+	}
+
+
+	
+	public List<Waitlist> getWaitlist(int bookid) {
+		// TODO Auto-generated method stub
+		
+		return waitlistDao.getWaitlist(bookid);
 	}
 
 }
