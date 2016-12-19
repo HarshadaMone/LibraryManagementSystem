@@ -120,7 +120,7 @@ public class PatronController {
 		res.addHeader( "Access-Control-Allow-Origin", "*" );   
 		System.out.println("email :"+email);
 		User user = userService.getUser(email);
-		if(user==null){
+		if(user==null || user.getRole().equals("librarian")){
 			System.out.println("no user");
 			res.setStatus(404);
 			model.addAttribute("id",email);

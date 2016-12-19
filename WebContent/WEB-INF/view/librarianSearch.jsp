@@ -69,7 +69,7 @@
 			<div class="col-sm-4">
 				<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
 				<br>${current.author}
-				<br><a onclick="getBook('${current.bookId}')">${current.bookId}</a>
+				<br><a onclick="getBook('${current.bookId}')">${current.bookId} CLick to Update/Delete Book</a>
 			</div>
 		</c:forEach>
 
