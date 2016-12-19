@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.project.dao;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,17 +64,17 @@ public class WaitlistDaoImpl implements WaitlistDao {
 		return waitlist;
 	}
 
-	@Override
-	public List<Waitlist> getWaitlist(int bookid) {
+	
+	public List<Waitlist> getWaitlist() {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		List<Waitlist> waitlist=null;
+		List<Waitlist> waitlist=new ArrayList<Waitlist>();
 		try{
-			String hql="select * from WAITLIST where (BOOK_ID = :bookid)";
+			String hql="select * from WAITLIST where RESERVE='TRUE'";
 			SQLQuery q=session.createSQLQuery(hql);
 			//q.setParameter("sjsuid", sjsuid);
-			q.setParameter("bookid", bookid);
+			//q.setParameter("bookid", bookid);
 			q.addEntity(Waitlist.class);
 			Iterator i=q.list().iterator();
 			while(i.hasNext())
@@ -89,5 +90,57 @@ public class WaitlistDaoImpl implements WaitlistDao {
 		}
 		return waitlist;
 	}
+
+	
+	public void delete(Waitlist w) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+
+		try{
+			session.delete(w);
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+		}
+	}
+
+	
+	public List<Waitlist> getWaitlist(int bookid) {
+		// TODO Auto-generated method stub
+		//return null;
+		System.out.println("ajayajayajays"+bookid);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<Waitlist> wl=new ArrayList<Waitlist>();
+		try{
+			String sql="select * from WAITLIST where BOOK_ID= :bookid order by ID";
+			SQLQuery q=session.createSQLQuery(sql);
+			q.setParameter("bookid", bookid);
+			q.addEntity(Waitlist.class);
+			List l=q.list();
+			Iterator i=l.iterator();
+			
+			while(i.hasNext())
+			{
+				wl.add((Waitlist)i.next());
+				//System.out.println("aaaaaa"+wl.getReserve()+"bbb"+wl.getDate());
+				
+			}
+			tx.commit();
+		}catch (HibernateException e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}finally {
+			session.close();
+		}
+		System.out.println("returning");
+		return wl;
+	}
+	
 
 }

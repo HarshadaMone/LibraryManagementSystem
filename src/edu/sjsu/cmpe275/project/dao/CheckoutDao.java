@@ -7,6 +7,7 @@ import java.util.List;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
 import edu.sjsu.cmpe275.project.model.User;
+import edu.sjsu.cmpe275.project.model.Waitlist;
 
 public interface CheckoutDao {
 
@@ -20,4 +21,5 @@ public interface CheckoutDao {
 	public void updateCheckoutDate(Checkout checkout);
 	public List<Checkout> getCheckouts();
 	public void updateFine(Checkout checkout);
+	public void setreserve(Waitlist wl);
 }

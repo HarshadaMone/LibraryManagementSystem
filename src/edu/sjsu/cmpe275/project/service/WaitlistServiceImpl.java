@@ -31,10 +31,24 @@ public class WaitlistServiceImpl implements WaitlistService {
 
 
 	
-	public List<Waitlist> getWaitlist(int bookid) {
+	public List<Waitlist> getWaitlist() {
 		// TODO Auto-generated method stub
 		
-		return waitlistDao.getWaitlist(bookid);
+		return waitlistDao.getWaitlist();
+	}
+
+
+	@Override
+	public void delete(Waitlist w) {
+		// TODO Auto-generated method stub
+		waitlistDao.delete(w);
+	}
+
+
+	@Override
+	public List<Waitlist> getWaitlist(int bookid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

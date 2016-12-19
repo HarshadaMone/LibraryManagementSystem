@@ -257,14 +257,41 @@ public class PatronController {
 											{
 												checkedoutbooks.add(book);
 												checkoutService.createcheckout(checkout);
+												Waitlist w=new Waitlist();
+												w.setBook(book);
+												w.setUser(user);
+												waitlistService.delete(w);
 											}
 											else
 											{
 												reservedbooks.add(book);
+												Waitlist waitlist=new Waitlist();
+												waitlist.setBook(book);
+												waitlist.setUser(user);
+												waitlist.setReserve("FALSE");
+												if(waitlistService.getWaitlist(sjsuId, book.getBookId())==null)
+												{
+														waitlistbooks.add(book);
+														System.out.println("KYUKYU");
+													waitlistService.createWaitList(waitlist);
+													
+												}
 											}
 										}
 										else{
 											reservedbooks.add(book);
+											Waitlist waitlist=new Waitlist();
+											waitlist.setBook(book);
+											waitlist.setUser(user);
+											waitlist.setReserve("FALSE");
+											if(waitlistService.getWaitlist(sjsuId, book.getBookId())==null)
+											{
+													waitlistbooks.add(book);
+													System.out.println("KYUKYU");
+												waitlistService.createWaitList(waitlist);
+												
+											}
+											
 										}
 									}
 									else
@@ -279,10 +306,11 @@ public class PatronController {
 									Waitlist waitlist=new Waitlist();
 									waitlist.setBook(book);
 									waitlist.setUser(user);
+									waitlist.setReserve("FALSE");
 									System.out.println("waitlist"+waitlistService.getWaitlist(sjsuId, book.getBookId()));
 									if(waitlistService.getWaitlist(sjsuId, book.getBookId())==null)
 									{
-											checkedoutbooks.add(book);
+											waitlistbooks.add(book);
 											System.out.println("KYUKYU");
 										waitlistService.createWaitList(waitlist);
 										
