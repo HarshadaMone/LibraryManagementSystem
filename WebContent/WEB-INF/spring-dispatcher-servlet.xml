@@ -25,6 +25,8 @@
 	   <bean id="userDao" class="edu.sjsu.cmpe275.project.dao.UserDaoImpl"></bean>
 	   <bean id="checkoutService" class="edu.sjsu.cmpe275.project.service.CheckoutServiceImpl"></bean>
 	   <bean id="checkoutDao" class="edu.sjsu.cmpe275.project.dao.CheckoutDaoImpl"></bean>
+	   <bean id="waitlistService" class="edu.sjsu.cmpe275.project.service.WaitlistServiceImpl"></bean>
+	   <bean id="waitlistDao" class="edu.sjsu.cmpe275.project.dao.WaitlistDaoImpl"></bean>
 	   
 	   <bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
