@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.sjsu.cmpe275.project.AmazonSESSample;
-import edu.sjsu.cmpe275.project.SendEmail;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Books;
 import edu.sjsu.cmpe275.project.model.Checkout;
@@ -468,10 +467,11 @@ public class PatronController {
 			Model model,HttpServletResponse res) throws SQLException{
 		Book book=bookService.getBook(bookId);
 		Checkout checkout = checkoutService.getCheckedOutBook(sjsuId, bookId);
+		int waitlistcount=waitlistService.getWaitlistCountFromBookId(book.getBookId());
 		int diffInDays = (int)( (checkout.getReturnDate().getTime() - checkout.getDate().getTime()) 
                 / (1000 * 60 * 60 * 24) );
 		System.out.println("Difference in days : "+diffInDays);
-		if(book.getCopies() > 0 && diffInDays<90)
+		if(waitlistcount == 0 && diffInDays<90)
 		{
 			  Calendar cal = Calendar.getInstance();
 			  cal.setTime(checkout.getReturnDate());
@@ -481,10 +481,10 @@ public class PatronController {
 			  checkoutService.updateCheckoutDate(checkout);
 			  model.addAttribute("status",200);
 		}
-		else if(diffInDays>90 ){
+		else if(diffInDays == 90 ){
 			return "404";
 		}
-		else if(book.getCopies() < 0){
+		else if(waitlistcount > 0){
 			return "405";
 		}
 		return "200";

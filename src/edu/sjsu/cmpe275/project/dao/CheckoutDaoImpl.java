@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.sjsu.cmpe275.project.AmazonSESSample;
-import edu.sjsu.cmpe275.project.SendCheckoutEmail;
 import edu.sjsu.cmpe275.project.sendReservationEmail;
 import edu.sjsu.cmpe275.project.model.Book;
 import edu.sjsu.cmpe275.project.model.Checkout;
@@ -46,7 +45,6 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			throw e;
 		}finally{
 			session.close();
-			SendCheckoutEmail.sendEmail(checkout.getUser().getEmail(),checkout.getBook());
 			AmazonSESSample.sendEmail(checkout.getUser().getEmail(),checkout.getBook());
 			decbook(checkout.getBook().getBookId());
 		}
