@@ -55,6 +55,7 @@ public class PatronController {
 	List<Book> waitlistbooks=new ArrayList<Book>();
 	List<Book> alreadybooks=new ArrayList<Book>();
 	List<Book> reservedbooks=new ArrayList<Book>();
+	List<Book> returnedbooks=new ArrayList<Book>();
 	
 	@RequestMapping(method=RequestMethod.POST,value="/signUp/{sjsuId}",produces={"text/html"})
 	public String createPatron(@PathVariable int sjsuId,
@@ -253,7 +254,7 @@ public class PatronController {
 										Waitlist wl=waitlistService.getWaitlist(sjsuId, book.getBookId());
 										if(wl!=null)
 										{
-											if(wl.getReserve()=="TRUE")
+											if(wl.getReserve()=="TRUE" || wl.getReserve().equals("TRUE"))
 											{
 												checkedoutbooks.add(book);
 												checkoutService.createcheckout(checkout);
@@ -261,6 +262,7 @@ public class PatronController {
 												w.setBook(book);
 												w.setUser(user);
 												waitlistService.delete(w);
+												bookService.updateBook(book);
 											}
 											else
 											{
@@ -345,11 +347,12 @@ public class PatronController {
 		//System.out.println(books.get(0).getBookId());
 		
 		rd=checkoutService.getdates(sjsuId);
-		System.out.println(rd.get(0));
+		//System.out.println(rd.get(0));
 		model.addAttribute("rd", rd);
 		model.addAttribute("checkedoutbooks", checkedoutbooks);
 		model.addAttribute("alreadybooks", alreadybooks);
 		model.addAttribute("waitbooks", waitlistbooks);
+		//System.out.println("heyhey"+waitlistbooks.get(0));
 		model.addAttribute("reserved",reservedbooks);
 		checkedoutbooks=new ArrayList<Book>();
 		 waitlistbooks=new ArrayList<Book>();
@@ -359,6 +362,15 @@ public class PatronController {
 		}
 		else
 		{
+			model.addAttribute("checkedoutbooks", checkedoutbooks);
+			model.addAttribute("alreadybooks", alreadybooks);
+			model.addAttribute("waitbooks", waitlistbooks);
+			System.out.println("heyhey"+waitlistbooks.get(0));
+			model.addAttribute("reserved",reservedbooks);
+			checkedoutbooks=new ArrayList<Book>();
+			 waitlistbooks=new ArrayList<Book>();
+			 alreadybooks=new ArrayList<Book>();
+			 reservedbooks=new ArrayList<Book>();
 			model.addAttribute("books", null);
 			model.addAttribute("user", user);
 			return "checkoutpage";
@@ -381,9 +393,30 @@ public class PatronController {
 		//System.out.println(books.get(0).getBookId());
 		
 		rd=checkoutService.getdates(sjsuId);
-		System.out.println(rd.get(0));
+		//System.out.println(rd.get(0));
 		model.addAttribute("rd", rd);
 		return "return";
+		
+		
+	//	return null;
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.GET,value="/return1/{sjsuId}",produces={"text/html"})
+	public String returnpage1(@PathVariable int sjsuId,Model model,HttpServletResponse res) throws SQLException{
+		res.addHeader("Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, DELETE, OPTIONS");
+		res.addHeader( "Access-Control-Allow-Origin", "*" );
+		User user=userService.getUser(sjsuId);
+		List<Book> books=checkoutService.getrbooks(sjsuId);
+		List<Date> rd=new ArrayList<Date>();
+		model.addAttribute("books", books);
+		model.addAttribute("user", user);
+		//System.out.println(books.get(0).getBookId());
+		
+		rd=checkoutService.getdates(sjsuId);
+		//System.out.println(rd.get(0));
+		//model.addAttribute("rd", rd);
+		return "return1";
 		
 		
 	//	return null;
@@ -415,12 +448,13 @@ public class PatronController {
 				
 				for (int i = 0; i < data1.getBooks().size(); i++) {
 					checkoutService.returnbook(sjsuId, data1.getBooks().get(i).getId());
+					
 				}
 				
 				
 				//List<Books> book=data.getBooks();
 				System.out.println("ajay");
-				return "return";
+				return "return1";
 		
 	}
 

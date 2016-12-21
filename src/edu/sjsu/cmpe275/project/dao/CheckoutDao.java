@@ -22,4 +22,5 @@ public interface CheckoutDao {
 	public List<Checkout> getCheckouts();
 	public void updateFine(Checkout checkout);
 	public void setreserve(Waitlist wl);
+	public List<Book> getrbooks(int sjsuid);
 }

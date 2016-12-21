@@ -23,4 +23,5 @@ public interface CheckoutService {
 	public void updateFine(Checkout checkout);
 	public void getreserve(int bookid);
 	public void setreserve(Waitlist wl);
+	public List<Book> getrbooks(int sjsuid);
 }

@@ -15,7 +15,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function(){
-console.log("${books}");
+console.log("${waitbooks}");
 console.log("${reserved}");
 });
 function changeMethod(action_name) {		
@@ -65,7 +65,7 @@ function changeMethod(action_name) {
 		<c:when test="${not empty waitbooks }">
 		<div class="container-fluid">
 			<h1> Books added to waitlist in this transaction</h1><br>
-			<c:forEach items="${waitlistbooks}" var="current" varStatus="status">	
+			<c:forEach items="${waitbooks}" var="current" varStatus="status">	
 				<div class="col-sm-4">
 					<img src="data:image/jpeg;base64,${current.image}" alt="" width="200" height="200" />
 					<br>${current.title}

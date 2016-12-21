@@ -99,7 +99,7 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			query.setParameter("bookid", bookid);
 			query.executeUpdate();
 			tx.commit();
-			this.check(bookid);
+			//this.check(bookid);
 		}catch(HibernateException e){
 			tx.rollback();
 		}finally{
@@ -410,5 +410,33 @@ public class CheckoutDaoImpl implements CheckoutDao {
 			session.close();
 			SendCheckoutEmail.checkoutFine(checkout.getUser(),checkout.getBook(),checkout);
 		}
+	}
+	@Override
+	public List<Book> getrbooks(int sjsuid) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		//List<Checkout> ll=null;
+		List<Book> b=new ArrayList<Book>();
+		try{
+			SQLQuery query = session.createSQLQuery("SELECT * from CHECKOUT where (RETURNFLAG='true' AND SJSU_ID=:sjsuid) group by BOOK_ID");
+			query.setParameter("sjsuid", sjsuid);
+			query.addEntity(Checkout.class);
+			List l=query.list();
+			for(Iterator i=l.iterator();i.hasNext();)
+			{
+				Checkout c=(Checkout) i.next();
+				System.out.println(c.toString());
+				b.add(c.getBook());
+				//ll.add((Checkout) i.next());
+			}
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return b;
 	}
 }

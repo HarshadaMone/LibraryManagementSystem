@@ -48,7 +48,7 @@ public class WaitlistServiceImpl implements WaitlistService {
 	@Override
 	public List<Waitlist> getWaitlist(int bookid) {
 		// TODO Auto-generated method stub
-		return null;
+		return waitlistDao.getWaitlist(bookid);
 	}
 
 }

@@ -52,4 +52,10 @@ public class BookServiceImpl implements BookService {
 	{
 		return bookDao.getBooks();
 	}
+
+	@Override
+	public void updateBook(Book book) {
+		// TODO Auto-generated method stub
+		bookDao.updateBook(book);
+	}
 }
