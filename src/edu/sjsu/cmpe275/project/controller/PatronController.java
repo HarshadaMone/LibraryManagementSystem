@@ -254,7 +254,7 @@ public class PatronController {
 										Waitlist wl=waitlistService.getWaitlist(sjsuId, book.getBookId());
 										if(wl!=null)
 										{
-											if(wl.getReserve()=="TRUE")
+											if(wl.getReserve().equals("TRUE"))
 											{
 												checkedoutbooks.add(book);
 												checkoutService.createcheckout(checkout);
