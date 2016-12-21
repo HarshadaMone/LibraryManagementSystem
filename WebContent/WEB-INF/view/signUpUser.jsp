@@ -19,6 +19,14 @@
 	function changeAction() {
 		var myVal = document.getElementById("email").value;
 		var tmp = myVal.substr ( myVal.indexOf ( '@' ) + 1 ); // tmp now contains whatever is after ?
+	    var id1 = document.getElementById("sjsuId").value.length
+	    var id2 = document.getElementById("sjsuId").value
+	    console.log(id1);
+		if(id1 != 6 || isNaN(id2))
+			{
+			alert("SJSU ID Should be of 6 digits and numeric");
+			}
+		else{
 		if(tmp == 'sjsu.edu' )
 			{
 			document.createForm.action = "${pageContext.request.contextPath}/librarian/signUp/"+document.getElementById("sjsuId").value;
@@ -28,6 +36,7 @@
 			document.createForm.action = "${pageContext.request.contextPath}/patron/signUp/"+document.getElementById("sjsuId").value;
 			document.forms["createForm"].submit();	
 			}
+		}
 	}
 </script>
 <style type="text/css">
