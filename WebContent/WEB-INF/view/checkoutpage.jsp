@@ -35,7 +35,7 @@ function changeMethod(action_name) {
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a onclick="changeMethod('')">Home</a></li>
-      <li ><a href="#">Return Book</a></li> 
+      <li ><a href="${pageContext.request.contextPath}/patron/return/${user.sjsuId}">Return Book</a></li> 
     </ul>
     <form class="navbar-form navbar-left" name="searchForm" method="post">
       <div class="form-group">
@@ -44,7 +44,7 @@ function changeMethod(action_name) {
       <button type="button" onclick="changeAction()" class="btn btn-default">Search</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
+      <li><a onclick="changeMethod('')"><span class="glyphicon glyphicon-user"></span> ${user.firstName }</a></li>
       
     </ul>
   </div>
