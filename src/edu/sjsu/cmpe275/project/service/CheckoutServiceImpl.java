@@ -96,4 +96,12 @@ public class CheckoutServiceImpl implements CheckoutService {
 		checkoutDao.setreserve(wl);
 		
 	}
+
+
+
+	
+	public List<Book> getrbooks(int sjsuid) {
+		// TODO Auto-generated method stub
+		return checkoutDao.getrbooks(sjsuid);
+	}
 }

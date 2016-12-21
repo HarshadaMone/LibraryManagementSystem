@@ -12,5 +12,6 @@ public interface BookDao {
 	public int getMaxId();
 	public List<Book> searchForBook(String searchText);
 	public List<Book> getBooks();
+	public void updateBook(Book book);
 	}
 

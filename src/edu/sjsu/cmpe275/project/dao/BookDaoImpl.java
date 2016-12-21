@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -141,6 +142,25 @@ public List<Book> searchForBook(String searchText)
 		session.close();
 	}
    return results;
+}
+
+@Override
+public void updateBook(Book book) {
+	Session session = sessionFactory.openSession();
+	Transaction tx = session.beginTransaction();
+	// TODO Auto-generated method stub
+	try{
+		String sql="UPDATE BOOK SET STATUS='Available' where BOOK_ID = :bookid";
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setParameter("bookid", book.getBookId());
+		query.executeUpdate();
+		tx.commit();
+	}catch(HibernateException e){
+		tx.rollback();
+	}finally{
+		session.close();
+	}
+	
 }
 
 }

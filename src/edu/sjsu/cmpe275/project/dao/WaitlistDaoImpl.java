@@ -126,7 +126,12 @@ public class WaitlistDaoImpl implements WaitlistDao {
 		Transaction tx = session.beginTransaction();
 
 		try{
-			session.delete(w);
+			String sql="DELETE FROM WAITLIST where BOOK_ID = :bookid AND SJSU_ID= :sjsuid";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("bookid", w.getBook().getBookId());
+			query.setParameter("sjsuid", w.getUser().getSjsuId());
+			
+			query.executeUpdate();
 			tx.commit();
 		}catch(HibernateException e){
 			tx.rollback();
